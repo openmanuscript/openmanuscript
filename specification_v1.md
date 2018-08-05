@@ -23,7 +23,7 @@ files.
   writing. Scans can be one of the supported image types: [.pdf, .jpg, .png].
 
 - **scenes/** (required). This is a directory containing scene files. There may 
-  be unused scenes (scenes not noted in a `manuscript` file).
+  be unused scenes (scenes not noted in a `manuscript.json` file).
   
 ```
     EXAMPLE of manuscript data
