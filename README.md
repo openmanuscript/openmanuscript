@@ -4,7 +4,8 @@ width="80" align="left">
 
 # OpenManuscript
 
-This is OpenManuscript, a data format specification for writing manuscripts.
+This is OpenManuscript, a text-based data format specification for writing
+fiction, and turning them into manuscripts.
 
 For more information about this specification, contact david@dhrogers.com.
 
