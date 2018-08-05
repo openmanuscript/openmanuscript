@@ -1,7 +1,7 @@
 # OpenManuscript
 
 <img src="https://github.com/moonimal/openmanuscript/blob/master/img/logo.png"
-width="100" align="left">
+width="80" align="left">
 
 This is OpenManuscript, a data format specification for writing manuscripts.
 
