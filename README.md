@@ -1,6 +1,6 @@
 # OpenManuscript
 
-<img src="https://github.com/moonimal/minuscript/blob/master/doc/img/minuscript.png" width="50" align="left">
+<img src="https://github.com/moonimal/openmanuscript/blob/master/img/logo.png" width="50" align="left">
 
 This is OpenManuscript, a data format specification for writing manuscripts.
 
