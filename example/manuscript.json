@@ -1,0 +1,26 @@
+{
+"version" : "1.0",
+"manuscript" : {
+    "title" : "OpenManuscript Examples",
+    "runningtitle" : "examples",
+    "chapters" : [
+        {
+            "title"  : "Simple Text",
+            "scenes" : ["003", "002", "001"]
+        },
+        {
+            "title"  : "A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene",
+            "scenes" : ["This_name", "look01", "chapter_i_hate"]
+        },
+        {
+            "title"  : "Scans As Part of the Workflow",
+            "tags"   : ["docs"], 
+            "scenes" : ["pdf", "scans/lorem.pdf", "scans/ipsum.pdf", "end"]
+        },
+        {
+            "title"  : "Quotes and Footnotes",
+            "scenes" : ["footnotes", "quotes", "footnotes"]
+        }
+    ]
+}
+}
