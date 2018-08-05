@@ -45,6 +45,8 @@ files.
 ```
 
 **AUTHOR.JSON File**
+Metadata description for an author or authors. The metadata is modeled after the
+information in the address schema at https://schema.org/address.
 The content of the value for each key is not examined for correctness - each is simply treated as a string. Each must follow proper `JSON` formats for strings.
 
 - **version** (required) the version of this specification the file follows. 
