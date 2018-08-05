@@ -22,7 +22,8 @@ returned to again and again, without the worry that the format will be
 unreadable down the road because the software you started with has upgraded to 
 a version that no longer reads your data, or simply no longer exists.
 
-OpenManuscript separates the data from the tool, which is a very powerful
+OpenManuscript separates the writing from the application used to edit, display
+and print it, which is a very powerful
 mechanism for invention. With this format, a variety of tools can work on the
 same data, and a writer can switch between tools, creating a workflow that best
 supports an individual writer's specific way of crafting novels. 
