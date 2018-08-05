@@ -1,4 +1,4 @@
-This is a specification for OpenManuscript v1.0, a database for a text-based workflow for creating manuscripts. 
+This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for creating manuscripts. 
 
 The vision for this data format is to provide a text-based, flexible way of
 capturing, organizing and promoting the sometimes chaotic progression of ideas
