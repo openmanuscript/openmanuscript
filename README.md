@@ -2,6 +2,8 @@
 
 This is OpenManuscript, a data format specification for writing manuscripts.
 
+For more information about this specification, contact david@dhrogers.com.
+
 ## Introduction
 
 This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for creating manuscripts. 
