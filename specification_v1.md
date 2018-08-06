@@ -4,6 +4,11 @@ The Open Manuscript data specification is a set of files and directories
 contained within a single top level directory. All files are ASCII POSIX text
 files. 
 
+This specification defines the data that OpenManuscript expects and supports.
+Other files can appear in directories and subdirectories, and other data can
+appear in `JSON` files, but this data is ignored by the OpenManuscript
+specification. Thus, the file format can be extended by other applications.
+
 - **manuscript directory** (required). Top level directory. This is 
   the top level of the data. This specification imposes no restrictions on 
   naming this directory.
