@@ -38,6 +38,8 @@ applications that don't know about it.
 This repository includes a specification document, as well as an example of the
 file format.
 
+Keep it simple.
+
 
 
 
