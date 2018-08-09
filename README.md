@@ -9,7 +9,7 @@ fiction, and turning them into manuscripts.
 
 For more information about this specification, contact david@dhrogers.com.
 
-Project tweets at @OpenMSProject.
+Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 
 ## Introduction
 
