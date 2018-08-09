@@ -9,6 +9,8 @@ fiction, and turning them into manuscripts.
 
 For more information about this specification, contact david@dhrogers.com.
 
+Project tweets at @OpenMSProject.
+
 ## Introduction
 
 This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for creating manuscripts. 
