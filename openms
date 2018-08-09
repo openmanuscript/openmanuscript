@@ -1,0 +1,496 @@
+#!/usr/bin/env python3
+
+# ---------------------------------------------------------------------------
+#
+# minty, a tiny manuscript tool
+#   (tiny) + (m)anuscript = minty
+#
+# ---------------------------------------------------------------------------
+"""
+Copyright (c) 2016, David H. Rogers 
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
+import argparse
+import configparser
+import json
+import os
+import re
+import textwrap
+import subprocess
+
+
+# ---------------------------------------------------------------------------
+# global variables
+# ---------------------------------------------------------------------------
+APP_NAME        = "minty"
+APP_VERSION     = 1.0
+APP_SED         = "sed"
+# temporary values
+TMP_numwords    = 10
+    # total number of words in document
+NUM_WORDS       = 0
+
+# ---------------------------------------------------------------------------
+#
+# get initial settings from settings file, if there is one
+#
+# ---------------------------------------------------------------------------
+conf_parser = argparse.ArgumentParser(
+    # Turn off help, so we print all options in response to -h
+    add_help=False
+    )
+
+args, remaining_argv = conf_parser.parse_known_args()
+
+# ---------------------------------------------------------------------------
+#
+# command line options
+#
+# ---------------------------------------------------------------------------
+# Don't surpress add_help here so it will handle -h
+parser = argparse.ArgumentParser(
+    # Don't mess with format of description
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    # Inherit options from config_parser
+    parents=[conf_parser],
+    # print script description with -h/--help
+    epilog=textwrap.dedent('''\
+        examples:
+        
+          minty --manuscriptfile novel.json --authorfile a.json
+            will parse novel.json for information about the novel, 
+            and a.json for information about the author,
+            instead of the defaults (manuscript.json and author.json)
+
+          minty --tags one two three 
+            will create an rtf file, using only chapters that 
+            are tageed with 'one' 'two' or 'three'
+
+          minty --footnotes
+            creates an rtf file, adding footnotes if they are 
+            included in the markdown files
+
+            ''')
+)
+# parser.set_defaults(**defaults)
+parser.add_argument( "--authorfile", default="author.json",
+    help="read author data from this file")
+parser.add_argument( "--filescenesep", action="store_true", default=False, 
+    help="print file name as scene separator, instead of ###")
+parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
+    help="Use this font for the manuscript")
+parser.add_argument( "--fontsize", default="12", 
+    help="Use this font size for the manuscript")
+parser.add_argument( "--footnotes", action="store_true", default=False, 
+    help="if there are footnotes, print them")
+parser.add_argument( "--internaloutline", action="store_true", default=False, 
+    help="print internal outline, instead of swallowing them")
+parser.add_argument( "--manuscriptfile", default="manuscript.json", 
+    help="read manuscript definition from this file")
+parser.add_argument( "--outputfile", default="manuscript.rtf", 
+    help="write output to this file")
+parser.add_argument( "--quote", action="store_true", default=False, 
+    help="if there is a quote, include it at the beginning")
+parser.add_argument( "--quotefile", default="quotes.md", 
+    help="read quote from this file")
+parser.add_argument( "--synopsis", action="store_true", default=False, 
+    help="if there is a synopsis, include it at the beginning")
+parser.add_argument( "--synopsisfile", default="synopsis.md", 
+    help="read synopsis from this file")
+parser.add_argument( "--tags", nargs='+', type=str,
+    help="add chapter tags that are considered 'on'")
+parser.add_argument( "--underline", action="store_true", default=False, 
+    help="instead of bold or italic, use underline to show emphasis")
+
+args = parser.parse_args(remaining_argv)
+
+
+FONT = {
+    "size"    : "24",
+    "family"  : "Courier",
+    "tableid" : "0"
+}
+
+MARGIN = {
+    "t" : "1440",
+    "b" : "1440",
+    "l" : "1440",
+    "r" : "1440"
+}
+
+SPACING = {
+    "paragraph" : "480", # Does this work?
+    "parindent" : "720",
+    "newchapb"  : "3600",
+    "newchapa"  : "360",
+    "chapsuba"  : "720",
+    "titleskip" : "3600",
+    "synopsisb" : "720",
+    "synopsisa" : "720",
+    "quoteb"    : "1440",
+    "quotea"    : "720",
+}
+
+# -----------------------------------------------------------------------------
+# write document preamble
+# -----------------------------------------------------------------------------
+def write_preamble( f ):
+    notes = "ftnbj"
+
+    f.write("""{{\\rtf1 \\ansi {{\\fonttbl {{\\f0 \\fmodern {0};}}{{\\f1 \\froman Times;}}}}
+\\deflang1033 \\plain \\fs{1} \\widowctrl \\hyphauto \\{2}
+\\titlepg \\margt{3} \\margb{4} \\margl{5} \\margr{6} \\pgnrestart \\pgnstarts0
+\n""".format(FONT["family"], FONT["size"], notes, MARGIN["t"], MARGIN["b"], MARGIN["l"], MARGIN["r"]))
+
+# -----------------------------------------------------------------------------
+# write document metadata 
+# -----------------------------------------------------------------------------
+def write_docinfo( f ):
+    f.write("""{\\info
+{\\title This title}
+{\\author This author}
+{\\creatim\yr2017\\mo11\\dy10\\hr12\\min30}
+}\n""")
+
+# -----------------------------------------------------------------------------
+# write the common headers on all pages
+# -----------------------------------------------------------------------------
+def write_headers( f, author, manuscript ):
+    f.write("{\\headerf \\pard \\qr \\par}\n")
+    f.write("{{\\header \\pard \\qr \\fs{0} {1} / {2} / \\chpgn \\par}}\n".format(FONT["size"], author["surname"], manuscript["runningtitle"].upper()))
+
+# -----------------------------------------------------------------------------
+# write the word count
+# -----------------------------------------------------------------------------
+def write_wordcount( f, numwords ):
+    f.write("""
+\\pard \\f{0} \\fs{1} \\qr
+TMPPROX
+\\par
+\n""".format(FONT["tableid"], FONT["size"], str(numwords)))
+
+# -----------------------------------------------------------------------------
+# write the author information
+# -----------------------------------------------------------------------------
+def write_author( f, author ):
+    f.write("""
+\\pard \\f{0} \\fs{1} \\ql
+{2} \\
+{3} \\
+{4}, {5} {6} \\
+{7} \\
+{8}
+\\par
+\n""".format(FONT["tableid"], FONT["size"], author["name"],
+author["streetAddress"], author["addressLocality"], author["addressRegion"],
+author["postalCode"], author["email"], author["phone"]))
+
+# -----------------------------------------------------------------------------
+# write the title
+# -----------------------------------------------------------------------------
+def write_title(f, manuscript, author):
+    f.write("""
+\\pard \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\sb{3} \\qc {4} \\par
+\\pard \\f{5} \\fs{6} \\sl{7} \\slmulti1 \\qc by \\
+{8}\\
+\par\n""".format(FONT["tableid"], FONT["size"], SPACING["paragraph"],
+SPACING["titleskip"], manuscript["title"], FONT["tableid"], FONT["size"], SPACING["paragraph"], author["name"]))
+
+# -----------------------------------------------------------------------------
+# include the synopsis
+# -----------------------------------------------------------------------------
+def write_synopsis(f, synop):
+    f.write("""
+\\pard \\pagebb \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sb{3} \\sa{4} {{\\b
+Synopsis }}
+\par\n""".format(FONT["tableid"], FONT["size"], SPACING["paragraph"], SPACING["synopsisb"], SPACING["synopsisa"] )) 
+    write_scene(f, synop)
+
+# -----------------------------------------------------------------------------
+# include the quote
+# -----------------------------------------------------------------------------
+def write_quote(f, quote):
+    f.write("""
+\\pard \\pagebb \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sb{3} \\sa{4}
+\par\n""".format(FONT["tableid"], FONT["size"], SPACING["paragraph"], SPACING["quoteb"], SPACING["quotea"] ))
+    write_scene(f, quote)
+
+# -----------------------------------------------------------------------------
+# finish things up and make a valid document
+# -----------------------------------------------------------------------------
+def write_postamble(f):
+    f.write("\n}\n")
+
+# -----------------------------------------------------------------------------
+# write chapter headings
+# -----------------------------------------------------------------------------
+def write_chapter_heading(f, chapter, chapnum):
+    chapnum = "CHAPTER {0}".format(chapnum)
+    f.write("""
+\\pard \\pagebb \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sb{3} \\sa{4} {{\\tc\\b {5} }}
+\\par
+\\pard \\f{6} \\fs{7} \\sl{8} \\slmulti1 \\qc \\sa{9} {{\\b {10} }}
+\par\n""".format(FONT["tableid"], FONT["size"], SPACING["paragraph"],
+SPACING["newchapb"], SPACING["newchapa"], chapnum.upper(), FONT["tableid"], FONT["size"], SPACING["paragraph"], SPACING["chapsuba"], chapter["title"]))
+
+# -----------------------------------------------------------------------------
+# write a single chapter
+# -----------------------------------------------------------------------------
+def write_chapter(f, chapter, chapnum):
+    write_chapter_heading(f, chapter, chapnum)
+    first = True
+    for scene in chapter["scenes"]:
+        if not first:
+            write_scene_separator(f, scene)
+        else:
+            if args.filescenesep:
+                write_scene_separator(f, scene)
+            first = False
+        if not scene.endswith(".pdf"):
+            write_scene(f, scene)
+
+# -----------------------------------------------------------------------------
+# write a single scene 
+# -----------------------------------------------------------------------------
+def write_scene(f, scene):
+    global NUM_WORDS
+    scene = clean_scene_filename(scene)
+    scenefile = os.path.join( "scenes", scene)
+
+    if os.path.isfile(scenefile):
+        with open( scenefile, "r") as sfile:
+            data = sfile.read()
+            data = handle_footnotes(data)
+            data = handle_comments(data)
+            data = handle_internal_outline(data)
+            # count the number of words in the file
+            count = data.split()
+            NUM_WORDS += len(count)
+            data = sub_bold(data)
+            data = sub_italics(data)
+            data = data.strip()
+            split = data.split("\n\n")
+            for paragraph in split:
+                paragraph = paragraph.strip()
+                if paragraph: 
+                    if not paragraph.isspace():
+                        paragraph = re.sub( '\n', ' ', paragraph)
+                        f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3}".format(SPACING["parindent"],
+                        SPACING["paragraph"], FONT["tableid"], FONT["size"]))
+                        f.write( paragraph )
+                        f.write("\\par\n")
+        return count
+    else:
+        print("ERROR: can't find scene file: " + scenefile)
+        return 0
+
+# -----------------------------------------------------------------------------
+# write a scene separator
+# -----------------------------------------------------------------------------
+#TODO: add SPACING, etc. in this 
+def write_scene_separator(f, scene):
+    if args.filescenesep:
+        f.write("""\n\\pard \\sl480 \\slmulti1 \\qc \\sa720 ({0})
+        \\par\n""".format(scene))
+    else:
+        f.write("\n\\pard \\sl480 \\slmulti1 \\qc \\sa720 ### \\par\n")
+
+# -----------------------------------------------------------------------------
+# iterate and write all the chapters
+# -----------------------------------------------------------------------------
+def write_chapters(f, manuscript):
+    chapnum = 1
+    for chapter in manuscript["chapters"]:
+        if check_chapter_tags(chapter):
+            write_chapter(f, chapter, chapnum)
+            chapnum += 1
+
+# -----------------------------------------------------------------------------
+# handle footnotes 
+# -----------------------------------------------------------------------------
+def handle_footnotes( data ):
+    if args.footnotes: 
+        # we are creating notes of some kind
+        # find all the footnotes
+        match = re.findall('\[\^(.+?)\]\:(.+)', data)
+        # get rid of them in the data
+        data  = re.sub('\[\^(.+?)\]\:(.+)', '', data)
+        # iterate through, substituting the correct rtf code
+        for m in match:
+            data = re.sub('\[\^{0}?\]'.format(m[0]),
+            r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}""".format(FONT["tableid"], FONT["size"], m[1]), data)
+    else:
+        # we are removing footnotes
+        data  = re.sub('\[\^(.+?)\]\:(.+)', '', data)
+        data  = re.sub('\[\^.+?\]', '', data)
+
+    return data
+
+# -----------------------------------------------------------------------------
+# handle internal outline 
+# 
+# an internal out line is a series of entries indicated by double arrow 
+# brackets, intended to show the internal outline for a scene. Example:
+#
+#    <<this is an entry>>
+#    <<this is another entry>>
+#
+# These can be shown as bold text, or swallowed by the system, depending
+# upon the value of the flags.
+# -----------------------------------------------------------------------------
+def handle_internal_outline( data ):
+    if not args.internaloutline:
+        # we are removing them 
+        data  = re.sub('\<\<(.+)\>\>\n*', '', data)
+    else:
+        # we make them bold 
+        data  = re.sub(r'\<\<', r'**', data)
+        data  = re.sub(r'\>\>', r'**', data)
+
+    return data
+
+# -----------------------------------------------------------------------------
+# remove comments 
+#
+# TODO: handle the case in which a comment removes part of a footnote (there
+# is no longer a match between the indicator of the note, and the footnote)
+# -----------------------------------------------------------------------------
+def handle_comments( data ):
+    # we are removing them 
+    data  = re.sub('\[comment]\:(.+)\n*', '', data)
+    # data  = re.sub('\[comment]\:', '', data)
+
+    return data
+
+# -----------------------------------------------------------------------------
+# under certain conditions, substitute underlines for bold 
+# -----------------------------------------------------------------------------
+def sub_bold( data ):
+    if args.underline:
+        data  = re.sub(r'\*\*([^*]+)\*\*', r'{\\ul \1\\ul0}', data)
+    else:
+        data  = re.sub(r'\*\*([^*]+)\*\*', r'{\\b \1\\b0}', data)
+    return data
+
+# -----------------------------------------------------------------------------
+# under certain conditions, substitute underlines for italics 
+# -----------------------------------------------------------------------------
+def sub_italics( data ):
+    if args.underline:
+        data  = re.sub(r'\*([^*]+)\*', r'{\\ul \1\\ul0}', data)
+    else:
+        data  = re.sub(r'\*([^*]+)\*', r'{\\i \1\\i0}', data)
+
+    return data
+
+# ---------------------------------------------------------------------------
+# check tags of a chapter 
+# ---------------------------------------------------------------------------
+def check_chapter_tags( chapter ): 
+    result = False
+
+    if (not args.tags is None) and (("tags" in chapter) and 
+             any( i in chapter["tags"] for i in args.tags)):
+        result = True
+
+    return result
+
+# ---------------------------------------------------------------------------
+# clean scene filename 
+#
+# ensure that the scene filename ends in .md, whether it has it already
+# or not
+# ---------------------------------------------------------------------------
+def clean_scene_filename(scene): 
+    if scene.endswith(".md"):
+        return scene
+    else:
+        return scene + ".md"
+
+# -----------------------------------------------------------------------------
+#
+# execute
+#
+# -----------------------------------------------------------------------------
+
+# override values from command line
+    # font
+FONT["family"]  = args.font
+FONT["size"]    = 2*int(args.fontsize)
+if (args.font == "Courier"):
+    FONT["tableid"] = "0"
+else:
+    FONT["tableid"] = "1"
+
+
+# check existence of the files we will need
+if not os.path.isfile(args.authorfile):
+    print("ERROR: cannot open file: " + args.authorfile)
+    exit(0)
+
+if not os.path.isfile(args.manuscriptfile):
+    print("ERROR: cannot open file: " + args.manuscriptfile)
+    exit(0)
+
+# read in required data, checking validity
+with open( args.authorfile ) as author_file:
+    author_data = json.load( author_file )
+
+with open( args.manuscriptfile ) as ms_file:
+    ms_data = json.load( ms_file )
+
+# write the file
+with open( args.outputfile, "w" ) as f:
+    success = True
+
+    write_preamble(f)
+    write_docinfo(f)
+    write_headers(f, author_data["author"], ms_data["manuscript"])
+    write_wordcount(f, TMP_numwords)
+    write_author(f, author_data["author"])
+    write_title(f, ms_data["manuscript"], author_data["author"])
+    if args.synopsis:
+        write_synopsis(f, args.synopsisfile)
+    if args.quote:
+        write_quote(f, args.quotefile)
+    write_chapters(f, ms_data["manuscript"])
+    write_postamble(f)
+
+    if (success != True):
+        # remove the rtf file, it is incomplete
+        print("ERROR: not writing rtf file")
+    else:
+        print("wrote file: " + args.outputfile)
+    
+# substitute the total number of words
+newText = ""
+rounded = NUM_WORDS - NUM_WORDS % -100
+with open(args.outputfile, "r") as f:
+    newText = f.read().replace("TMPPROX", 
+                               "approx. {} words".format(rounded))
+
+with open(args.outputfile, "w") as f:
+    f.write(newText)
+
+
