@@ -14,7 +14,16 @@ Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 
 This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for creating manuscripts. 
 
-Using the OpenManuscript format separates the writing from the application used to edit, display and print it, which is a very powerful mechanism for invention. With this format, a variety of tools can work on the same data, and a writer can switch between tools, creating a workflow that best supports an individual writer's specific way of crafting novels. 
+Using the OpenManuscript format separates the data from the applications used
+to edit, display or print it, which is a very powerful mechanism for invention.
+With this format, a writer can use a variety of tools instead of being locked
+into using a specific one. This means that innovative developers can create new
+tools over time, and writers can adopt these new tools without converting any
+data to the new tool. The writer can create a workflow that best supports
+a personal, intuitive and specific way of crafting novels. 
+
+## The Overall Workflow for OpenManuscript
+<img src="img/workflow.png">
 
 The vision for this data format is to provide a text-based, flexible way of
 capturing, organizing and promoting the sometimes chaotic progression of ideas
@@ -26,8 +35,6 @@ the author needn't worry that the format will be unreadable down the road
 because the software you used outdated, no longer reads that version of the
 output, or is simply gone. 
 
-## The Overall Workflow for OpenManuscript
-<img src="img/workflow.png">
 
 At the most basic level, a manuscript is a pairing of an author and a sequence
 of chapters, and this is represented in the basic structure of the
