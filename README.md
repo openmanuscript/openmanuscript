@@ -27,9 +27,7 @@ because the software you used outdated, no longer reads that version of the
 output, or is simply gone. 
 
 ## The Overall Workflow for OpenManuscript
-<p align="center">
-<img src="img/workflow.png" width="80%">
-</p>
+<img src="img/workflow.png">
 
 At the most basic level, a manuscript is a pairing of an author and a sequence
 of chapters, and this is represented in the basic structure of the
