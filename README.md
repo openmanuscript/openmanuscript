@@ -23,7 +23,9 @@ data to the new tool. The writer can create a workflow that best supports
 a personal, intuitive and specific way of crafting novels. 
 
 ## The Overall Workflow for OpenManuscript
+<p align="center">
 <img src="img/workflow.png" width="75%">
+</p>
 
 The vision for this data format is to provide a text-based, flexible way of
 capturing, organizing and promoting the sometimes chaotic progression of ideas
