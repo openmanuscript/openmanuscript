@@ -24,7 +24,7 @@ a personal, intuitive and specific way of crafting novels.
 
 ## The Overall Workflow for OpenManuscript
 <p align="center">
-<img src="img/workflow.png" width="75%">
+<img src="img/workflow.png" width="65%">
 </p>
 
 As shown in the above diagram, the OpenManuscript format is used by any
