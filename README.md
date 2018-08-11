@@ -27,6 +27,12 @@ a personal, intuitive and specific way of crafting novels.
 <img src="img/workflow.png" width="75%">
 </p>
 
+As shown in the above diagram, the OpenManuscript format is used by any
+compliant editing tool in the day to day work, and when it's time to look at
+a final manuscript, share it as a specific document type (Word, PDF, etc.) or
+publish it as a final product (ebook, etc.), the writer uses another tool to
+create that product, which is then used as appropriate.
+
 The vision for this data format is to provide a text-based, flexible way of
 capturing, organizing and promoting the sometimes chaotic progression of ideas
 that go into making a novel. The OpenManuscript format is text-based, so it
