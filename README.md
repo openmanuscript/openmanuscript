@@ -22,6 +22,28 @@ tools over time, and writers can adopt these new tools without converting any
 data to the new tool. The writer can create a workflow that best supports
 a personal, intuitive and specific way of crafting novels. 
 
+# Advantages of OpenManuscript
+
+The advantages of the OpenManuscript format are many:
+
+- OpenManuscript is an open standard, and we are developing a community of
+  support around it. Over time, this community will grow to support and include
+  many tools and workflows.
+- OpenManuscript invites innovation and expansion, because it is an open
+  standard. Developers across the world are encouraged to add extensions,
+  applications and editors of all types to this community.
+- The OpenManuscript standard instantly integrates with any backup system you
+  have. Nothing special is needed to use Dropbox, Google drive, or any other
+  backup system.
+- The OpenManuscript standard is extensible. You can add your own files,
+  organization schemes, and workflows to this without disrupting the basic
+  OpenManuscript data. 
+- The author can use favorite tools for editing. Any tool written to comply with
+  the OpenManuscript format - even the latest, greatest web-enabled,
+  iphone-capable editor - can be used with this data.
+
+The bigger the community, the better it is for all of us!
+
 ## The Overall Workflow for OpenManuscript
 <p align="center">
 <img src="img/workflow.png" width="65%">
