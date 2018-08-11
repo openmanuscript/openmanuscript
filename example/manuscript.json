@@ -14,7 +14,6 @@
         },
         {
             "title"  : "Scans As Part of the Workflow",
-            "tags"   : ["docs"], 
             "scenes" : ["pdf", "scans/lorem.pdf", "scans/ipsum.pdf", "end"]
         },
         {

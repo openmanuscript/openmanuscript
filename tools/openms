@@ -409,10 +409,13 @@ def sub_italics( data ):
 def check_chapter_tags( chapter ): 
     result = False
 
-    if (not args.tags is None) and (("tags" in chapter) and 
+    if (args.tags is None):
+        result = True
+    elif (not args.tags is None) and (("tags" in chapter) and 
              any( i in chapter["tags"] for i in args.tags)):
         result = True
 
+    print(result)
     return result
 
 # ---------------------------------------------------------------------------
