@@ -22,7 +22,7 @@ tools over time, and writers can adopt these new tools without converting any
 data to the new tool. The writer can create a workflow that best supports
 a personal, intuitive and specific way of crafting novels. 
 
-# Advantages of OpenManuscript
+## Advantages of OpenManuscript
 
 The advantages of the OpenManuscript format are many:
 
