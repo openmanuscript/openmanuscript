@@ -1,6 +1,5 @@
 
-<img src="https://github.com/moonimal/openmanuscript/blob/master/img/logo.png"
-width="80" align="left">
+<img src="img/logo.png" width="80" align="left">
 
 # OpenManuscript
 
