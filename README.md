@@ -27,6 +27,8 @@ the author needn't worry that the format will be unreadable down the road
 because the software you used outdated, no longer reads that version of the
 output, or is simply gone. 
 
+[The image](img/workflow.png)
+
 At the most basic level, a manuscript is a pairing of an author and a sequence
 of chapters, and this is represented in the basic structure of the
 OpenManuscript format. The format assumes you'll write lots of scenes, trying
