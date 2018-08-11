@@ -27,7 +27,8 @@ the author needn't worry that the format will be unreadable down the road
 because the software you used outdated, no longer reads that version of the
 output, or is simply gone. 
 
-![The image](img/workflow.png)
+## The Overall Workflow for OpenManuscript
+![The image](img/workflow.png | width=100px)
 
 At the most basic level, a manuscript is a pairing of an author and a sequence
 of chapters, and this is represented in the basic structure of the
@@ -35,12 +36,7 @@ OpenManuscript format. The format assumes you'll write lots of scenes, trying
 them out in different sequences of chapters. It's easy to have different
 arrangements of different scenes so that you can quickly compare them. Meta data tags throughout the specification capture additional data that can be included to enrich a properly formatted manuscript.
 
-OpenManuscript defines a set of required and optional directories and files,
-but can be extended by including other information, which can be ignored by
-applications that don't know about it.
-
-This repository includes a specification document, as well as an example of the
-file format.
+This repository includes a specification document, simple tools, and an example of the file format.
 
 Keep it simple.
 
