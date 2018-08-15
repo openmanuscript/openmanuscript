@@ -4,7 +4,7 @@
 # OpenManuscript
 
 This is OpenManuscript, a text-based data format specification for writing
-fiction, and turning them into manuscripts.
+fiction in an organized, hassle-free way.
 
 For more information about this specification, contact david@dhrogers.com.
 
