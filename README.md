@@ -14,13 +14,12 @@ Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 
 This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for creating manuscripts. 
 
-Using the OpenManuscript format separates the data from the applications used
-to edit, display or print it, which is a very powerful mechanism for invention.
+By using OpenManuscript-based workflows, the writer can create a workflow that best supports a personal, intuitive and specific way of crafting novels. 
+Using the OpenManuscript format separates the data from the applications 
+that edit, display or print it, which is a very powerful mechanism for invention.
 With this format, a writer can use a variety of tools instead of being locked
-into using a specific one. This means that innovative developers can create new
-tools over time, and writers can adopt these new tools without converting any
-data to the new tool. The writer can create a workflow that best supports
-a personal, intuitive and specific way of crafting novels. 
+into using a specific one. Software developers can create new
+tools, and writers can adopt them without any data conversion, or loss of work. 
 
 ## Advantages of OpenManuscript
 
@@ -35,9 +34,6 @@ The advantages of the OpenManuscript format are many:
 - The OpenManuscript standard instantly integrates with any backup system you
   have. Nothing special is needed to use Dropbox, Google drive, or any other
   backup system.
-- The OpenManuscript standard is extensible. You can add your own files,
-  organization schemes, and workflows to this without disrupting the basic
-  OpenManuscript data. 
 - The author can use favorite tools for editing. Any tool written to comply with
   the OpenManuscript format - even the latest, greatest web-enabled,
   iphone-capable editor - can be used with this data.
