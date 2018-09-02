@@ -415,7 +415,6 @@ def check_chapter_tags( chapter ):
              any( i in chapter["tags"] for i in args.tags)):
         result = True
 
-    print(result)
     return result
 
 # ---------------------------------------------------------------------------
