@@ -70,28 +70,11 @@ args, remaining_argv = conf_parser.parse_known_args()
 # Don't surpress add_help here so it will handle -h
 parser = argparse.ArgumentParser(
     # Don't mess with format of description
-    formatter_class=argparse.RawDescriptionHelpFormatter,
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     # Inherit options from config_parser
-    parents=[conf_parser],
-    # print script description with -h/--help
-    epilog=textwrap.dedent('''\
-        examples:
-        
-          openms --manuscriptfile novel.json --authorfile a.json
-            will parse novel.json for information about the novel, 
-            and a.json for information about the author,
-            instead of the defaults (manuscript.json and author.json)
-
-          openms --tags one two three 
-            will create an rtf file, using only chapters that 
-            are tageed with 'one' 'two' or 'three'
-
-          openms --footnotes
-            creates an rtf file, adding footnotes if they are 
-            included in the markdown files
-
-            ''')
+    parents=[conf_parser]
 )
+
 # parser.set_defaults(**defaults)
 parser.add_argument( "--authorfile", default="author.json",
     help="read author data from this file")
@@ -103,8 +86,6 @@ parser.add_argument( "--fontsize", default="12",
     help="Use this font size for the manuscript")
 parser.add_argument( "--footnotes", action="store_true", default=False, 
     help="if there are footnotes, print them")
-parser.add_argument( "--internaloutline", action="store_true", default=False, 
-    help="print internal outline, instead of swallowing them")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
     help="read manuscript definition from this file")
 parser.add_argument( "--outputfile", default="manuscript.rtf", 
@@ -282,7 +263,6 @@ def write_scene(f, scene):
             data = sfile.read()
             data = handle_footnotes(data)
             data = handle_comments(data)
-            data = handle_internal_outline(data)
             # count the number of words in the file
             count = data.split()
             NUM_WORDS += len(count)
@@ -343,29 +323,6 @@ def handle_footnotes( data ):
         # we are removing footnotes
         data  = re.sub('\[\^(.+?)\]\:(.+)', '', data)
         data  = re.sub('\[\^.+?\]', '', data)
-
-    return data
-
-# -----------------------------------------------------------------------------
-# handle internal outline 
-# 
-# an internal out line is a series of entries indicated by double arrow 
-# brackets, intended to show the internal outline for a scene. Example:
-#
-#    <<this is an entry>>
-#    <<this is another entry>>
-#
-# These can be shown as bold text, or swallowed by the system, depending
-# upon the value of the flags.
-# -----------------------------------------------------------------------------
-def handle_internal_outline( data ):
-    if not args.internaloutline:
-        # we are removing them 
-        data  = re.sub('\<\<(.+)\>\>\n*', '', data)
-    else:
-        # we make them bold 
-        data  = re.sub(r'\<\<', r'**', data)
-        data  = re.sub(r'\>\>', r'**', data)
 
     return data
 
