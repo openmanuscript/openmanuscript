@@ -13,10 +13,6 @@
             "scenes" : ["This_name", "look01", "chapter_i_hate"]
         },
         {
-            "title"  : "Scans As Part of the Workflow",
-            "scenes" : ["pdf", "scans/lorem.pdf", "scans/ipsum.pdf", "end"]
-        },
-        {
             "title"  : "Quotes and Footnotes",
             "scenes" : ["footnotes", "quotes", "footnotes"]
         }

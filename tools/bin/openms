@@ -247,8 +247,26 @@ def write_chapter(f, chapter, chapnum):
             if args.filescenesep:
                 write_scene_separator(f, scene)
             first = False
+
         if not scene.endswith(".pdf"):
             write_scene(f, scene)
+        else:
+            # It's an image
+            write_scan(f, scene)
+
+# -----------------------------------------------------------------------------
+# write a single scan 
+# -----------------------------------------------------------------------------
+def write_scan(f, scene):
+    scene = clean_scene_filename(scene)
+    scenefile = os.path.join( "scenes", scene)
+
+    print("write_scan ".format(scenefile))
+
+    # if os.path.isfile(scenefile):
+    f.write("{\\field\\fldedit{\*\\fldinst { INCLUDEPICTURE \\\\d\n")
+    f.write("    \"{}\"\n".format(scenefile))
+    f.write("    \\\\* MERGEFORMATINET }}{\\fldrslt {}}}\n")
 
 # -----------------------------------------------------------------------------
 # write a single scene 
