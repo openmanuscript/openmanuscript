@@ -22,11 +22,6 @@ specification. Thus, the file format can be extended by other applications.
   them. The specification is below. Name of this file is not specified by this
   document. There must be at least one manuscript file.
 
-- **scans/** (optional). This is a directory for scanned pages that can be 
-  incorporated into the manuscript. The assumption is that a single scan is
-  a scan of a full page of notes, a typewritten page, or other non-digital
-  writing. Scans can be one of the supported image types: [.pdf, .jpg, .png].
-
 - **scenes/** (required). This is a directory containing scene files. There may 
   be unused scenes (scenes not noted in a `manuscript.json` file).
   
@@ -36,10 +31,6 @@ specification. Thus, the file format can be extended by other applications.
     adventure/
         author.json
         manuscript.json
-        scans/
-            001.pdf
-            002.png
-            ...
         scenes/
             001.md
             002.md
