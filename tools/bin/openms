@@ -311,17 +311,29 @@ def write_chapters(f, manuscript):
 def handle_footnotes( data ):
     if args.footnotes: 
         # we are creating notes of some kind
-        # find all the footnotes
-        match = re.findall('\[\^(.+?)\]\:(.+)', data)
-        # get rid of them in the data
-        data  = re.sub('\[\^(.+?)\]\:(.+)', '', data)
-        # iterate through, substituting the correct rtf code
-        for m in match:
-            data = re.sub('\[\^{0}?\]'.format(m[0]),
-            r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}""".format(FONT["tableid"], FONT["size"], m[1]), data)
+
+            # inline footnotes
+        inline = re.findall('\[\^(.+?)\]', data)
+        paired = re.findall('\[\^(.+?)\]\:(.+)', data, re.MULTILINE)
+        d_paired = dict(paired)
+
+        for note in inline:
+            #  first, see if we have a paired footnote, and handle that
+            if note in d_paired:
+                # we sub the paired (bottom) part inline
+                data = re.sub('\[\^{0}?\][^\:]'.format(note),
+                    r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}""".format(FONT["tableid"], 
+                    FONT["size"], d_paired[note]), data)
+            else:
+                # if not, it's an inline note
+                data = re.sub('\[\^{0}?\]'.format(note),
+                    r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}""".format(FONT["tableid"], 
+                    FONT["size"], note), data)
     else:
         # we are removing footnotes
+            # matches at the bottom of the page
         data  = re.sub('\[\^(.+?)\]\:(.+)', '', data)
+            # inline 
         data  = re.sub('\[\^.+?\]', '', data)
 
     return data
