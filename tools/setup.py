@@ -11,7 +11,7 @@ setuptools.setup(
     description="A small example package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/moonimal/openmanuscript",
+    url="https://github.com/openmanuscript/openmanuscript",
     packages=setuptools.find_packages(),
     scripts=["bin/openms"],
     classifiers=[
