@@ -100,6 +100,7 @@ parser.add_argument( "--synopsisfile", default="synopsis.md",
     help="read synopsis from this file")
 parser.add_argument( "--tags", nargs='+', type=str,
     help="add chapter tags that are considered 'on'")
+parser.add_argument( "--version", action="version", version=str(APP_VERSION) ) 
 parser.add_argument( "--underline", action="store_true", default=False, 
     help="instead of bold or italic, use underline to show emphasis")
 
@@ -250,7 +251,7 @@ def write_chapter(f, chapter, chapnum):
 
         if not scene.endswith(".pdf"):
             write_scene(f, scene)
-        else:
+        # else:
             # It's an image
             # write_scan(f, scene)
 
