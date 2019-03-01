@@ -9,8 +9,8 @@ but testing is done only on Microsoft Word.
 The following command will create a file named `manuscript.rtf`, using the
 author and manuscript files noted.
 
-''''
+```
     openms --authorfile author.json --manuscriptfile ms.json
-''''
+```
 
 
