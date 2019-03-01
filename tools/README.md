@@ -1,6 +1,6 @@
-# The OpenManuscript script
+# The OpenManuscript tool
 
-For more information about this specification, contact david@dhrogers.com.
+For more information about this tool, contact david@dhrogers.com.
 
 ## Introduction
 
