@@ -1,12 +1,12 @@
 # The OpenManuscript script
 
-This script creates an *RTF* file from an *openmanuscript* database. The *RTF*
-file can be opened by any application that reads *RTF* files, but testing is
-done only on Microsoft Word.
+This script creates an `.rtf` file from an `openmanuscript` database. 
+The `.rtf` file can be opened by any application that reads `.rtf` files, 
+but testing is done only on Microsoft Word.
 
 ## Example
 
-The following command will create a file named *manuscript.rtf*, using the
+The following command will create a file named `manuscript.rtf`, using the
 author and manuscript files noted.
 
 ''''
