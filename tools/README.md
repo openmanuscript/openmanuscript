@@ -1,5 +1,9 @@
 # The OpenManuscript script
 
+For more information about this specification, contact david@dhrogers.com.
+
+## Introduction
+
 This script creates an `.rtf` file from an `openmanuscript` database. 
 The `.rtf` file can be opened by any application that reads `.rtf` files, 
 but testing is done only on Microsoft Word.
