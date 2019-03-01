@@ -292,7 +292,7 @@ def write_scene(f, scene):
                 if paragraph: 
                     if not paragraph.isspace():
                         paragraph = re.sub( '\n', ' ', paragraph)
-                        f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3}".format(SPACING["parindent"],
+                        f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} ".format(SPACING["parindent"],
                         SPACING["paragraph"], FONT["tableid"], FONT["size"]))
                         f.write( paragraph )
                         f.write("\\par\n")
