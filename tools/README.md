@@ -26,13 +26,21 @@ pip install .
 ## Example
 
 The following examples use the example from this repository, and assume that you
-are starting from within the `tools/` directory.
+are starting from within the `tools/` directory, and that you have already
+installed the tool, per the command above.
 
 The following command uses all default settings, and will create a file named `manuscript.rtf`. This is run within the `example` directory.
 
 ```
     cd ../example
     openms
+```
+
+This command creates the manuscript, but this time enables the `footnotes`
+option, so that footnotes are printed as needed at the bottom of the page.
+```
+    cd ../example
+    openms --footnotes
 ```
 
 This command shows how to use several command line options to override defaults.
