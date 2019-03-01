@@ -86,6 +86,8 @@ parser.add_argument( "--fontsize", default="12",
     help="Use this font size for the manuscript")
 parser.add_argument( "--footnotes", action="store_true", default=False, 
     help="if there are footnotes, print them")
+parser.add_argument( "--manuscriptdir", default=".", 
+    help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
     help="read manuscript definition from this file")
 parser.add_argument( "--outputfile", default="manuscript.rtf", 
@@ -132,6 +134,27 @@ SPACING = {
     "quoteb"    : "1440",
     "quotea"    : "720",
 }
+
+# -----------------------------------------------------------------------------
+# accessors that add the openmanuscript directory to all argument paths 
+# -----------------------------------------------------------------------------
+def get_authorfile():
+    return os.path.join( args.manuscriptdir, args.authorfile )
+
+def get_manuscriptfile():
+    return os.path.join( args.manuscriptdir, args.manuscriptfile )
+
+def get_quotefile():
+    return os.path.join( args.manuscriptdir, args.quotefile )
+
+def get_synopsisfile():
+    return os.path.join( args.manuscriptdir, args.synopsisfile )
+
+def get_scenefile( scene ):
+    # make sure it has the correct ending
+    scene = clean_scene_filename(scene)
+    return os.path.join( args.manuscriptdir, "scenes", scene)
+
 
 # -----------------------------------------------------------------------------
 # write document preamble
@@ -259,8 +282,7 @@ def write_chapter(f, chapter, chapnum):
 # write a single scan 
 # -----------------------------------------------------------------------------
 def write_scan(f, scene):
-    scene = clean_scene_filename(scene)
-    scenefile = os.path.join( "scenes", scene)
+    scenefile = get_scenefile( scene )
 
     if os.path.isfile(scenefile):
         f.write("{\\field \n{\*\\fldinst { INCLUDEPICTURE ")
@@ -272,8 +294,7 @@ def write_scan(f, scene):
 # -----------------------------------------------------------------------------
 def write_scene(f, scene):
     global NUM_WORDS
-    scene = clean_scene_filename(scene)
-    scenefile = os.path.join( "scenes", scene)
+    scenefile = get_scenefile( scene )
 
     if os.path.isfile(scenefile):
         with open( scenefile, "r") as sfile:
@@ -437,21 +458,20 @@ if (args.font == "Courier"):
 else:
     FONT["tableid"] = "1"
 
-
 # check existence of the files we will need
-if not os.path.isfile(args.authorfile):
-    print("ERROR: cannot open file: " + args.authorfile)
+if not os.path.isfile(get_authorfile()):
+    print("ERROR: cannot open file: " + get_authorfile())
     exit(0)
 
-if not os.path.isfile(args.manuscriptfile):
-    print("ERROR: cannot open file: " + args.manuscriptfile)
+if not os.path.isfile( get_manuscriptfile() ):
+    print("ERROR: cannot open file: " + get_manuscriptfile())
     exit(0)
 
 # read in required data, checking validity
-with open( args.authorfile ) as author_file:
+with open( get_authorfile() ) as author_file:
     author_data = json.load( author_file )
 
-with open( args.manuscriptfile ) as ms_file:
+with open( get_manuscriptfile() ) as ms_file:
     ms_data = json.load( ms_file )
 
 # write the file
@@ -465,9 +485,9 @@ with open( args.outputfile, "w" ) as f:
     write_author(f, author_data["author"])
     write_title(f, ms_data["manuscript"], author_data["author"])
     if args.synopsis:
-        write_synopsis(f, args.synopsisfile)
+        write_synopsis(f, get_synopsisfile())
     if args.quote:
-        write_quote(f, args.quotefile)
+        write_quote(f, get_quotefile() )
     write_chapters(f, ms_data["manuscript"])
     write_postamble(f)
 
