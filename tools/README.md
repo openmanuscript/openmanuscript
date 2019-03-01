@@ -25,27 +25,32 @@ pip install .
 
 ## Example
 
+The following examples use the example from this repository, and assume that you
+are starting from within the `tools/` directory.
+
 The following command will create a file named `manuscript.rtf`, using the
-author and manuscript files noted. This is run within the `openmanuscript`
+author and manuscript files noted. This is run within the `example`
 directory.
 
 ```
+    cd ../example
     openms --authorfile author.json --manuscriptfile ms.json
 ```
 
-This command is run from a location outside the `openmanuscript` directory. In
-this case, the `manuscript.rtf` file will be written in the directory from which
-the command was run.
+This command is run from a the `tools` directory, and shows an example in which
+`openms` runs using explicit paths. In this case, the `manuscript.rtf` file will
+be written in the `tools` directory.
 
 ```
-    openms --manuscriptdir path/to/manuscript/dir --authorfile author.json --manuscriptfile ms.json
+    openms --manuscriptdir ../example --authorfile author.json --manuscriptfile ms.json
 ```
 
 Finally, this command will create the `manuscript.rtf` file at a specific
-location, per the `--outputfile` argument.
+location, per the `--outputfile` argument. In this case, it will create the file
+in the user's home directory.
 
 ```
-    openms --manuscriptdir path/to/manuscript/dir --authorfile author.json --manuscriptfile ms.json --outputfile ~/newmanuscript.rtf
+    openms --manuscriptdir ../example --authorfile author.json --manuscriptfile ms.json --outputfile ~/example_manuscript.rtf
 ```
 
 
