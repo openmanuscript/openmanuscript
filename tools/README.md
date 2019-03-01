@@ -15,6 +15,14 @@ By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line. See
 examples below.
 
+## Installation
+
+The tool installs in the normal python way. From the `tools/` directory, run:
+
+```
+pip install .
+```
+
 ## Example
 
 The following command will create a file named `manuscript.rtf`, using the
