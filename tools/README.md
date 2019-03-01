@@ -55,7 +55,7 @@ location, per the `--outputfile` argument. In this case, it will create the file
 in the user's home directory.
 
 ```
-    openms --manuscriptdir ../example --authorfile author.json --manuscriptfile ms.json --outputfile ~/example_manuscript.rtf
+    openms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.rtf
 ```
 
 
