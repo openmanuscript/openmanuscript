@@ -47,7 +47,7 @@ This command is run from the `tools` directory, and shows an example in which
 be written in the `tools` directory.
 
 ```
-    openms --manuscriptdir ../example --authorfile author.json --manuscriptfile ms.json
+    openms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
 ```
 
 Finally, this command will create the `manuscript.rtf` file at a specific
