@@ -21,10 +21,19 @@ directory.
     openms --authorfile author.json --manuscriptfile ms.json
 ```
 
-This command is run from a location outside the `openmanuscript` directory.
+This command is run from a location outside the `openmanuscript` directory. In
+this case, the `manuscript.rtf` file will be written in the directory from which
+the command was run.
 
 ```
     openms --manuscriptdir path/to/manuscript/dir --authorfile author.json --manuscriptfile ms.json
+```
+
+Finally, this command will create the `manuscript.rtf` file at a specific
+location, per the `--outputfile` argument.
+
+```
+    openms --manuscriptdir path/to/manuscript/dir --authorfile author.json --manuscriptfile ms.json --outputfile ~/newmanuscript.rtf
 ```
 
 
