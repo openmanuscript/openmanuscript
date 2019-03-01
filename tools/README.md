@@ -28,16 +28,21 @@ pip install .
 The following examples use the example from this repository, and assume that you
 are starting from within the `tools/` directory.
 
-The following command will create a file named `manuscript.rtf`, using the
-author and manuscript files noted. This is run within the `example`
-directory.
+The following command uses all default settings, and will create a file named `manuscript.rtf`. This is run within the `example` directory.
 
 ```
     cd ../example
-    openms --authorfile author.json --manuscriptfile ms.json
+    openms
 ```
 
-This command is run from a the `tools` directory, and shows an example in which
+This command shows how to use several command line options to override defaults.
+
+```
+    cd ../example
+    openms --authorfile a.json --manuscriptfile m.json --outputfile m.rtf
+```
+
+This command is run from the `tools` directory, and shows an example in which
 `openms` runs using explicit paths. In this case, the `manuscript.rtf` file will
 be written in the `tools` directory.
 
