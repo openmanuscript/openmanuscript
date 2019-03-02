@@ -311,7 +311,16 @@ def write_scene(f, scene):
             for paragraph in split:
                 paragraph = paragraph.strip()
                 if paragraph: 
-                    if not paragraph.isspace():
+                    if is_list_item(paragraph):
+                        paragraph = re.sub( '\n', ' ', paragraph)
+                        paragraph = re.sub(r'^\s*\-', r'', paragraph)
+                        f.write("\\pard \\fi-{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} \\li{4} \\bullet \\tab \n".
+                            format(SPACING["parindent"], SPACING["paragraph"], 
+                                   FONT["tableid"], FONT["size"], SPACING["parindent"]))
+                        f.write( paragraph )
+                        f.write("\\par\n")
+
+                    elif not paragraph.isspace():
                         paragraph = re.sub( '\n', ' ', paragraph)
                         f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} ".format(SPACING["parindent"],
                         SPACING["paragraph"], FONT["tableid"], FONT["size"]))
@@ -416,6 +425,14 @@ def sub_italics( data ):
         data  = re.sub(r'\*([^*]+)\*', r'{\\i \1\\i0}', data)
 
     return data
+
+# -----------------------------------------------------------------------------
+# format bulleted lists 
+# -----------------------------------------------------------------------------
+def is_list_item( data ):
+    (junk, num) = re.subn(r'^\s*\-', r'{\\tab HERE \\tab}', data)
+
+    return num 
 
 # ---------------------------------------------------------------------------
 # check tags of a chapter 
