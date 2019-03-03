@@ -312,7 +312,13 @@ def write_scene(f, scene):
                 paragraph = paragraph.strip()
                 paragraph = re.sub(r'\s+', r' ', paragraph)
                 if paragraph: 
-                    if is_list_item(paragraph):
+                    if is_header(paragraph):
+                        paragraph = re.sub( '\n', ' ', paragraph)
+                        paragraph = re.sub(r'^\s*\#+\s*', r'', paragraph)
+                        f.write("\\pard \\fi0 \\sl{0} \\slmult1 \\f{1} \\fs{2} {{\\b {3}\\b0}}".
+                            format(SPACING["paragraph"], FONT["tableid"], FONT["size"], paragraph))
+                        f.write("\\par\n")
+                    elif is_list_item(paragraph):
                         paragraph = re.sub( '\n', ' ', paragraph)
                         paragraph = re.sub(r'^\s*\-\s*', r'', paragraph)
                         f.write("\\pard \\fi-{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} \\li{4} \\bullet \\tab ".
@@ -323,8 +329,8 @@ def write_scene(f, scene):
 
                     elif not paragraph.isspace():
                         paragraph = re.sub( '\n', ' ', paragraph)
-                        f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} ".format(SPACING["parindent"],
-                        SPACING["paragraph"], FONT["tableid"], FONT["size"]))
+                        f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} ".
+                            format(SPACING["parindent"], SPACING["paragraph"], FONT["tableid"], FONT["size"]))
                         f.write( paragraph )
                         f.write("\\par\n")
         return count
@@ -431,7 +437,15 @@ def sub_italics( data ):
 # format bulleted lists 
 # -----------------------------------------------------------------------------
 def is_list_item( data ):
-    (junk, num) = re.subn(r'^\s*\-', r'{\\tab HERE \\tab}', data)
+    (junk, num) = re.subn(r'^\s*\-', r'HERE', data)
+
+    return num 
+
+# -----------------------------------------------------------------------------
+# format headers 
+# -----------------------------------------------------------------------------
+def is_header( data ):
+    (junk, num) = re.subn(r'^\s*\#+\s', r'HERE', data)
 
     return num 
 
