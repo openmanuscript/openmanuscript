@@ -123,7 +123,7 @@ MARGIN = {
 }
 
 SPACING = {
-    "paragraph" : "480", # Does this work?
+    "paragraph" : "480",
     "parindent" : "720",
     "newchapb"  : "3600",
     "newchapa"  : "360",
@@ -310,11 +310,12 @@ def write_scene(f, scene):
             split = data.split("\n\n")
             for paragraph in split:
                 paragraph = paragraph.strip()
+                paragraph = re.sub(r'\s+', r' ', paragraph)
                 if paragraph: 
                     if is_list_item(paragraph):
                         paragraph = re.sub( '\n', ' ', paragraph)
-                        paragraph = re.sub(r'^\s*\-', r'', paragraph)
-                        f.write("\\pard \\fi-{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} \\li{4} \\bullet \\tab \n".
+                        paragraph = re.sub(r'^\s*\-\s*', r'', paragraph)
+                        f.write("\\pard \\fi-{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} \\li{4} \\bullet \\tab ".
                             format(SPACING["parindent"], SPACING["paragraph"], 
                                    FONT["tableid"], FONT["size"], SPACING["parindent"]))
                         f.write( paragraph )
