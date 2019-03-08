@@ -324,6 +324,13 @@ def write_scene(f, scene):
                             format(SPACING["paragraph"], FONT["tableid"], FONT["size"], paragraph))
                         f.write("\\par\n")
 
+                    elif is_horrule(paragraph):
+                        update_state("horrule")
+                        f.write("\\pard \\qc \\fi0 \\sl{1} \\slmult1 \\f{2} \\fs{3} ".
+                            format(SPACING["parindent"], SPACING["paragraph"], FONT["tableid"], FONT["size"]))
+                        f.write( "###" )
+                        f.write("\\par\n")
+
                     elif is_bulletlist_item(paragraph):
                         update_state("bulletlist")
                         paragraph = re.sub( '\n', ' ', paragraph)
@@ -460,6 +467,14 @@ def update_state( mode ):
         CURSTATE["listnum"] = CURSTATE["listnum"] + 1 
     else:
         CURSTATE["listnum"] = 0 
+
+# -----------------------------------------------------------------------------
+# format bulleted lists 
+# -----------------------------------------------------------------------------
+def is_horrule( data ):
+    (junk, num) = re.subn(r'^(---|###|\*\*\*)', r'HERE', data)
+
+    return num 
 
 # -----------------------------------------------------------------------------
 # format bulleted lists 
