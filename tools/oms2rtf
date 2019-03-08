@@ -443,9 +443,9 @@ def handle_comments( data ):
 # -----------------------------------------------------------------------------
 def handle_links( data ):
     # inline
-    data = re.sub('\[(.*)]\((.*)\)',  
+    data = re.sub('\[(.*?)]\((.*?)\)',  
                   r'{\\field{\\fldinst HYPERLINK "\2"}{\\fldrslt \1}}', data,
-                  re.MULTILINE)
+                  flags=re.DOTALL)
 
     return data
 
