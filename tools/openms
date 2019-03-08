@@ -49,6 +49,10 @@ APP_SED         = "sed"
 TMP_numwords    = 10
     # total number of words in document
 NUM_WORDS       = 0
+# current list number, for numbered lists
+CURSTATE = {
+    "listnum" : 0
+}
 
 # ---------------------------------------------------------------------------
 #
@@ -312,13 +316,17 @@ def write_scene(f, scene):
                 paragraph = paragraph.strip()
                 paragraph = re.sub(r'\s+', r' ', paragraph)
                 if paragraph: 
+
                     if is_header(paragraph):
+                        update_state("header")
                         paragraph = re.sub( '\n', ' ', paragraph)
                         paragraph = re.sub(r'^\s*\#+\s*', r'', paragraph)
                         f.write("\\pard \\fi0 \\sl{0} \\slmult1 \\f{1} \\fs{2} {{\\b {3}\\b0}}".
                             format(SPACING["paragraph"], FONT["tableid"], FONT["size"], paragraph))
                         f.write("\\par\n")
-                    elif is_list_item(paragraph):
+
+                    elif is_bulletlist_item(paragraph):
+                        update_state("bulletlist")
                         paragraph = re.sub( '\n', ' ', paragraph)
                         paragraph = re.sub(r'^\s*\-\s*', r'', paragraph)
                         f.write("\\pard \\fi-{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} \\li{4} \\bullet \\tab ".
@@ -327,7 +335,18 @@ def write_scene(f, scene):
                         f.write( paragraph )
                         f.write("\\par\n")
 
+                    elif is_numberedlist_item(paragraph):
+                        update_state("numberedlist")
+                        paragraph = re.sub( '\n', ' ', paragraph)
+                        paragraph = re.sub(r'^\s*[0-9]+\.', r'', paragraph)
+                        f.write("\\pard \\fi-{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} \\li{4} {5}. \\tab ".
+                            format(SPACING["parindent"], SPACING["paragraph"], 
+                                   FONT["tableid"], FONT["size"], SPACING["parindent"], CURSTATE["listnum"]))
+                        f.write( paragraph )
+                        f.write("\\par\n")
+
                     elif not paragraph.isspace():
+                        update_state("paragraph")
                         paragraph = re.sub( '\n', ' ', paragraph)
                         f.write("\\pard \\fi{0} \\sl{1} \\slmult1 \\f{2} \\fs{3} ".
                             format(SPACING["parindent"], SPACING["paragraph"], FONT["tableid"], FONT["size"]))
@@ -434,10 +453,28 @@ def sub_italics( data ):
     return data
 
 # -----------------------------------------------------------------------------
+# update the current state, based on modes 
+# -----------------------------------------------------------------------------
+def update_state( mode ):
+    global CURSTATE
+    if (mode == "numberedlist"):
+        CURSTATE["listnum"] = CURSTATE["listnum"] + 1 
+    else:
+        CURSTATE["listnum"] = 0 
+
+# -----------------------------------------------------------------------------
 # format bulleted lists 
 # -----------------------------------------------------------------------------
-def is_list_item( data ):
+def is_bulletlist_item( data ):
     (junk, num) = re.subn(r'^\s*\-', r'HERE', data)
+
+    return num 
+
+# -----------------------------------------------------------------------------
+# format numbered lists 
+# -----------------------------------------------------------------------------
+def is_numberedlist_item( data ):
+    (junk, num) = re.subn(r'^\s*[0-9]+\.', r'HERE', data)
 
     return num 
 
