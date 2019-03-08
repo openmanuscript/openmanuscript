@@ -304,6 +304,7 @@ def write_scene(f, scene):
             data = sfile.read()
             data = handle_footnotes(data)
             data = handle_comments(data)
+            data = handle_links(data)
             # count the number of words in the file
             count = data.split()
             CURSTATE["numwords"] += len(count)
@@ -434,6 +435,17 @@ def handle_comments( data ):
     # we are removing them 
     data  = re.sub('\[comment]\:(.+)\n*', '', data)
     # data  = re.sub('\[comment]\:', '', data)
+
+    return data
+
+# -----------------------------------------------------------------------------
+# handle hyperlinks 
+# -----------------------------------------------------------------------------
+def handle_links( data ):
+    # inline
+    data = re.sub('\[(.*)]\((.*)\)',  
+                  r'{\\field{\\fldinst HYPERLINK "\2"}{\\fldrslt \1}}', data,
+                  re.MULTILINE)
 
     return data
 

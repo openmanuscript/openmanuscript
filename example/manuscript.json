@@ -14,7 +14,7 @@
         },
         {
             "title"  : "Lists",
-            "scenes" : ["lists"]
+            "scenes" : ["lists", "links"]
         },
         {
             "title"  : "Quotes and Footnotes",
