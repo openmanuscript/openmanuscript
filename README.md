@@ -47,7 +47,8 @@ The bigger the community, the better it is for all of us!
 </p>
 
 As shown in the above diagram, the OpenManuscript format is used by any
-compliant editing tool in the day to day work, and when it's time to look at
+compliant editing tool (one that can save text-only files) in the day to day 
+work, and when it's time to look at
 a final manuscript, share it as a specific document type (Word, PDF, etc.) or
 publish it as a final product (ebook, etc.), the writer uses another tool to
 create that product.
