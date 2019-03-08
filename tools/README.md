@@ -1,10 +1,10 @@
-# The OpenManuscript tool
+# OpenManuscript tools
 
-For more information about this tool, contact david@dhrogers.com.
+For more information about these tools, contact david@dhrogers.com.
 
 ## Introduction
 
-This script creates an `.rtf` file from an `openmanuscript` database. 
+The `oms2rtf` script creates an `.rtf` file from an `openmanuscript` database. 
 The `.rtf` file can be opened by any application that reads `.rtf` files, 
 but testing is done only on Microsoft Word.
 
