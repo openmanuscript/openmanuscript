@@ -47,11 +47,10 @@ APP_VERSION     = 1.0
 APP_SED         = "sed"
 # temporary values
 TMP_numwords    = 10
-    # total number of words in document
-NUM_WORDS       = 0
 # current list number, for numbered lists
 CURSTATE = {
-    "listnum" : 0
+    "listnum"  : 0,
+    "numwords" : 0
 }
 
 # ---------------------------------------------------------------------------
@@ -81,7 +80,7 @@ parser = argparse.ArgumentParser(
 
 # parser.set_defaults(**defaults)
 parser.add_argument( "--authorfile", default="author.json",
-    help="read author data from this file")
+    help="read author data from this file. Must be located in MANUSCRIPTDIR")
 parser.add_argument( "--filescenesep", action="store_true", default=False, 
     help="print file name as scene separator, instead of ###")
 parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
@@ -93,7 +92,7 @@ parser.add_argument( "--footnotes", action="store_true", default=False,
 parser.add_argument( "--manuscriptdir", default=".", 
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
-    help="read manuscript definition from this file")
+    help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
 parser.add_argument( "--outputfile", default="manuscript.rtf", 
     help="write output to this file")
 parser.add_argument( "--quote", action="store_true", default=False, 
@@ -297,7 +296,7 @@ def write_scan(f, scene):
 # write a single scene 
 # -----------------------------------------------------------------------------
 def write_scene(f, scene):
-    global NUM_WORDS
+    global CURSTATE
     scenefile = get_scenefile( scene )
 
     if os.path.isfile(scenefile):
@@ -307,7 +306,7 @@ def write_scene(f, scene):
             data = handle_comments(data)
             # count the number of words in the file
             count = data.split()
-            NUM_WORDS += len(count)
+            CURSTATE["numwords"] += len(count)
             data = sub_bold(data)
             data = sub_italics(data)
             data = data.strip()
@@ -568,7 +567,7 @@ with open( args.outputfile, "w" ) as f:
     
 # substitute the total number of words
 newText = ""
-rounded = NUM_WORDS - NUM_WORDS % -100
+rounded = CURSTATE["numwords"] - CURSTATE["numwords"] % -100
 with open(args.outputfile, "r") as f:
     newText = f.read().replace("TMPPROX", 
                                "approx. {} words".format(rounded))
