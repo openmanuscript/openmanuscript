@@ -17,16 +17,6 @@ examples below.
 - Mac's `Pages` application does not recognize the `.rtf` footnotes syntax
   output by this application.
 
-- Markdown link types supported:
-```
-    First type:  [Here is a link.](http://www.link.com)
-    Second type: [Here's another way of doing it.][1]
-
-    (other text here)
-
-    [1]:http://www.link.com
-```
-
 ## Installation
 
 The tool installs in the normal python way. From the `tools/` directory, run:
