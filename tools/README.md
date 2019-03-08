@@ -30,29 +30,29 @@ The following command uses all default settings, and will create a file named `m
 
 ```
     cd ../example
-    openms
+    oms2rtf
 ```
 
 This command creates the manuscript, but this time enables the `footnotes`
 option, so that footnotes are printed as needed at the bottom of the page.
 ```
     cd ../example
-    openms --footnotes
+    oms2rtf --footnotes
 ```
 
 This command shows how to use several command line options to override defaults.
 
 ```
     cd ../example
-    openms --authorfile a.json --manuscriptfile m.json --outputfile m.rtf
+    oms2rtf --authorfile a.json --manuscriptfile m.json --outputfile m.rtf
 ```
 
 This command is run from the `tools` directory, and shows an example in which
-`openms` runs using explicit paths. In this case, the `manuscript.rtf` file will
+`oms2rtf` runs using explicit paths. In this case, the `manuscript.rtf` file will
 be written in the `tools` directory.
 
 ```
-    openms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
+    oms2rtf --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
 ```
 
 Finally, this command will create the `manuscript.rtf` file at a specific
@@ -60,7 +60,7 @@ location, per the `--outputfile` argument. In this case, it will create the file
 in the user's home directory.
 
 ```
-    openms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.rtf
+    oms2rtf --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.rtf
 ```
 
 

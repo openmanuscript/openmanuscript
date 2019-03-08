@@ -2,7 +2,7 @@
 
 # ---------------------------------------------------------------------------
 #
-# openms, a tiny manuscript tool based on the OpenManuscript specification 
+# oms2rtf, a tiny manuscript tool based on the OpenManuscript specification 
 #
 # ---------------------------------------------------------------------------
 """
@@ -42,7 +42,7 @@ import subprocess
 # ---------------------------------------------------------------------------
 # global variables
 # ---------------------------------------------------------------------------
-APP_NAME        = "openms"
+APP_NAME        = "oms2rtf"
 APP_VERSION     = 1.0
 APP_SED         = "sed"
 # temporary values
