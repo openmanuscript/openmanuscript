@@ -443,9 +443,23 @@ def handle_comments( data ):
 # -----------------------------------------------------------------------------
 def handle_links( data ):
     # inline
-    data = re.sub('\[(.*?)]\((.*?)\)',  
-                  r'{\\field{\\fldinst HYPERLINK "\2"}{\\fldrslt \1}}', data,
-                  flags=re.DOTALL)
+    data = re.sub('\[([^\]]*?)\]\(([^)]*?)\)', r'{\\field{\\fldinst HYPERLINK "\2"}{\\fldrslt \1}}', data, flags=re.DOTALL)
+
+    # find double bracketed 
+    # inline = re.findall('\[([^\]]*?)\]\[([^\]]*?)\]', data, flags=re.DOTALL)
+    # paired = re.findall('\[([^^][^\]]*?)\]\:([^\[]*)', data, flags=re.DOTALL)
+    re_twobrackets = '\[([^\]]*?)\]\[([^\]]*?)\]'
+    re_linkvalue   = '\[([^^][^\]]*?)\]\:([^\[]*)'
+    inline = re.findall(re_twobrackets, data, flags=re.DOTALL)
+    paired = re.findall(re_linkvalue, data, flags=re.DOTALL)
+    d_paired = dict(paired)
+    for link in inline:
+        if link[1] in d_paired:
+            sub = '\[{0}\]\[[^)]*?\]'.format(link[0])
+            new = '{{\\\\field{{\\\\fldinst HYPERLINK "{0}"}}{{\\\\fldrslt {1}}}}}'.format(d_paired[link[1]], link[0]) 
+            data = re.sub(sub, new,  data, flags=re.DOTALL)
+            # remove the other data
+            data = re.sub(re_linkvalue, "", data, flags=re.DOTALL)
 
     return data
 
