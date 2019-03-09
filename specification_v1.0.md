@@ -247,7 +247,7 @@ applications.
         Applications can implement whatever formatting they'd like, but
         the following sequences of characters are to be recognized
         as a horizontal rule. Typically this is used as a shorthand
-        to note a scene separator, but the formatting of this is left to
+        to create a scene separator, but the formatting of this is left to
         the application.
 
         ***

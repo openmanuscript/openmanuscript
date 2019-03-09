@@ -37,14 +37,17 @@ import os
 import re
 import textwrap
 import subprocess
+import datetime
 
 
 # ---------------------------------------------------------------------------
 # global variables
 # ---------------------------------------------------------------------------
-APP_NAME        = "oms2rtf"
-APP_VERSION     = 1.0
-APP_SED         = "sed"
+APP = {
+    "name"      : "oms2rtf",
+    "version"   : "1.0",
+    "sed"       : "sed"
+}
 # temporary values
 TMP_numwords    = 10
 # current list number, for numbered lists
@@ -105,7 +108,8 @@ parser.add_argument( "--synopsisfile", default="synopsis.md",
     help="read synopsis from this file")
 parser.add_argument( "--tags", nargs='+', type=str,
     help="add chapter tags that are considered 'on'")
-parser.add_argument( "--version", action="version", version=str(APP_VERSION) ) 
+parser.add_argument( "--version", action="version", 
+    version=str(APP["version"]) ) 
 parser.add_argument( "--underline", action="store_true", default=False, 
     help="instead of bold or italic, use underline to show emphasis")
 
@@ -158,6 +162,21 @@ def get_scenefile( scene ):
     scene = clean_scene_filename(scene)
     return os.path.join( args.manuscriptdir, "scenes", scene)
 
+def check_version( json_data ):
+    global APP
+    result = 0
+
+    if "version" in json_data:
+        if json_data["version"] == APP["version"]:
+            result = 1
+        else:
+            print("ERROR: unsupported openmanuscript version: {}"
+                    .format(json_data["version"]))
+    else:
+        print("ERROR: invalid json data (no version number)") 
+
+    return result
+
 
 # -----------------------------------------------------------------------------
 # write document preamble
@@ -173,12 +192,20 @@ def write_preamble( f ):
 # -----------------------------------------------------------------------------
 # write document metadata 
 # -----------------------------------------------------------------------------
-def write_docinfo( f ):
-    f.write("""{\\info
-{\\title This title}
-{\\author This author}
-{\\creatim\yr2017\\mo11\\dy10\\hr12\\min30}
-}\n""")
+def write_docinfo( f, author, ms ):
+    global APP
+    now = datetime.datetime.now()
+
+    f.write("""{{\\info
+{{\\title {0}}}
+{{\\author {1} {2}}}
+{{\\creatim\yr{3}\\mo{4}\\dy{5}\\hr{6}\\min{7}}}
+{{\\doccomm Created from OpenManuscript using {8} v{9}}}
+}}\n""".format(
+    ms["title"],
+    author["name"], author["surname"],
+    now.year, now.month, now.day, now.hour, now.minute, 
+    APP["name"], APP["version"]))
 
 # -----------------------------------------------------------------------------
 # write the common headers on all pages
@@ -588,16 +615,20 @@ if not os.path.isfile( get_manuscriptfile() ):
 # read in required data, checking validity
 with open( get_authorfile() ) as author_file:
     author_data = json.load( author_file )
+    if ( not check_version(author_data) ):
+        exit(0)
 
 with open( get_manuscriptfile() ) as ms_file:
     ms_data = json.load( ms_file )
+    if ( not check_version(ms_data) ):
+        exit(0)
 
 # write the file
 with open( args.outputfile, "w" ) as f:
     success = True
 
     write_preamble(f)
-    write_docinfo(f)
+    write_docinfo(f, author_data["author"], ms_data["manuscript"])
     write_headers(f, author_data["author"], ms_data["manuscript"])
     write_wordcount(f, TMP_numwords)
     write_author(f, author_data["author"])
