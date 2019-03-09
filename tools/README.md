@@ -16,6 +16,9 @@ examples below.
 
 - Mac's `Pages` application does not recognize the `.rtf` footnotes syntax
   output by this application.
+- Microsoft Word will discard some of the formatting information when saving in
+  `.docx` format. For best results, save either as `.rtf` or `.doc` format
+  if converting from `.rtf`
 
 ## Installation
 
