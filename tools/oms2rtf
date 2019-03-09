@@ -462,12 +462,9 @@ def handle_links( data ):
     re_brackets  = '\[([^\]]*?)\][^:]'
     inline = re.findall(re_brackets, data, flags=re.DOTALL)
     for link in inline:
-        print("LINK: {}".format(link))
         if link in d_paired:
             sub = '\[{0}\][^:]'.format(link)
             new = '{{\\\\field{{\\\\fldinst HYPERLINK "{0}"}}{{\\\\fldrslt {1}}}}} '.format(d_paired[link], link) 
-            print(sub)
-            print(new)
             data = re.sub(sub, new,  data, flags=re.DOTALL)
 
     # now remove all the links
