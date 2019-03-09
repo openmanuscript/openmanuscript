@@ -14,7 +14,11 @@
         },
         {
             "title"  : "Lists",
-            "scenes" : ["lists", "links"]
+            "scenes" : ["lists"]
+        },
+        {
+            "title"  : "Links",
+            "scenes" : ["links"]
         },
         {
             "title"  : "Quotes and Footnotes",
