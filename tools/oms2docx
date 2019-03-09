@@ -1,17 +1,49 @@
 #!/usr/bin/env python3
 
 from docx import Document
-from oms import * 
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_LINE_SPACING
+from oms import reader 
 
-document = Document()
+outfile = "ms.docx"
+db      = "../example"
 
-document.add_paragraph("This is a paragraph")
-document.add_paragraph("This is a paragraph")
-document.add_page_break()
-document.add_paragraph("This is a paragraph")
+doc = Document()
 
-document.save("manuscript.docx")
+reader.set_database(db)
+reader.read()
 
-reader.read("../example")
+author = reader.get_author()
+manuscript = reader.get_manuscript()
+
+p = doc.add_paragraph("{}\n{}\n{}, {} {}\n{}\n{}\n".format(
+                        author["name"],
+                        author["streetAddress"],
+                        author["addressLocality"], 
+                        author["addressRegion"], 
+                        author["postalCode"],
+                        author["phone"],
+                        author["email"]))
+
+pf = p.paragraph_format
+pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+pf.alignment = WD_LINE_SPACING.SINGLE
+
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+doc.add_paragraph()
+
+p = doc.add_paragraph("by {}\n{}".format(manuscript["title"], author["name"]))
+pf = p.paragraph_format
+pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+pf.alignment = WD_LINE_SPACING.SINGLE
+
+doc.save(outfile)
 
 
