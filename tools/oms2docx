@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+from docx import Document
+from oms import reader
+
+document = Document()
+
+document.add_paragraph("This is a paragraph")
+document.add_paragraph("This is a paragraph")
+document.add_page_break()
+document.add_paragraph("This is a paragraph")
+
+document.save("manuscript.docx")
+
+reader.read("../example")
+
+
