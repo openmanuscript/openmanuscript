@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="oms2rtf",
+    name="OpenManuscript",
     version="1.0",
     author="David H. Rogers",
     author_email="david@dhrogers.com",
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/openmanuscript/openmanuscript",
     packages=setuptools.find_packages(),
-    scripts=["oms2rtf"],
+    scripts=["oms2rtf", "oms2docx"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: BSD",
