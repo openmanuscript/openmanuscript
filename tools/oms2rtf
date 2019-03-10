@@ -5,6 +5,7 @@
 # oms2rtf, a tiny manuscript tool based on the OpenManuscript specification 
 #
 # ---------------------------------------------------------------------------
+
 """
 Copyright (c) 2016-2019, David H. Rogers 
 All rights reserved.
@@ -211,8 +212,10 @@ def write_docinfo( f, author, ms ):
 # write the common headers on all pages
 # -----------------------------------------------------------------------------
 def write_headers( f, author, manuscript ):
-    f.write("{\\headerf \\pard \\qr \\par}\n")
-    f.write("{{\\header \\pard \\qr \\fs{0} {1} / {2} / \\chpgn \\par}}\n".format(FONT["size"], author["surname"], manuscript["runningtitle"].upper()))
+    write_blank_paragraph(f)
+    f.write("{{\\header \\pard \\qr \\fs{0} {1} / {2} / \\chpgn \\par}}\n".format(FONT["size"], 
+                    author["surname"], 
+                    manuscript["runningtitle"].upper()))
 
 # -----------------------------------------------------------------------------
 # write the word count
@@ -277,29 +280,27 @@ def write_postamble(f):
     f.write("\n}\n")
 
 # -----------------------------------------------------------------------------
+# write page break 
+# -----------------------------------------------------------------------------
+def write_pagebreak(f):
+    f.write("\\pard \\pagebb \\par\n")
+
+# -----------------------------------------------------------------------------
+# write blank paragraph for spacing 
+# -----------------------------------------------------------------------------
+def write_blank_paragraph(f):
+    f.write("\\pard {} \\par\n")
+
+# -----------------------------------------------------------------------------
 # write chapter headings
 # -----------------------------------------------------------------------------
 def write_chapter_heading(f, chapter, chapnum):
     chapnum = "CHAPTER {0}".format(chapnum)
+    write_pagebreak(f)
+    for x in range(16): 
+        write_blank_paragraph(f)
+
     f.write("""
-\\pard \\pagebb \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
-\\pard {{  }} \\par
 \\pard \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sa{3} {{\\tc\\b {4} }} \\par
 \\pard \\f{5} \\fs{6} \\sl{7} \\slmulti1 \\qc \\sa{8} {{\\b {9} }}
 \par\n""".format(
