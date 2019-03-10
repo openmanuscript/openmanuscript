@@ -4,9 +4,14 @@ For more information about these tools, contact david@dhrogers.com.
 
 ## Introduction
 
+This is a set of tools that support `openmanuscript` workflows.
+
+## oms2rtf
+
 The `oms2rtf` script creates an `.rtf` file from an `openmanuscript` database. 
-The `.rtf` file can be opened by any application that reads `.rtf` files, 
-but testing is done only on Microsoft Word.
+To create a *Microsoft Word* document, open the `.rtf` file in *Microsoft Word*,
+and then *Save As...* a `.docx` file. This conversion will change the inter-word
+spacing of the document, but will otherwise not change anything.
 
 By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line. See
