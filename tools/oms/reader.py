@@ -19,7 +19,7 @@ def check_version( json_data ):
     result = 0
 
     if "version" in json_data:
-        if json_data["version"] == OMS["version"]:
+        if json_data["version"] == OMS["specversion"]:
             result = 1
         else:
             print("ERROR: unsupported openmanuscript version: {}"

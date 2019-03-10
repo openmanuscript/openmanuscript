@@ -1,4 +1,5 @@
 OMS = {
-    "version" : "1.0"
+    "toolversion" : "1.0",
+    "specversion" : "1.0"
 }
 
