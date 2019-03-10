@@ -3,9 +3,8 @@ import json
 from .oms import *
 
 settings = {
-    "oms" : "none",
-    "authorfile" : "none",
-    "manuscriptfile" : "none",
+    "authorfile" : "author.json",
+    "manuscriptfile" : "manuscript.json",
     "manuscriptdir"  : "none"
 }
 

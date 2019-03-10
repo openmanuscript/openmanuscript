@@ -3,7 +3,7 @@
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.text import WD_LINE_SPACING
-from oms import * 
+import oms
 
 
 outfile = "ms.docx"
@@ -11,20 +11,17 @@ db      = "../example"
 
 doc = Document()
 
-reader.set_database(db)
-reader.read()
-
-author = reader.get_author()
-manuscript = reader.get_manuscript()
+oms.reader.set_manuscriptdir(db)
+oms.reader.read()
 
 p = doc.add_paragraph("{}\n{}\n{}, {} {}\n{}\n{}\n".format(
-                        author["name"],
-                        author["streetAddress"],
-                        author["addressLocality"], 
-                        author["addressRegion"], 
-                        author["postalCode"],
-                        author["phone"],
-                        author["email"]))
+                        oms.reader.author["name"],
+                        oms.reader.author["streetAddress"],
+                        oms.reader.author["addressLocality"], 
+                        oms.reader.author["addressRegion"], 
+                        oms.reader.author["postalCode"],
+                        oms.reader.author["phone"],
+                        oms.reader.author["email"]))
 
 pf = p.paragraph_format
 pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -40,7 +37,9 @@ doc.add_paragraph()
 doc.add_paragraph()
 doc.add_paragraph()
 
-p = doc.add_paragraph("by {}\n{}".format(manuscript["title"], author["name"]))
+p = doc.add_paragraph("{}\nby {}".format(
+                        oms.reader.manuscript["title"], 
+                        oms.reader.author["name"]))
 pf = p.paragraph_format
 pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
 pf.alignment = WD_LINE_SPACING.SINGLE
