@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/openmanuscript/openmanuscript",
     packages=setuptools.find_packages(),
-    scripts=["oms2rtf", "oms2docx"],
+    scripts=["oms2rtf"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: BSD",
