@@ -2,7 +2,7 @@ import os
 import json
 from .oms import *
 
-reader = {
+settings = {
     "oms" : "none",
     "authorfile" : "none",
     "manuscriptfile" : "none",
@@ -30,24 +30,24 @@ def check_version( json_data ):
     return result
 
 def set_manuscriptdir( msdir ):
-    global reader
-    reader["manuscriptdir"] = msdir
+    global settings
+    settings["manuscriptdir"] = msdir
 
 def set_manuscriptfile( mfile ):
-    global reader
-    reader["manuscriptfile"] = mfile 
+    global settings
+    settings["manuscriptfile"] = mfile 
 
 def set_authorfile( afile ):
-    global reader
-    reader["authorfile"] = afile 
+    global settings
+    settings["authorfile"] = afile 
 
 def get_authorfile():
-    global reader
-    return os.path.join( reader["manuscriptdir"], reader["authorfile"] )
+    global settings
+    return os.path.join( settings["manuscriptdir"], settings["authorfile"] )
 
 def get_manuscriptfile():
-    global reader
-    return os.path.join( reader["manuscriptdir"], reader["manuscriptfile"] )
+    global settings
+    return os.path.join( settings["manuscriptdir"], settings["manuscriptfile"] )
 
 def get_author():
     global author

@@ -482,7 +482,7 @@ def handle_comments( data ):
 # -----------------------------------------------------------------------------
 def handle_links( data ):
     # inline
-    data = re.sub('\[([^\]]*?)\]\(([^)]*?)\)', r'{\\field{\\fldinst HYPERLINK "\2"}{\\fldrslt \1}} ', data, flags=re.DOTALL)
+    data = re.sub('\[([^\]]*?)\]\(([^)]*?)\)', r'{\\field{\\fldinst HYPERLINK "\2"}{\\fldrslt \\ul \1}} ', data, flags=re.DOTALL)
 
     # find double bracketed 
     re_twobrackets = '\[([^\]]*?)\]\[([^\]]*?)\]'
@@ -493,7 +493,7 @@ def handle_links( data ):
     for link in inline:
         if link[1] in d_paired:
             sub = '\[{0}\]\[[^)]*?\]'.format(link[0])
-            new = '{{\\\\field{{\\\\fldinst HYPERLINK "{0}"}}{{\\\\fldrslt {1}}}}} '.format(d_paired[link[1]], link[0]) 
+            new = '{{\\\\field{{\\\\fldinst HYPERLINK "{0}"}}{{\\\\fldrslt \\\\ul {1}}}}} '.format(d_paired[link[1]], link[0]) 
             data = re.sub(sub, new,  data, flags=re.DOTALL)
 
     # find single bracketed 
@@ -503,7 +503,7 @@ def handle_links( data ):
     for link in inline:
         if link in d_paired:
             sub = '\[{0}\][^:]'.format(link)
-            new = '{{\\\\field{{\\\\fldinst HYPERLINK "{0}"}}{{\\\\fldrslt {1}}}}} '.format(d_paired[link], link) 
+            new = '{{\\\\field{{\\\\fldinst HYPERLINK "{0}"}}{{\\\\fldrslt \\\\ul {1}}}}} '.format(d_paired[link], link) 
             data = re.sub(sub, new,  data, flags=re.DOTALL)
 
     # now remove all the links
@@ -625,7 +625,9 @@ if not os.path.isfile( get_manuscriptfile() ):
     exit(0)
 
 # read in required data, checking validity
-# oms.reader.set_manuscriptdir(args.manuscriptdir)
+oms.reader.set_manuscriptdir(args.manuscriptdir)
+oms.reader.set_manuscriptfile(args.manuscriptfile)
+oms.reader.set_authorfile(args.authorfile)
 oms.reader.read()
 
 # write the file
