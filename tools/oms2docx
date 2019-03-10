@@ -3,7 +3,8 @@
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.text import WD_LINE_SPACING
-from oms import reader 
+from oms import * 
+
 
 outfile = "ms.docx"
 db      = "../example"

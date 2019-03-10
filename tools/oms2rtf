@@ -38,6 +38,7 @@ import re
 import textwrap
 import subprocess
 import datetime
+import oms
 
 
 # ---------------------------------------------------------------------------
@@ -161,21 +162,6 @@ def get_scenefile( scene ):
     # make sure it has the correct ending
     scene = clean_scene_filename(scene)
     return os.path.join( args.manuscriptdir, "scenes", scene)
-
-def check_version( json_data ):
-    global APP
-    result = 0
-
-    if "version" in json_data:
-        if json_data["version"] == APP["version"]:
-            result = 1
-        else:
-            print("ERROR: unsupported openmanuscript version: {}"
-                    .format(json_data["version"]))
-    else:
-        print("ERROR: invalid json data (no version number)") 
-
-    return result
 
 
 # -----------------------------------------------------------------------------
@@ -639,31 +625,24 @@ if not os.path.isfile( get_manuscriptfile() ):
     exit(0)
 
 # read in required data, checking validity
-with open( get_authorfile() ) as author_file:
-    author_data = json.load( author_file )
-    if ( not check_version(author_data) ):
-        exit(0)
-
-with open( get_manuscriptfile() ) as ms_file:
-    ms_data = json.load( ms_file )
-    if ( not check_version(ms_data) ):
-        exit(0)
+# oms.reader.set_manuscriptdir(args.manuscriptdir)
+oms.reader.read()
 
 # write the file
 with open( args.outputfile, "w" ) as f:
     success = True
 
     write_preamble(f)
-    write_docinfo(f, author_data["author"], ms_data["manuscript"])
-    write_headers(f, author_data["author"], ms_data["manuscript"])
+    write_docinfo(f, oms.reader.author, oms.reader.manuscript) 
+    write_headers(f, oms.reader.author, oms.reader.manuscript) 
     write_wordcount(f, TMP_numwords)
-    write_author(f, author_data["author"])
-    write_title(f, ms_data["manuscript"], author_data["author"])
+    write_author(f, oms.reader.author)
+    write_title(f, oms.reader.manuscript, oms.reader.author)
     if args.synopsis:
         write_synopsis(f, get_synopsisfile())
     if args.quote:
         write_quote(f, get_quotefile() )
-    write_chapters(f, ms_data["manuscript"])
+    write_chapters(f, oms.reader.manuscript) 
     write_postamble(f)
 
     if (success != True):
