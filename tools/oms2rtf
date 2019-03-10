@@ -282,11 +282,37 @@ def write_postamble(f):
 def write_chapter_heading(f, chapter, chapnum):
     chapnum = "CHAPTER {0}".format(chapnum)
     f.write("""
-\\pard \\pagebb \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sb{3} \\sa{4} {{\\tc\\b {5} }}
-\\par
-\\pard \\f{6} \\fs{7} \\sl{8} \\slmulti1 \\qc \\sa{9} {{\\b {10} }}
-\par\n""".format(FONT["tableid"], FONT["size"], SPACING["paragraph"],
-SPACING["newchapb"], SPACING["newchapa"], chapnum.upper(), FONT["tableid"], FONT["size"], SPACING["paragraph"], SPACING["chapsuba"], chapter["title"]))
+\\pard \\pagebb \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard {{  }} \\par
+\\pard \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sa{3} {{\\tc\\b {4} }} \\par
+\\pard \\f{5} \\fs{6} \\sl{7} \\slmulti1 \\qc \\sa{8} {{\\b {9} }}
+\par\n""".format(
+                FONT["tableid"], 
+                FONT["size"], 
+                SPACING["paragraph"],
+                SPACING["newchapa"], 
+                chapnum.upper(), 
+                FONT["tableid"], 
+                FONT["size"], 
+                SPACING["paragraph"], 
+                SPACING["chapsuba"], 
+                chapter["title"]))
 
 # -----------------------------------------------------------------------------
 # write a single chapter
