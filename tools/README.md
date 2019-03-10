@@ -32,11 +32,15 @@ pip install .
 
 ## Example
 
-The following examples use the example from this repository, and assume that you
-are starting from within the `tools/` directory, and that you have already
-installed the tool, per the command above.
+The `example` directory contains a sample `openmanuscript` database, and two
+output files - `` and `` - that show the results of the `oms2rtf` workflow.
 
-The following command uses all default settings, and will create a file named `manuscript.rtf`. This is run within the `example` directory.
+The following commands use the `example/` directory from this repository, and assume 
+that you have installed the tool, per instructions above, and are starting from 
+within the `tools/` directory. 
+
+The following command uses all default settings, and will create a file named `manuscript.rtf`. 
+This is run within the `example` directory.
 
 ```
     cd ../example
