@@ -12,8 +12,8 @@ setuptools.setup(
     long_description="This tool utilizes the data definition for the OpenManuscript project and implements a set of creation capabilities for the OpenManuscript format. See https://github.com/openmanuscript/openmanuscript",
     long_description_content_type="text/markdown",
     url="https://github.com/openmanuscript/openmanuscript",
-    packages=setuptools.find_packages(),
-    scripts=["oms2rtf"],
+    packages=["oms"],
+    scripts=["oms2rtf", "oms2outline", "outline2oms"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: BSD",

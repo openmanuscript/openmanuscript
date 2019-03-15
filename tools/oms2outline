@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+
+import oms
+
+omsdir  = "."
+manuscriptfile = "nimbus.json"
+authorfile     = "author.json"
+outlinefile    = "o.csv"
+
+oms.data.manuscript_to_csv( omsdir, manuscriptfile, authorfile, outlinefile ) 

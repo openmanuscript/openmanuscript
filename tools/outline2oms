@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+import oms
+
+manuscriptfile = "outline.json"
+outlinefile    = "outline.csv"
+
+oms.data.csv_to_manuscript( outlinefile, manuscriptfile )

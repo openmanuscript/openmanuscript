@@ -11,17 +11,17 @@ db      = "../example"
 
 doc = Document()
 
-oms.reader.set_manuscriptdir(db)
-oms.reader.read()
+oms.read.set_manuscriptdir(db)
+oms.read.read()
 
 p = doc.add_paragraph("{}\n{}\n{}, {} {}\n{}\n{}\n".format(
-                        oms.reader.author["name"],
-                        oms.reader.author["streetAddress"],
-                        oms.reader.author["addressLocality"], 
-                        oms.reader.author["addressRegion"], 
-                        oms.reader.author["postalCode"],
-                        oms.reader.author["phone"],
-                        oms.reader.author["email"]))
+                        oms.read.author["name"],
+                        oms.read.author["streetAddress"],
+                        oms.read.author["addressLocality"], 
+                        oms.read.author["addressRegion"], 
+                        oms.read.author["postalCode"],
+                        oms.read.author["phone"],
+                        oms.read.author["email"]))
 
 pf = p.paragraph_format
 pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -38,8 +38,8 @@ doc.add_paragraph()
 doc.add_paragraph()
 
 p = doc.add_paragraph("{}\nby {}".format(
-                        oms.reader.manuscript["title"], 
-                        oms.reader.author["name"]))
+                        oms.read.manuscript["title"], 
+                        oms.read.author["name"]))
 pf = p.paragraph_format
 pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
 pf.alignment = WD_LINE_SPACING.SINGLE
