@@ -5,24 +5,42 @@
     "runningtitle" : "examples",
     "chapters" : [
         {
-            "title"  : "Simple Text",
-            "scenes" : ["003", "002", "001"]
+            "title"   : "Simple Text",
+            "pov"     : "Mercury",
+            "tod"     : "morning",
+            "setting" : "Mr. Mercury's front yard.",
+            "desc"    : "An important scene.",
+            "scenes"  : ["003", "002", "001"]
         },
         {
-            "title"  : "A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene",
-            "scenes" : ["This_name", "look01", "chapter_i_hate"]
+            "title"   : "A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene",
+            "pov"     : "Venus",
+            "tod"     : "noon",
+            "setting" : "Ms. Venus's front yard.",
+            "desc"    : "An important scene.",
+            "scenes"  : ["This_name", "look01", "chapter_i_hate"]
         },
         {
-            "title"  : "Lists",
-            "scenes" : ["lists"]
+            "title"   : "Lists",
+            "pov"     : "Earth",
+            "tod"     : "afternoon",
+            "setting" : "Miss Earth's front yard.",
+            "desc"    : "Any of these can be missing ...",
+            "scenes"  : ["lists"]
         },
         {
-            "title"  : "Links",
-            "scenes" : ["links"]
+            "title"   : "Links",
+            "pov"     : "Mars",
+            "tod"     : "evening",
+            "setting" : "Mar's front yard.",
+            "scenes"  : ["links"]
         },
         {
-            "title"  : "Quotes and Footnotes",
-            "scenes" : ["footnotes", "quotes", "end"]
+            "title"   : "Quotes and Footnotes",
+            "pov"     : "Jupiter",
+            "setting" : "Jupiter's front yard.",
+            "desc"    : "See? The previous one was missing.",
+            "scenes"  : ["footnotes", "quotes", "end"]
         }
     ]
 }
