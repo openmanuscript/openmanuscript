@@ -626,26 +626,26 @@ if not os.path.isfile( get_manuscriptfile() ):
     exit(0)
 
 # read in required data, checking validity
-oms.set_manuscriptdir(args.manuscriptdir)
-oms.set_manuscriptfile(args.manuscriptfile)
-oms.set_authorfile(args.authorfile)
-oms.read_data()
+oms.core.set_manuscriptdir(args.manuscriptdir)
+oms.core.set_manuscriptfile(args.manuscriptfile)
+oms.core.set_authorfile(args.authorfile)
+oms.core.read_data()
 
 # write the file
 with open( args.outputfile, "w" ) as f:
     success = True
 
     write_preamble(f)
-    write_docinfo(f, oms.author, oms.manuscript) 
-    write_headers(f, oms.author, oms.manuscript) 
+    write_docinfo(f, oms.core.author, oms.core.manuscript) 
+    write_headers(f, oms.core.author, oms.core.manuscript) 
     write_wordcount(f, TMP_numwords)
-    write_author(f, oms.author)
-    write_title(f, oms.manuscript, oms.author)
+    write_author(f, oms.core.author)
+    write_title(f, oms.core.manuscript, oms.core.author)
     if args.synopsis:
         write_synopsis(f, get_synopsisfile())
     if args.quote:
         write_quote(f, get_quotefile() )
-    write_chapters(f, oms.manuscript) 
+    write_chapters(f, oms.core.manuscript) 
     write_postamble(f)
 
     if (success != True):
