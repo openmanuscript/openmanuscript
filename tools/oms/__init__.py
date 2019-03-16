@@ -21,13 +21,9 @@ author = {
 manuscript = {
 }
 
-def get_version():
-    global __oms
-    return __oms["toolversion"]
-
-def get_spec_version():
-    global __oms
-    return __oms["specversion"]
+def set(attribute, value):
+    global settings
+    settings[attribute] = value
 
 def set_manuscriptdir( msdir ):
     global settings
@@ -40,6 +36,14 @@ def set_manuscriptfile( mfile ):
 def set_authorfile( afile ):
     global settings
     settings["authorfile"] = afile 
+
+def get_version():
+    global __oms
+    return __oms["toolversion"]
+
+def get_spec_version():
+    global __oms
+    return __oms["specversion"]
 
 def get_authorfile():
     global settings
@@ -74,7 +78,7 @@ def check_version( json_data ):
     return result
 
 
-def read():
+def read_data():
     global author
     global manuscript
 
@@ -137,7 +141,7 @@ def manuscript_to_csv( mdir, mfile, afile, ofile ):
     set_manuscriptdir(mdir)
     set_manuscriptfile(mfile)
     set_authorfile(afile)
-    read()
+    read_data()
 
     names = ["title", "pov", "tod", "setting", "desc"]
 
