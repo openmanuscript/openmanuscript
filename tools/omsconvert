@@ -73,10 +73,9 @@ parser.add_argument( "--csvfile", default="outline.csv",
 parser.add_argument( "--outputfile", default="manuscript.rtf", 
     help="write output to this file")
 
-parser.add_argument( "--create_manuscript", dest="create_manuscript", 
-                        action="store_true", default=False)
-parser.add_argument( "--create_csv", dest="create_csv", 
-                        action="store_true", default=False)
+parser.add_argument( "--create_ms", dest="create_ms", action="store_true", default=False)
+parser.add_argument( "--create_csv", dest="create_csv", action="store_true", default=False)
+parser.add_argument( "--create_doc", dest="create_doc", action="store_true", default=False)
 
 parser.add_argument( "--version", action="version", 
                         version=str(oms.get_version()) ) 
@@ -84,10 +83,14 @@ parser.add_argument( "--version", action="version",
 args = parser.parse_args(remaining_argv)
 
 
-if (args.create_manuscript): 
+if (args.create_ms): 
     oms.csv_to_manuscript( args.csvfile, args.outputfile )
 
 elif (args.create_csv):
     oms.manuscript_to_csv( args.manuscriptdir,  args.manuscriptfile,
                            args.authorfile, args.outputfile)
+
+elif (args.create_doc):
+    oms.oms_to_docx( args.manuscriptdir,  args.manuscriptfile,
+                        args.authorfile, args.outputfile)
 

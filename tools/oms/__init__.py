@@ -1,6 +1,9 @@
 import os
 import json
 import csv
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_LINE_SPACING
 
 
 __oms = {
@@ -170,3 +173,44 @@ def manuscript_to_csv( mdir, mfile, afile, ofile ):
                 ofile.write("\"{}\"".format(value))
 
             ofile.write("\n")
+            
+
+def oms_to_docx(msdir, msfile, afile, outputfile):
+    global author
+
+    doc = Document()
+    set_manuscriptdir(msdir)
+    read_data()
+
+    p = doc.add_paragraph("{}\n{}\n{}, {} {}\n{}\n{}\n".format(
+                            author["name"],
+                            author["streetAddress"],
+                            author["addressLocality"], 
+                            author["addressRegion"], 
+                            author["postalCode"],
+                            author["phone"],
+                            author["email"]))
+
+    pf = p.paragraph_format
+    pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    pf.alignment = WD_LINE_SPACING.SINGLE
+
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+    doc.add_paragraph()
+
+    p = doc.add_paragraph("{}\nby {}".format( manuscript["title"], 
+                            author["name"]))
+    pf = p.paragraph_format
+    pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    pf.alignment = WD_LINE_SPACING.SINGLE
+
+    doc.save(outputfile)
+
+
