@@ -382,15 +382,9 @@ def handle_footnotes( data ):
 
 # -----------------------------------------------------------------------------
 # remove comments 
-#
-# TODO: handle the case in which a comment removes part of a footnote (there
-# is no longer a match between the indicator of the note, and the footnote)
 # -----------------------------------------------------------------------------
 def handle_comments( data ):
-    # we are removing them 
-    data  = re.sub('\[comment]\:(.+)\n*', '', data)
-    # data  = re.sub('\[comment]\:', '', data)
-
+    data  = re.sub('\[comment\]\:\s*\*\s*\([^\)]*\)', '', data, re.DOTALL)
     return data
 
 # -----------------------------------------------------------------------------
