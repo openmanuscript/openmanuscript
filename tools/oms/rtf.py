@@ -370,7 +370,7 @@ def handle_footnotes( data ):
             if note in d_paired:
                 # we sub the paired (bottom) part inline
                 data = re.sub('\[\^{0}?\][^\:]'.format(note),
-                    r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}""".format(FONT["tableid"], 
+                    r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}\\~""".format(FONT["tableid"], 
                     FONT["size"], d_paired[note]), data)
                 # remove this element from the dictionary
                 d_paired.pop(note)
@@ -378,7 +378,7 @@ def handle_footnotes( data ):
             else:
                 # if not, it's an inline note
                 data = re.sub('\[\^{0}?\]'.format(note),
-                    r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}""".format(FONT["tableid"], 
+                    r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}\\~""".format(FONT["tableid"], 
                     FONT["size"], note), data)
 
         # get rid of all bottom pairs, as these are not subbed above

@@ -49,7 +49,7 @@
             "pov"     : "Saturn",
             "setting" : "Saturn's front yard.",
             "desc"    : "This is the final scene",
-            "scenes"  : ["footnotes", "quotes", "end"]
+            "scenes"  : ["footnotes", "end"]
         }
     ]
 }
