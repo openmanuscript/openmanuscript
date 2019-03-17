@@ -8,5 +8,5 @@ Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae phar
 
 Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede. Ut orci risus, accumsan porttitor, cursus quis, aliquet eget, justo. Sed pretium blandit orci. 
 
-[^elementum]: this is one more footnote. Note that the bold text is a separate markup from the footnote - it's just shown that way in this file so you can find the footnotes
-[^junk]: A JUNK FOOTNOTE FOR TESTING 
+[^elementum]: this is one more footnote. Note that the bold text is a separate markup from the footnote - it's just shown that way in this file so you can find the footnotes 
+[^junk]: ERROR: A JUNK FOOTNOTE FOR TESTING. THIS SHOULD NOT APPEAR IN ANY DOCUMENT.

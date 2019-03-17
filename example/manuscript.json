@@ -38,10 +38,17 @@
             "scenes"  : ["links"]
         },
         {
-            "title"   : "Quotes and Footnotes",
+            "title"   : "Comments",
             "pov"     : "Jupiter",
             "setting" : "Jupiter's front yard.",
             "desc"    : "See? The previous one was missing.",
+            "scenes"  : ["comments"]
+        },
+        {
+            "title"   : "Quotes and Footnotes",
+            "pov"     : "Saturn",
+            "setting" : "Saturn's front yard.",
+            "desc"    : "This is the final scene",
             "scenes"  : ["footnotes", "quotes", "end"]
         }
     ]

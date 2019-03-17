@@ -135,14 +135,15 @@ scenes.
         "runningtitle" : "finding",
         "chapters" : [
             {
-                "title"  : "A Time for Starting",
-                "scenes" : ["001", "002", "003", "004", "005"],
-                "desc"   : "Our first encounter with the Main Character.",
-                "story"  : "Meet MC, learn of inner desire and conflict.",
-                "tod"    : "Sunrise",
-                "setting": "Deck of the ship Foundation",
-                "pov"    : "Melvin",
-                "tags"   : ["introduction", "final"]
+                "title"   : "A Time for Starting",
+                "scenes"  : ["001", "002", "003", "004", "005"],
+                "desc"    : "Our first encounter with the Main Character.",
+                "story"   : "Meet MC, learn of inner desire and conflict.",
+                "tod"     : "Sunrise",
+                "setting" : "Deck of the ship Foundation",
+                "pov"     : "Melvin",
+                "summary" : "sum001",
+                "tags"    : ["introduction", "final"]
             }
         ]
     }
@@ -165,6 +166,8 @@ Scenes are included in the order that they appear in the scene list.
 - **tags** An array of strings used to define collections of chapters.
 - **title** The title of the chapter.
 - **tod** Time of day. Any string is valid.
+- **summary** A scene file that is a summary of the chapter. Expected to be in
+  the `scenes` directory.
 - Other valid `JSON` data may be present, but is not part of this    
   specification.
 
