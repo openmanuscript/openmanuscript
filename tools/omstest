@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse
-import configparser
+import os
 import oms
 
 
@@ -32,4 +31,8 @@ ofile  = "omstest_manuscript.docx"
 print("Testing export of docx file")
 print("    writing file: {}".format(ofile))
 oms.word.write_docx(msdir, msfile, afile, ofile)
+
+ofile = "omstest_manuscript.rtf"
+print("Running oms2rtf")
+os.system("./oms2rtf --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes".format(msdir, msfile, afile, ofile))
 

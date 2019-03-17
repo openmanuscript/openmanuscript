@@ -34,8 +34,6 @@ from . import core
 import json
 import os
 import re
-import textwrap
-import subprocess
 import datetime
 
 
@@ -47,9 +45,6 @@ APP = {
     "version"   : "1.0",
     "sed"       : "sed"
 }
-# temporary values
-# TODO: remove this TMP (can be moved to curstatek)
-TMP_numwords    = 10
 
 #
 # current state
@@ -85,16 +80,6 @@ SPACING = {
     "quoteb"    : "1440",
     "quotea"    : "720",
 }
-
-# -----------------------------------------------------------------------------
-# accessors that add the openmanuscript directory to all argument paths 
-# -----------------------------------------------------------------------------
-# TODO: move this up to oms
-def get_scenefile( scene ):
-    # make sure it has the correct ending
-    scene = clean_scene_filename(scene)
-    return os.path.join( args.manuscriptdir, "scenes", scene)
-
 
 # -----------------------------------------------------------------------------
 # write document preamble
@@ -242,7 +227,7 @@ def write_chapter(f, chapter, chapnum):
         if not first:
             write_scene_separator(f, scene)
         else:
-            if args.filescenesep:
+            if core.settings["filescenesep"]:
                 write_scene_separator(f, scene)
             first = False
 
@@ -256,7 +241,7 @@ def write_chapter(f, chapter, chapnum):
 # write a single scan 
 # -----------------------------------------------------------------------------
 def write_scan(f, scene):
-    scenefile = get_scenefile( scene )
+    scenefile = core.get_scenefile( scene )
 
     if os.path.isfile(scenefile):
         f.write("{\\field \n{\*\\fldinst { INCLUDEPICTURE ")
@@ -268,7 +253,7 @@ def write_scan(f, scene):
 # -----------------------------------------------------------------------------
 def write_scene(f, scene):
     global CURSTATE
-    scenefile = get_scenefile( scene )
+    scenefile = core.get_scenefile( scene )
 
     if os.path.isfile(scenefile):
         with open( scenefile, "r") as sfile:
@@ -288,7 +273,7 @@ def write_scene(f, scene):
                 paragraph = re.sub(r'\s+', r' ', paragraph)
                 if paragraph: 
 
-                    if is_header(paragraph):
+                    if core.is_header(paragraph):
                         update_state("header")
                         paragraph = re.sub( '\n', ' ', paragraph)
                         paragraph = re.sub(r'^\s*\#+\s*', r'', paragraph)
@@ -296,14 +281,14 @@ def write_scene(f, scene):
                             format(SPACING["paragraph"], FONT["tableid"], FONT["size"], paragraph))
                         f.write("\\par\n")
 
-                    elif is_horrule(paragraph):
+                    elif core.is_horrule(paragraph):
                         update_state("horrule")
                         f.write("\\pard \\qc \\fi0 \\sl{1} \\slmult1 \\f{2} \\fs{3} ".
                             format(SPACING["parindent"], SPACING["paragraph"], FONT["tableid"], FONT["size"]))
                         f.write( "###" )
                         f.write("\\par\n")
 
-                    elif is_bulletlist_item(paragraph):
+                    elif core.is_bulletlist_item(paragraph):
                         update_state("bulletlist")
                         paragraph = re.sub( '\n', ' ', paragraph)
                         paragraph = re.sub(r'^\s*\-\s*', r'', paragraph)
@@ -313,7 +298,7 @@ def write_scene(f, scene):
                         f.write( paragraph )
                         f.write("\\par\n")
 
-                    elif is_numberedlist_item(paragraph):
+                    elif core.is_numberedlist_item(paragraph):
                         update_state("numberedlist")
                         paragraph = re.sub( '\n', ' ', paragraph)
                         paragraph = re.sub(r'^\s*[0-9]+\.', r'', paragraph)
@@ -340,7 +325,7 @@ def write_scene(f, scene):
 # -----------------------------------------------------------------------------
 #TODO: add SPACING, etc. in this 
 def write_scene_separator(f, scene):
-    if args.filescenesep:
+    if core.settings["filescenesep"]:
         f.write("""\n\\pard \\sl480 \\slmulti1 \\qc \\sa720 ({0})
         \\par\n""".format(scene))
     else:
@@ -352,7 +337,7 @@ def write_scene_separator(f, scene):
 def write_chapters(f, manuscript):
     chapnum = 1
     for chapter in manuscript["chapters"]:
-        if check_chapter_tags(chapter):
+        if core.check_chapter_tags(chapter, core.settings["tags"]):
             write_chapter(f, chapter, chapnum)
             chapnum += 1
 
@@ -360,9 +345,8 @@ def write_chapters(f, manuscript):
 # handle footnotes 
 # -----------------------------------------------------------------------------
 def handle_footnotes( data ):
-    if args.footnotes: 
+    if core.settings["footnotes"]: 
         # we are creating notes of some kind
-
             # inline footnotes
         inline = re.findall('\[\^(.+?)\][^\:]', data, re.MULTILINE)
         paired = re.findall('\[\^(.+?)\]\:(.+)', data, re.MULTILINE)
@@ -447,7 +431,7 @@ def handle_links( data ):
 # under certain conditions, substitute underlines for bold 
 # -----------------------------------------------------------------------------
 def sub_bold( data ):
-    if args.underline:
+    if core.settings["underline"]:
         data  = re.sub(r'\*\*([^*]+)\*\*', r'{\\ul \1\\ul0}', data)
     else:
         data  = re.sub(r'\*\*([^*]+)\*\*', r'{\\b \1\\b0}', data)
@@ -457,7 +441,7 @@ def sub_bold( data ):
 # under certain conditions, substitute underlines for italics 
 # -----------------------------------------------------------------------------
 def sub_italics( data ):
-    if args.underline:
+    if core.settings["underline"]:
         data  = re.sub(r'\*([^*]+)\*', r'{\\ul \1\\ul0}', data)
     else:
         data  = re.sub(r'\*([^*]+)\*', r'{\\i \1\\i0}', data)
@@ -475,60 +459,55 @@ def update_state( mode ):
         CURSTATE["listnum"] = 0 
 
 # -----------------------------------------------------------------------------
-# format bulleted lists 
+# update and translate rtf settings from the oms settings 
 # -----------------------------------------------------------------------------
-def is_horrule( data ):
-    (junk, num) = re.subn(r'^(---|###|\*\*\*)', r'HERE', data)
-
-    return num 
-
-# -----------------------------------------------------------------------------
-# format bulleted lists 
-# -----------------------------------------------------------------------------
-def is_bulletlist_item( data ):
-    (junk, num) = re.subn(r'^\s*\-', r'HERE', data)
-
-    return num 
-
-# -----------------------------------------------------------------------------
-# format numbered lists 
-# -----------------------------------------------------------------------------
-def is_numberedlist_item( data ):
-    (junk, num) = re.subn(r'^\s*[0-9]+\.', r'HERE', data)
-
-    return num 
-
-# -----------------------------------------------------------------------------
-# format headers 
-# -----------------------------------------------------------------------------
-def is_header( data ):
-    (junk, num) = re.subn(r'^\s*\#+\s', r'HERE', data)
-
-    return num 
-
-# ---------------------------------------------------------------------------
-# check tags of a chapter 
-# ---------------------------------------------------------------------------
-def check_chapter_tags( chapter, tags ): 
-    result = False
-
-    if (tags is None):
-        result = True
-    elif (not tags is None) and (("tags" in chapter) and 
-             any( i in chapter["tags"] for i in tags)):
-        result = True
-
-    return result
-
-# ---------------------------------------------------------------------------
-# clean scene filename 
-#
-# ensure that the scene filename ends in .md, whether it has it already
-# or not
-# ---------------------------------------------------------------------------
-def clean_scene_filename(scene): 
-    if scene.endswith(".md"):
-        return scene
+def update_state_from_settings():
+    FONT["family"] = core.settings["font"]
+    FONT["size"]   = 2*int(core.settings["fontsize"])
+    if (FONT["family"] == "Courier"):
+        FONT["tableid"] = "0"
     else:
-        return scene + ".md"
+        FONT["tableid"] = "1"
+
+# -----------------------------------------------------------------------------
+#
+# execute
+#
+# -----------------------------------------------------------------------------
+def write_rtf( ofile ):
+    update_state_from_settings()
+
+    with open( ofile, "w" ) as f:
+        success = True
+
+        write_preamble(f)
+        write_docinfo(f, core.author, core.manuscript) 
+        write_headers(f, core.author, core.manuscript) 
+        write_wordcount(f, CURSTATE["numwords"])
+        write_author(f, core.author)
+        write_title(f, core.manuscript, core.author)
+
+        if core.settings["synopsis"]:
+            write_synopsis(f, core.get_synopsisfile())
+        if core.settings["quote"]:
+            write_quote(f, core.get_quotefile() )
+        write_chapters(f, core.manuscript) 
+        write_postamble(f)
+
+        if (success != True):
+            # remove the rtf file, it is incomplete
+            print("ERROR: not writing rtf file")
+        else:
+            print("wrote file: " + core.settings["outputfile"])
+        
+    # substitute the total number of words
+    newText = ""
+    rounded = CURSTATE["numwords"] - CURSTATE["numwords"] % -100
+    with open(core.settings["outputfile"], "r") as f:
+        newText = f.read().replace("TMPPROX", 
+                                   "approx. {} words".format(rounded))
+
+    with open(core.settings["outputfile"], "w") as f:
+        f.write(newText)
+
 

@@ -10,6 +10,7 @@
             "tod"     : "morning",
             "setting" : "Mr. Mercury's front yard.",
             "desc"    : "An important scene.",
+            "tags"    : "simple",
             "scenes"  : ["003", "002", "001"]
         },
         {
@@ -18,6 +19,7 @@
             "tod"     : "noon",
             "setting" : "Ms. Venus's front yard.",
             "desc"    : "An important scene.",
+            "tags"    : "second",
             "scenes"  : ["This_name", "look01", "chapter_i_hate"]
         },
         {

@@ -1,6 +1,7 @@
 import os
 import json
 import csv
+import re
 
 __oms = {
     "toolversion" : "1.0",
@@ -9,8 +10,19 @@ __oms = {
 
 settings = {
     "authorfile"     : "author.json",
+    "filescenesep"   : False,
+    "font"           : "Courier",
+    "fontsize"       : "12",
+    "footnotes"      : False,
+    "manuscriptdir"  : ".",
     "manuscriptfile" : "manuscript.json",
-    "manuscriptdir"  : "."
+    "outputfile"     : "manuscript.rtf",
+    "quote"          : False,
+    "quotefile"      : "quotes.md",
+    "synopsis"       : False,
+    "synopsisfile"   : "synopsis.md",
+    "tags"           : None, 
+    "underline"      : False
 }
 
 author = {
@@ -61,6 +73,70 @@ def get_author():
 def get_manuscript():
     global manuscript
     return manuscript
+
+def get_scenefile( scene ):
+    global settings
+    # make sure it has the correct ending
+    scene = clean_scene_filename(scene)
+    return os.path.join( settings["manuscriptdir"], "scenes", scene)
+
+# ---------------------------------------------------------------------------
+# clean scene filename 
+#
+# ensure that the scene filename ends in .md, whether it has it already
+# or not
+# ---------------------------------------------------------------------------
+def clean_scene_filename(scene): 
+    if scene.endswith(".md"):
+        return scene
+    else:
+        return scene + ".md"
+
+# ---------------------------------------------------------------------------
+# check tags of a chapter 
+# ---------------------------------------------------------------------------
+def check_chapter_tags( chapter, tags ): 
+    result = False
+
+    if (tags is None):
+        result = True
+    elif (not tags is None) and (("tags" in chapter) and 
+             any( i in chapter["tags"] for i in tags)):
+        result = True
+
+    return result
+
+# -----------------------------------------------------------------------------
+# format bulleted lists 
+# -----------------------------------------------------------------------------
+def is_horrule( data ):
+    (junk, num) = re.subn(r'^(---|###|\*\*\*)', r'HERE', data)
+
+    return num 
+
+# -----------------------------------------------------------------------------
+# format bulleted lists 
+# -----------------------------------------------------------------------------
+def is_bulletlist_item( data ):
+    (junk, num) = re.subn(r'^\s*\-', r'HERE', data)
+
+    return num 
+
+# -----------------------------------------------------------------------------
+# format numbered lists 
+# -----------------------------------------------------------------------------
+def is_numberedlist_item( data ):
+    (junk, num) = re.subn(r'^\s*[0-9]+\.', r'HERE', data)
+
+    return num 
+
+# -----------------------------------------------------------------------------
+# format headers 
+# -----------------------------------------------------------------------------
+def is_header( data ):
+    (junk, num) = re.subn(r'^\s*\#+\s', r'HERE', data)
+
+    return num 
 
 def check_version( json_data ):
     global __oms
