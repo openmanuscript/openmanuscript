@@ -66,6 +66,14 @@ def get_manuscriptfile():
     global settings
     return os.path.join( settings["manuscriptdir"], settings["manuscriptfile"] )
 
+def get_synopsisfile():
+    global settings
+    return settings["synopsisfile"]
+
+def get_quotefile():
+    global settings
+    return settings["quotefile"]
+
 def get_author():
     global author
     return author
