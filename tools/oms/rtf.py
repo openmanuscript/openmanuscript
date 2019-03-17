@@ -238,6 +238,16 @@ def write_chapter(f, chapter, chapnum):
             # write_scan(f, scene)
 
 # -----------------------------------------------------------------------------
+# write a chapter summary
+# -----------------------------------------------------------------------------
+def write_chaptersummary(f, chapter, chapnum):
+    write_chapter_heading(f, chapter, chapnum)
+    first = True
+
+    if "summary" in chapter:
+        write_scene(f, chapter["summary"]) 
+
+# -----------------------------------------------------------------------------
 # write a single scan 
 # -----------------------------------------------------------------------------
 def write_scan(f, scene):
@@ -338,7 +348,10 @@ def write_chapters(f, manuscript):
     chapnum = 1
     for chapter in manuscript["chapters"]:
         if core.check_chapter_tags(chapter, core.settings["tags"]):
-            write_chapter(f, chapter, chapnum)
+            if core.settings["chaptersummary"]:
+                write_chaptersummary(f, chapter, chapnum)
+            else:
+                write_chapter(f, chapter, chapnum)
             chapnum += 1
 
 # -----------------------------------------------------------------------------

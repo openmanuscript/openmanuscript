@@ -10,6 +10,7 @@ __oms = {
 
 settings = {
     "authorfile"     : "author.json",
+    "chaptersummary" : False,
     "filescenesep"   : False,
     "font"           : "Courier",
     "fontsize"       : "12",
