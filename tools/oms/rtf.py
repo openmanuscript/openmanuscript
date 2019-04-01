@@ -362,12 +362,15 @@ def handle_footnotes( data ):
         # we are creating notes of some kind
             # inline footnotes
         inline = re.findall('\[\^(.+?)\][^\:]', data, re.MULTILINE)
-        paired = re.findall('\[\^(.+?)\]\:(.+)', data, re.MULTILINE)
+        # paired = re.findall('\[\^(.+?)\]\:(.+)', data, re.MULTILINE)
+        paired = re.findall('\[\^(.+?)\]\:(.+)(?:\s+[^\[]|$)', data, flags=re.DOTALL|re.MULTILINE)
         d_paired = dict(paired)
 
         for note in inline:
             #  first, see if we have a paired footnote, and handle that
+            print("{}: is inline".format(note))
             if note in d_paired:
+                print("{}:{}".format(note, d_paired[note]))
                 # we sub the paired (bottom) part inline
                 data = re.sub('\[\^{0}?\][^\:]'.format(note),
                     r"""{{\\super\\chftn}}{{\\footnote\\pard\\plain\\f{0}\\fs{1}\\chftn {2}}}\\~""".format(FONT["tableid"], 
@@ -478,7 +481,7 @@ def update_state_from_settings():
 
 # -----------------------------------------------------------------------------
 #
-# execute
+# write this object's data into an rtf file 
 #
 # -----------------------------------------------------------------------------
 def write_rtf( ofile ):
