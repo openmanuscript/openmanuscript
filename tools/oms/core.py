@@ -115,8 +115,26 @@ def check_chapter_tags( chapter, tags ):
 
     return result
 
+# ---------------------------------------------------------------------------
+# check type of a chapter 
+# ---------------------------------------------------------------------------
+def check_chapter_type( chapter, chaptype ): 
+    result = False
+
+    if (not chaptype is None) and (("type" in chapter) and 
+        (chaptype in chapter["type"])):
+        result = True
+
+    return result
+
 # -----------------------------------------------------------------------------
-# format bulleted lists 
+# check for a prologue 
+# -----------------------------------------------------------------------------
+def is_prologue( chapter ):
+    return check_chapter_type( chapter, "prologue" ) 
+
+# -----------------------------------------------------------------------------
+# format horizontal rule
 # -----------------------------------------------------------------------------
 def is_horrule( data ):
     (junk, num) = re.subn(r'^(---|###|\*\*\*)', r'HERE', data)

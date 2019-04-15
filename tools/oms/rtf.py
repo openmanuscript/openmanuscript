@@ -161,8 +161,7 @@ SPACING["titleskip"], manuscript["title"], FONT["tableid"], FONT["size"], SPACIN
 # -----------------------------------------------------------------------------
 def write_synopsis(f, synop):
     f.write("""
-\\pard \\pagebb \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sb{3} \\sa{4} {{\\b
-Synopsis }}
+\\pard \\pagebb \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sb{3} \\sa{4} {{\\b Synopsis }}
 \par\n""".format(FONT["tableid"], FONT["size"], SPACING["paragraph"], SPACING["synopsisb"], SPACING["synopsisa"] )) 
     write_scene(f, synop)
 
@@ -196,11 +195,21 @@ def write_blank_paragraph(f):
 # -----------------------------------------------------------------------------
 # write chapter headings
 # -----------------------------------------------------------------------------
-def write_chapter_heading(f, chapter, chapnum):
-    chapnum = "CHAPTER {0}".format(chapnum)
+def write_chapter_heading(f, chapter, chapnum, chaptype):
+    chapnum = "CHAPTER {0}".format(chapnum).upper()
     write_pagebreak(f)
+
+    # this is used to skip a half page in a way that is preserved if this 
+    # file is converted to docx by 'Save As ...' from Microsoft Word 
     for x in range(16): 
         write_blank_paragraph(f)
+
+    if (chaptype == "CHAPTER"):
+        allcaps_title = chapnum
+        chaptername   = chapter["title"]
+    else:
+        allcaps_title = chaptype 
+        chaptername   = ""
 
     f.write("""
 \\pard \\f{0} \\fs{1} \\sl{2} \\slmulti1 \\qc \\sa{3} {{\\tc\\b {4} }} \\par
@@ -210,18 +219,19 @@ def write_chapter_heading(f, chapter, chapnum):
                 FONT["size"], 
                 SPACING["paragraph"],
                 SPACING["newchapa"], 
-                chapnum.upper(), 
+                allcaps_title, 
                 FONT["tableid"], 
                 FONT["size"], 
                 SPACING["paragraph"], 
                 SPACING["chapsuba"], 
-                chapter["title"]))
+                chaptername))
 
 # -----------------------------------------------------------------------------
 # write a single chapter
 # -----------------------------------------------------------------------------
-def write_chapter(f, chapter, chapnum):
-    write_chapter_heading(f, chapter, chapnum)
+def write_chapter(f, chapter, chapnum, chaptype="CHAPTER"):
+    write_chapter_heading(f, chapter, chapnum, chaptype)
+
     first = True
     for scene in chapter["scenes"]:
         if not first:
@@ -240,8 +250,8 @@ def write_chapter(f, chapter, chapnum):
 # -----------------------------------------------------------------------------
 # write a chapter summary
 # -----------------------------------------------------------------------------
-def write_chaptersummary(f, chapter, chapnum):
-    write_chapter_heading(f, chapter, chapnum)
+def write_chaptersummary(f, chapter, chapnum, chaptype="CHAPTER"):
+    write_chapter_heading(f, chapter, chapnum, chaptype)
     first = True
 
     if "summary" in chapter:
@@ -348,11 +358,17 @@ def write_chapters(f, manuscript):
     chapnum = 1
     for chapter in manuscript["chapters"]:
         if core.check_chapter_tags(chapter, core.settings["tags"]):
-            if core.settings["chaptersummary"]:
-                write_chaptersummary(f, chapter, chapnum)
+            if core.is_prologue(chapter):
+                if core.settings["chaptersummary"]:
+                    write_chaptersummary(f, chapter, chapnum, "PROLOGUE")
+                else:
+                    write_chapter(f, chapter, chapnum, "PROLOGUE")
             else:
-                write_chapter(f, chapter, chapnum)
-            chapnum += 1
+                if core.settings["chaptersummary"]:
+                    write_chaptersummary(f, chapter, chapnum)
+                else:
+                    write_chapter(f, chapter, chapnum)
+                chapnum += 1
 
 # -----------------------------------------------------------------------------
 # handle footnotes 
