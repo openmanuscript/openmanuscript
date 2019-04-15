@@ -134,6 +134,12 @@ def is_prologue( chapter ):
     return check_chapter_type( chapter, "prologue" ) 
 
 # -----------------------------------------------------------------------------
+# check for an epilogue 
+# -----------------------------------------------------------------------------
+def is_epilogue( chapter ):
+    return check_chapter_type( chapter, "epilogue" ) 
+
+# -----------------------------------------------------------------------------
 # format horizontal rule
 # -----------------------------------------------------------------------------
 def is_horrule( data ):

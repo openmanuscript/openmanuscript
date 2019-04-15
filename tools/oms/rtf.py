@@ -358,11 +358,12 @@ def write_chapters(f, manuscript):
     chapnum = 1
     for chapter in manuscript["chapters"]:
         if core.check_chapter_tags(chapter, core.settings["tags"]):
-            if core.is_prologue(chapter):
+            if core.is_prologue(chapter) or core.is_epilogue(chapter):
+                chaptype = chapter["type"].upper()
                 if core.settings["chaptersummary"]:
-                    write_chaptersummary(f, chapter, chapnum, "PROLOGUE")
+                    write_chaptersummary(f, chapter, chapnum, chaptype)
                 else:
-                    write_chapter(f, chapter, chapnum, "PROLOGUE")
+                    write_chapter(f, chapter, chapnum, chaptype)
             else:
                 if core.settings["chaptersummary"]:
                     write_chaptersummary(f, chapter, chapnum)
