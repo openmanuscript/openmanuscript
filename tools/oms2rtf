@@ -105,16 +105,6 @@ args = parser.parse_args(remaining_argv)
 #
 # -----------------------------------------------------------------------------
 
-# check existence of the files we will need
-if not os.path.isfile(oms.core.get_authorfile()):
-    print("ERROR: cannot open file: " + oms.core.get_authorfile())
-    exit(0)
-
-if not os.path.isfile( oms.core.get_manuscriptfile() ):
-    print("ERROR: cannot open file: " + oms.core.get_manuscriptfile())
-    exit(0)
-
-
 # set settings
 oms.core.set_authorfile(args.authorfile)
 oms.core.set("chaptersummary", args.chaptersummary)
@@ -132,8 +122,19 @@ oms.core.set("synopsisfile", args.synopsisfile)
 oms.core.set("tags", args.tags)
 oms.core.set("underline", args.underline)
 
+# check existence of the files we will need
+if not os.path.isfile(oms.core.get_authorfile()):
+    print("ERROR: cannot open file: " + oms.core.get_authorfile())
+    exit(0)
+
+if not os.path.isfile( oms.core.get_manuscriptfile() ):
+    print("ERROR: cannot open file: " + oms.core.get_manuscriptfile())
+    exit(0)
+
+# read
 print("Reading data ...")
 oms.core.read_data()
 
+# write
 print("Writing file ...")
 oms.rtf.write_rtf( args.outputfile )
