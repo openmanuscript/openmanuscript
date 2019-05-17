@@ -281,3 +281,34 @@ def manuscript_to_csv( mdir, mfile, afile, ofile ):
 
             ofile.write("\n")
 
+def manuscript_to_html( mdir, mfile, afile, ofile ):
+    global manuscript
+
+    set_manuscriptdir(mdir)
+    set_manuscriptfile(mfile)
+    set_authorfile(afile)
+    read_data()
+
+    with open( get_authorfile() ) as author_file:
+        author = json.load( author_file )
+        if (check_version(author)):
+            author = author["author"]
+
+    with open(ofile, "w") as ofile:
+        ofile.write("<html>")
+        ofile.write("<title>{}</title>\n".format(manuscript["title"]))
+        ofile.write("<head>")
+        ofile.write("</head>")
+        ofile.write("<body>")
+        ofile.write("<h2><strong>{}</strong></h2>\n".format(manuscript["title"]))
+        for chapter in manuscript["chapters"]:
+            ofile.write("<p>")
+            ofile.write("<strong>{}</strong>\n".format(chapter["title"]))
+            ofile.write("<ul>")
+            for scene in chapter["scenes"]:
+                ofile.write("<li>{}</li>".format(scene))
+            ofile.write("</ul>")
+            ofile.write("</p>")
+        ofile.write("</body>")
+        ofile.write("</html>")
+
