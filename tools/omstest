@@ -36,3 +36,7 @@ ofile = "omstest_manuscript.rtf"
 print("Running oms2rtf")
 os.system("./oms2rtf --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes".format(msdir, msfile, afile, ofile))
 
+ofile = "omstest_manuscript_filescene.rtf"
+print("Running oms2rtf")
+os.system("./oms2rtf --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes --filescenesep".format(msdir, msfile, afile, ofile))
+

@@ -132,9 +132,7 @@ if not os.path.isfile( oms.core.get_manuscriptfile() ):
     exit(0)
 
 # read
-print("Reading data ...")
 oms.core.read_data()
 
 # write
-print("Writing file ...")
-oms.rtf.write_rtf( args.outputfile )
+oms.rtf.write( args.outputfile )

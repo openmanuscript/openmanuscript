@@ -2,7 +2,7 @@
 
 # ---------------------------------------------------------------------------
 #
-# omsconvert
+# oms2rtf, a tiny manuscript tool based on the OpenManuscript specification 
 #
 # ---------------------------------------------------------------------------
 
@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import argparse
 import configparser
+import os
 import oms
 
 
@@ -63,16 +64,75 @@ parser = argparse.ArgumentParser(
 
 # parser.set_defaults(**defaults)
 parser.add_argument( "--authorfile", default="author.json",
-                        help="read author data from this file. Must be located in MANUSCRIPTDIR")
+    help="read author data from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--chaptersummary", action="store_true", default=False, 
+    help="print a chapter summary, if there is one")
+parser.add_argument( "--filescenesep", action="store_true", default=False, 
+    help="print file name as scene separator, instead of ###")
+parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
+    help="Use this font for the manuscript")
+parser.add_argument( "--fontsize", default="12", 
+    help="Use this font size for the manuscript")
+parser.add_argument( "--footnotes", action="store_true", default=False, 
+    help="if there are footnotes, print them")
 parser.add_argument( "--manuscriptdir", default=".", 
-                        help="directory that contains the manuscript data")
+    help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
-                        help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+    help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
 parser.add_argument( "--outputfile", default="manuscript.html", 
-                        help="write output to this file")
+    help="write output to this file")
+parser.add_argument( "--quote", action="store_true", default=False, 
+    help="if there is a quote, include it at the beginning")
+parser.add_argument( "--quotefile", default="quotes.md", 
+    help="read quote from this file")
+parser.add_argument( "--synopsis", action="store_true", default=False, 
+    help="if there is a synopsis, include it at the beginning")
+parser.add_argument( "--synopsisfile", default="synopsis.md", 
+    help="read synopsis from this file")
+parser.add_argument( "--tags", nargs='+', type=str,
+    help="add chapter tags that are considered 'on'")
 parser.add_argument( "--version", action="version", 
                         version=str(oms.core.get_version()) ) 
+parser.add_argument( "--underline", action="store_true", default=False, 
+    help="instead of bold or italic, use underline to show emphasis")
 
 args = parser.parse_args(remaining_argv)
 
-oms.core.manuscript_to_html( args.manuscriptdir,  args.manuscriptfile, args.authorfile, args.outputfile)
+
+# -----------------------------------------------------------------------------
+#
+# execute
+#
+# -----------------------------------------------------------------------------
+
+# set settings
+oms.core.set_authorfile(args.authorfile)
+oms.core.set("chaptersummary", args.chaptersummary)
+oms.core.set("filescenesep", args.filescenesep)
+oms.core.set("footnotes", args.footnotes)
+oms.core.set("font", args.font)
+oms.core.set("fontsize", args.fontsize)
+oms.core.set_manuscriptdir(args.manuscriptdir)
+oms.core.set_manuscriptfile(args.manuscriptfile)
+oms.core.set("outputfile", args.outputfile)
+oms.core.set("quote", args.quote)
+oms.core.set("quotefile", args.quotefile)
+oms.core.set("synopsis", args.synopsis)
+oms.core.set("synopsisfile", args.synopsisfile)
+oms.core.set("tags", args.tags)
+oms.core.set("underline", args.underline)
+
+# check existence of the files we will need
+if not os.path.isfile(oms.core.get_authorfile()):
+    print("ERROR: cannot open file: " + oms.core.get_authorfile())
+    exit(0)
+
+if not os.path.isfile( oms.core.get_manuscriptfile() ):
+    print("ERROR: cannot open file: " + oms.core.get_manuscriptfile())
+    exit(0)
+
+# read
+oms.core.read_data()
+
+# write
+oms.html.write( args.outputfile )

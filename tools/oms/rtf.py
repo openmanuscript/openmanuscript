@@ -79,6 +79,8 @@ SPACING = {
     "synopsisa" : "720",
     "quoteb"    : "1440",
     "quotea"    : "720",
+    "sceneb"    : "480",
+    "scenea"    : "720"
 }
 
 # -----------------------------------------------------------------------------
@@ -343,13 +345,14 @@ def write_scene(f, scene):
 # -----------------------------------------------------------------------------
 # write a scene separator
 # -----------------------------------------------------------------------------
-#TODO: add SPACING, etc. in this 
 def write_scene_separator(f, scene):
+    separator = "###"
+
     if core.settings["filescenesep"]:
-        f.write("""\n\\pard \\sl480 \\slmulti1 \\qc \\sa720 ({0})
-        \\par\n""".format(scene))
-    else:
-        f.write("\n\\pard \\sl480 \\slmulti1 \\qc \\sa720 ### \\par\n")
+        separator = scene
+
+    f.write("\n\\pard \\sl{} \\slmulti1 \\qc \\sa{} {} \\par\n".
+        format(SPACING["sceneb"], SPACING["scenea"], separator))
 
 # -----------------------------------------------------------------------------
 # iterate and write all the chapters
@@ -501,7 +504,7 @@ def update_state_from_settings():
 # write this object's data into an rtf file 
 #
 # -----------------------------------------------------------------------------
-def write_rtf( ofile ):
+def write( ofile ):
     update_state_from_settings()
 
     with open( ofile, "w" ) as f:
