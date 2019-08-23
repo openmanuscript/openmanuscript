@@ -66,6 +66,8 @@ def write_preamble( f ):
 def write_title(f, manuscript, author):
     f.write("<head>\n<title>{}</title>\n</head>\n".format(manuscript["title"]))
     f.write("<body>\n<h2>{}</h2>\n".format(manuscript["title"]))
+    if "desc" in manuscript:
+        f.write("<p><strong>Description:</strong>&nbsp{}\n</p>\n".format(manuscript["desc"]))
 
 # -----------------------------------------------------------------------------
 # finish things up and make a valid document
@@ -107,7 +109,11 @@ def write( ofile ):
         write_preamble(f)
         write_title(f, core.manuscript, core.author)
         for chapter in core.manuscript["chapters"]:
-            f.write("<h3>{}</h3>\n".format(chapter["title"]))
+            f.write("<p><strong>{}</strong>&nbsp&nbsp&nbsp&nbsp".format(chapter["title"]))
+            if "desc" in chapter:
+                f.write("{}\n".format(chapter["desc"]))
+            f.write("</p>\n")
+
             f.write("<ul>\n")
             for scene in chapter["scenes"]:
                 f.write("<li><a href=\"scenes/{}.md\">{}</li></a>\n".format(scene, scene))
