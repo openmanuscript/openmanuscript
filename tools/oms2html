@@ -105,7 +105,7 @@ args = parser.parse_args(remaining_argv)
 #
 # -----------------------------------------------------------------------------
 
-# set settings
+# settings
 oms.core.set_authorfile(args.authorfile)
 oms.core.set("chaptersummary", args.chaptersummary)
 oms.core.set("filescenesep", args.filescenesep)

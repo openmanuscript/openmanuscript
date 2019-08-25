@@ -54,18 +54,56 @@ CURSTATE = {
 FONT = {
 }
 
+OUTLINE_COL_WIDTHS = {
+    'title': '10', 
+    'arc' : '5',
+    'tod': '5', 
+    'pov': '5', 
+    'setting': '5', 
+    'scenes': '5', 
+    'desc': '30', 
+    'story': '40'
+}
+
+
+OUTLINE_CSS = """
+table {
+    border: 1px solid black;
+    background: grey;
+    font-size: small;
+}
+
+th {
+    background: lightgrey;
+    vertical-align: top;
+    font-size: small;
+}
+
+td {
+    background: white;
+    vertical-align: top;
+    padding: 5px 5px 5px 5px;
+    font-size: small;
+}
+"""
+
 # -----------------------------------------------------------------------------
 # write document preamble
 # -----------------------------------------------------------------------------
-def write_preamble( f ):
+def write_preamble( f, manuscript ):
     f.write("<html>\n")
+    f.write("<html>\n")
+    f.write("<head>\n")
+    f.write("<title>{}</title>\n".format(manuscript["title"]))
+    f.write("<style>{}</style>\n".format(OUTLINE_CSS))
+    f.write("</head>\n")
+    f.write("<body>\n")
 
 # -----------------------------------------------------------------------------
 # write the title
 # -----------------------------------------------------------------------------
 def write_title(f, manuscript, author):
-    f.write("<head>\n<title>{}</title>\n</head>\n".format(manuscript["title"]))
-    f.write("<body>\n<h2>{}</h2>\n".format(manuscript["title"]))
+    f.write("<h2>{}</h2>\n".format(manuscript["title"]))
     if "desc" in manuscript:
         f.write("<p><strong>Description:</strong>&nbsp{}\n</p>\n".format(manuscript["desc"]))
 
@@ -74,6 +112,7 @@ def write_title(f, manuscript, author):
 # -----------------------------------------------------------------------------
 def write_postamble(f):
     f.write("</body>\n</html>")
+    f.write("</html>\n</html>")
 
 # -----------------------------------------------------------------------------
 # under certain conditions, substitute underlines for bold 
@@ -106,7 +145,7 @@ def write( ofile ):
     with open( ofile, "w" ) as f:
         success = True
 
-        write_preamble(f)
+        write_preamble(f, manuscript)
         write_title(f, core.manuscript, core.author)
         for chapter in core.manuscript["chapters"]:
             f.write("<p><strong>{}</strong>&nbsp&nbsp&nbsp&nbsp".format(chapter["title"]))
@@ -119,3 +158,43 @@ def write( ofile ):
                 f.write("<li><a href=\"scenes/{}.md\">{}</li></a>\n".format(scene, scene))
             f.write("</ul>\n")
         write_postamble(f)
+
+def write_outline(f, manuscript, author, cols):
+    result = False
+    with open( ofile, "w" ) as f:
+        result = True
+        chapnum = 1;
+        write_preamble(f, manuscript)
+        # header
+        f.write("<h3>{}Outline</h3>\n".format(manuscript["title"]))
+
+        # table of chapters
+        f.write("<table>\n")
+        f.write("<tr>\n")
+        f.write("<th style=\"width:1%\">Chapter</th>\n")
+        for col in cols:
+            f.write("<th style=\"width:{0}%\">{1}</th>".
+                format(OUTLINE_COL_WIDTHS[col.lower()], col))
+        f.write("</tr>\n")
+        for chapter in manuscript["chapters"]:
+            if (core.check_chapter_tags( chapter )):
+                f.write("<tr>\n")
+                f.write("<td>{0}</td>\n".format(chapnum))
+                chapnum = chapnum + 1
+                for col in cols:
+                    if (col.lower() in chapter):
+                        if (col == "Scenes"):
+                            f.write("<td>{0}</td>\n".
+                                format(" ".join(chapter[col.lower()])))
+                        else:
+                            f.write("<td>{0}</td>\n".
+                                format(chapter[col.lower()]))
+                    else:
+                        f.write("<td></td>\n")
+                f.write("</tr>\n")
+
+        f.write("</table>\n")
+        write_postamble(f)
+
+    return result
+
