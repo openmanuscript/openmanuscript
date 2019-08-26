@@ -65,6 +65,7 @@ OUTLINE_COL_WIDTHS = {
     'story': '40'
 }
 
+OUTLINE_COL_NAMES = ["Title", "Arc", "POV", "TOD", "Setting", "Scenes", "Desc"]
 
 OUTLINE_CSS = """
 table {
@@ -145,7 +146,7 @@ def write( ofile ):
     with open( ofile, "w" ) as f:
         success = True
 
-        write_preamble(f, manuscript)
+        write_preamble(f, core.manuscript)
         write_title(f, core.manuscript, core.author)
         for chapter in core.manuscript["chapters"]:
             f.write("<p><strong>{}</strong>&nbsp&nbsp&nbsp&nbsp".format(chapter["title"]))
@@ -159,29 +160,30 @@ def write( ofile ):
             f.write("</ul>\n")
         write_postamble(f)
 
-def write_outline(f, manuscript, author, cols):
+def write_outline(ofile):
     result = False
     with open( ofile, "w" ) as f:
         result = True
         chapnum = 1;
-        write_preamble(f, manuscript)
+        write_preamble(f, core.manuscript)
         # header
-        f.write("<h3>{}Outline</h3>\n".format(manuscript["title"]))
+        f.write("<h3>{} Outline</h3>\n".format(core.manuscript["title"]))
 
         # table of chapters
         f.write("<table>\n")
         f.write("<tr>\n")
         f.write("<th style=\"width:1%\">Chapter</th>\n")
-        for col in cols:
+        for col in OUTLINE_COL_NAMES:
             f.write("<th style=\"width:{0}%\">{1}</th>".
                 format(OUTLINE_COL_WIDTHS[col.lower()], col))
         f.write("</tr>\n")
-        for chapter in manuscript["chapters"]:
-            if (core.check_chapter_tags( chapter )):
+        tags = None
+        for chapter in core.manuscript["chapters"]:
+            if (core.check_chapter_tags( chapter, tags )):
                 f.write("<tr>\n")
                 f.write("<td>{0}</td>\n".format(chapnum))
                 chapnum = chapnum + 1
-                for col in cols:
+                for col in OUTLINE_COL_NAMES:
                     if (col.lower() in chapter):
                         if (col == "Scenes"):
                             f.write("<td>{0}</td>\n".
