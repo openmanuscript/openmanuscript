@@ -81,6 +81,9 @@ parser.add_argument( "--manuscriptfile", default="manuscript.json",
     help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
 parser.add_argument( "--outputfile", default="manuscript.html", 
     help="write output to this file")
+parser.add_argument( "--columns", nargs="+", default = ["Title", "Arc",
+    "POV", "TOD", "Setting", "Scenes", "Desc"], 
+    help="set which columns of the outline to print when creating outline")
 parser.add_argument( "--quote", action="store_true", default=False, 
     help="if there is a quote, include it at the beginning")
 parser.add_argument( "--quotefile", default="quotes.md", 
@@ -121,6 +124,7 @@ oms.core.set("synopsis", args.synopsis)
 oms.core.set("synopsisfile", args.synopsisfile)
 oms.core.set("tags", args.tags)
 oms.core.set("underline", args.underline)
+oms.core.set("columns", args.columns)
 
 # check existence of the files we will need
 if not os.path.isfile(oms.core.get_authorfile()):

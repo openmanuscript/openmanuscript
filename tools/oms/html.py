@@ -65,8 +65,6 @@ OUTLINE_COL_WIDTHS = {
     'story': '40'
 }
 
-OUTLINE_COL_NAMES = ["Title", "Arc", "POV", "TOD", "Setting", "Scenes", "Desc"]
-
 OUTLINE_CSS = """
 table {
     border: 1px solid black;
@@ -173,7 +171,7 @@ def write_outline(ofile):
         f.write("<table>\n")
         f.write("<tr>\n")
         f.write("<th style=\"width:1%\">Chapter</th>\n")
-        for col in OUTLINE_COL_NAMES:
+        for col in core.settings["columns"]:
             f.write("<th style=\"width:{0}%\">{1}</th>".
                 format(OUTLINE_COL_WIDTHS[col.lower()], col))
         f.write("</tr>\n")
@@ -183,7 +181,7 @@ def write_outline(ofile):
                 f.write("<tr>\n")
                 f.write("<td>{0}</td>\n".format(chapnum))
                 chapnum = chapnum + 1
-                for col in OUTLINE_COL_NAMES:
+                for col in core.settings["columns"]:
                     if (col.lower() in chapter):
                         if (col == "Scenes"):
                             f.write("<td>{0}</td>\n".
