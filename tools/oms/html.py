@@ -139,7 +139,7 @@ def sub_italics( data ):
 # write this object's data into an html file 
 #
 # -----------------------------------------------------------------------------
-def write( ofile ):
+def write_old( ofile ):
 
     with open( ofile, "w" ) as f:
         success = True
@@ -158,9 +158,9 @@ def write( ofile ):
             f.write("</ul>\n")
         write_postamble(f)
 
-def write_outline(ofile):
+def write():
     result = False
-    with open( ofile, "w" ) as f:
+    with open( core.settings["outputfile"], "w" ) as f:
         result = True
         chapnum = 1;
         write_preamble(f, core.manuscript)
@@ -184,8 +184,11 @@ def write_outline(ofile):
                 for col in core.settings["columns"]:
                     if (col.lower() in chapter):
                         if (col == "Scenes"):
-                            f.write("<td>{0}</td>\n".
-                                format(" ".join(chapter[col.lower()])))
+                            f.write("<td>")
+                            for scene in chapter[col.lower()]:
+                                f.write("<a href=\"scenes/{}.md\">{}</a>&nbsp\n".format(scene, scene))
+                            f.write("</td>\n")
+                            # f.write("<td>{0}</td>\n".format(" ".join(chapter[col.lower()])))
                         else:
                             f.write("<td>{0}</td>\n".
                                 format(chapter[col.lower()]))

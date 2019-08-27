@@ -140,4 +140,4 @@ oms.core.read_data()
 
 # write
 # oms.html.write( args.outputfile )
-oms.html.write_outline( args.outputfile )
+oms.html.write()
