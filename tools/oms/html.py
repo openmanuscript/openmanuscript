@@ -55,7 +55,7 @@ FONT = {
 }
 
 OUTLINE_COL_WIDTHS = {
-    'title': '10', 
+    'title': '5', 
     'arc' : '5',
     'tod': '5', 
     'pov': '5', 
@@ -139,26 +139,7 @@ def sub_italics( data ):
 # write this object's data into an html file 
 #
 # -----------------------------------------------------------------------------
-def write_old( ofile ):
-
-    with open( ofile, "w" ) as f:
-        success = True
-
-        write_preamble(f, core.manuscript)
-        write_title(f, core.manuscript, core.author)
-        for chapter in core.manuscript["chapters"]:
-            f.write("<p><strong>{}</strong>&nbsp&nbsp&nbsp&nbsp".format(chapter["title"]))
-            if "desc" in chapter:
-                f.write("{}\n".format(chapter["desc"]))
-            f.write("</p>\n")
-
-            f.write("<ul>\n")
-            for scene in chapter["scenes"]:
-                f.write("<li><a href=\"scenes/{}.md\">{}</li></a>\n".format(scene, scene))
-            f.write("</ul>\n")
-        write_postamble(f)
-
-def write():
+def write_outline():
     result = False
     with open( core.settings["outputfile"], "w" ) as f:
         result = True
@@ -186,7 +167,7 @@ def write():
                         if (col == "Scenes"):
                             f.write("<td>")
                             for scene in chapter[col.lower()]:
-                                f.write("<a href=\"scenes/{}.md\">{}</a>&nbsp\n".format(scene, scene))
+                                f.write("<a href=\"../scenes/{}.md\">{}</a>&nbsp\n".format(scene, scene))
                             f.write("</td>\n")
                             # f.write("<td>{0}</td>\n".format(" ".join(chapter[col.lower()])))
                         else:

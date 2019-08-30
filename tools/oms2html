@@ -139,5 +139,4 @@ if not os.path.isfile( oms.core.get_manuscriptfile() ):
 oms.core.read_data()
 
 # write
-# oms.html.write( args.outputfile )
-oms.html.write()
+oms.html.write_outline()
