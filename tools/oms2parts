@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+
+# ---------------------------------------------------------------------------
+#
+# oms2rtf, a tiny manuscript tool based on the OpenManuscript specification 
+#
+# ---------------------------------------------------------------------------
+
+"""
+Copyright (c) 2016-2019, David H. Rogers 
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
+import argparse
+import configparser
+import os
+import oms
+
+
+# ---------------------------------------------------------------------------
+#
+# get initial settings from settings file, if there is one
+#
+# ---------------------------------------------------------------------------
+conf_parser = argparse.ArgumentParser(
+    # Turn off help, so we print all options in response to -h
+    add_help=False
+    )
+
+args, remaining_argv = conf_parser.parse_known_args()
+
+# ---------------------------------------------------------------------------
+#
+# command line options
+#
+# ---------------------------------------------------------------------------
+# Don't surpress add_help here so it will handle -h
+parser = argparse.ArgumentParser(
+    # Don't mess with format of description
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    # Inherit options from config_parser
+    parents=[conf_parser]
+)
+
+# parser.set_defaults(**defaults)
+parser.add_argument( "--authorfile", default="author.json",
+    help="read author data from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--chaptersummary", action="store_true", default=False, 
+    help="print a chapter summary, if there is one")
+parser.add_argument( "--filescenesep", action="store_true", default=False, 
+    help="print file name as scene separator, instead of ###")
+parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
+    help="Use this font for the manuscript")
+parser.add_argument( "--fontsize", default="12", 
+    help="Use this font size for the manuscript")
+parser.add_argument( "--footnotes", action="store_true", default=False, 
+    help="if there are footnotes, print them")
+parser.add_argument( "--manuscriptdir", default=".", 
+    help="directory that contains the manuscript data")
+parser.add_argument( "--manuscriptfile", default="manuscript.json", 
+    help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--outputfile", default="inout.docx", 
+    help="write output to this file")
+parser.add_argument( "--columns", nargs="+", default = ["Title", "Arc",
+    "POV", "TOD", "Setting", "Scenes", "Desc"], 
+    help="set which columns of the outline to print when creating outline")
+parser.add_argument( "--quote", action="store_true", default=False, 
+    help="if there is a quote, include it at the beginning")
+parser.add_argument( "--quotefile", default="quotes.md", 
+    help="read quote from this file")
+parser.add_argument( "--synopsis", action="store_true", default=False, 
+    help="if there is a synopsis, include it at the beginning")
+parser.add_argument( "--synopsisfile", default="synopsis.md", 
+    help="read synopsis from this file")
+parser.add_argument( "--tags", nargs='+', type=str,
+    default=["inout"], help="add chapter tags that are considered 'on'")
+parser.add_argument( "--version", action="version", 
+                        version=str(oms.core.get_version()) ) 
+parser.add_argument( "--underline", action="store_true", default=False, 
+    help="instead of bold or italic, use underline to show emphasis")
+
+args = parser.parse_args(remaining_argv)
+
+
+# -----------------------------------------------------------------------------
+#
+# execute
+#
+# -----------------------------------------------------------------------------
+
+# settings
+oms.core.set_authorfile(args.authorfile)
+oms.core.set("chaptersummary", args.chaptersummary)
+oms.core.set("filescenesep", args.filescenesep)
+oms.core.set("footnotes", args.footnotes)
+oms.core.set("font", args.font)
+oms.core.set("fontsize", args.fontsize)
+oms.core.set_manuscriptdir(args.manuscriptdir)
+oms.core.set_manuscriptfile(args.manuscriptfile)
+oms.core.set("outputfile", args.outputfile)
+oms.core.set("quote", args.quote)
+oms.core.set("quotefile", args.quotefile)
+oms.core.set("synopsis", args.synopsis)
+oms.core.set("synopsisfile", args.synopsisfile)
+oms.core.set("tags", args.tags)
+oms.core.set("underline", args.underline)
+oms.core.set("columns", args.columns)
+
+# check existence of the files we will need
+if not os.path.isfile(oms.core.get_authorfile()):
+    print("ERROR: cannot open file: " + oms.core.get_authorfile())
+    exit(0)
+
+if not os.path.isfile( oms.core.get_manuscriptfile() ):
+    print("ERROR: cannot open file: " + oms.core.get_manuscriptfile())
+    exit(0)
+
+# read
+oms.core.read_data()
+
+# write out a parts document
+TMPfile = "tmp.md"
+with open(TMPfile, "w") as o: 
+    for s in oms.core.find_tagged_scenes():
+        if "inout" in s:
+            o.write("# {}\n\n".format(s["title"]))
+            with open( "scenes/{}.md".format(s["inout"]), "r") as sfile:
+                for line in sfile:
+                    o.write(line)
+            o.write("\n")
+            o.write("<w:p><w:r><w:br w:type=\"page\"/></w:r></w:p>\n")
+            o.write("\n")
+
+# convert the document
+os.system("pandoc -o {} -f markdown -t docx {}".format(oms.core.settings["outputfile"], TMPfile))
+os.system("rm {}".format(TMPfile))

@@ -313,3 +313,12 @@ def manuscript_to_html( mdir, mfile, afile, ofile ):
         ofile.write("</body>")
         ofile.write("</html>")
 
+
+def find_tagged_scenes():
+    scenes = []
+    for chapter in manuscript["chapters"]:
+        if "tags" in chapter:
+            if (check_chapter_tags( chapter, chapter["tags"] )):
+                scenes.append(chapter)
+
+    return scenes
