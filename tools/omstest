@@ -5,7 +5,7 @@ import oms
 
 
 print("Kicking tires ...")
-# oms.word.kick_tires()
+oms.word.kick_tires()
 oms.test.kick_tires()
 
 # overall state
@@ -27,10 +27,10 @@ print("    writing file: {}".format(ofile))
 oms.core.csv_to_manuscript(csvfile, ofile)
 
 # export docx
-# ofile  = "omstest_manuscript.docx"
-# print("Testing export of docx file")
-# print("    writing file: {}".format(ofile))
-# oms.word.write_docx(msdir, msfile, afile, ofile)
+ofile  = "omstest_manuscript.docx"
+print("Testing export of docx file")
+print("    writing file: {}".format(ofile))
+oms.word.write_docx(msdir, msfile, afile, ofile)
 
 ofile = "omstest_manuscript.rtf"
 print("Running oms2rtf")

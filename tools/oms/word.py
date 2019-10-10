@@ -27,8 +27,8 @@ def write_docx(msdir, msfile, afile, outputfile):
                             core.author["email"]))
 
     pf = p.paragraph_format
-    pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    pf.alignment = WD_LINE_SPACING.SINGLE
+    pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
     doc.add_paragraph()
     doc.add_paragraph()
@@ -44,7 +44,10 @@ def write_docx(msdir, msfile, afile, outputfile):
                             core.author["name"]))
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    pf.alignment = WD_LINE_SPACING.SINGLE
+    pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+    doc.add_page_break()
+
+    doc.add_paragraph("Test paragraph.")
 
     doc.save(outputfile)
 
