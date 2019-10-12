@@ -4,6 +4,7 @@ import os
 import json
 import re
 
+import docx
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.style import WD_STYLE_TYPE
@@ -12,13 +13,24 @@ from docx.enum.text import WD_LINE_SPACING
 from docx.enum.section import WD_SECTION
 from docx.oxml.shared import OxmlElement, qn
 
+from mistletoe import Document as MistletoeDocument
+from mistletoe.oms_renderer import OMSRenderer
+from mistletoe.html_renderer import HTMLRenderer
+
 # -----------------------------------------------------------------------------
 # globals
 # -----------------------------------------------------------------------------
 
 MARGIN = {
-    "page" : 1,
+    "page" : 1
 }
+
+PART_STATE = {
+    "bold"   : False,
+    "italic" : False
+}
+
+TheRenderer = None
 
 # the following three fuctions add page numbers, thanks to:
 # https://stackoverflow.com/questions/56658872/add-page-number-using-python-docx
@@ -44,7 +56,58 @@ def add_page_number(run):
     run._r.append(instrText)
     run._r.append(fldChar2)
 #
-# end of stackoverflow solution. Thanks!
+# End of stackoverflow solution. Thanks!
+#
+
+# The following function adds a hyperlink. Thanks to:
+# https://stackoverflow.com/questions/48374357/how-to-add-hyperlink-to-an-image-in-python-docx 
+#
+def add_hyperlink(paragraph, url, text, color, underline):
+    """
+    A function that places a hyperlink within a paragraph object.
+
+    :param paragraph: The paragraph we are adding the hyperlink to.
+    :param url: A string containing the required url
+    :param text: The text displayed for the url
+    :return: The hyperlink object
+    """
+
+    # This gets access to the document.xml.rels file and gets a new relation id value
+    part = paragraph.part
+    r_id = part.relate_to(url, docx.opc.constants.RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+
+    # Create the w:hyperlink tag and add needed values
+    hyperlink = docx.oxml.shared.OxmlElement('w:hyperlink')
+    hyperlink.set(docx.oxml.shared.qn('r:id'), r_id, )
+
+    # Create a w:r element
+    new_run = docx.oxml.shared.OxmlElement('w:r')
+
+    # Create a new w:rPr element
+    rPr = docx.oxml.shared.OxmlElement('w:rPr')
+
+    # Add color if it is given
+    if not color is None:
+      c = docx.oxml.shared.OxmlElement('w:color')
+      c.set(docx.oxml.shared.qn('w:val'), color)
+      rPr.append(c)
+
+    # Remove underlining if it is requested
+    if not underline:
+      u = docx.oxml.shared.OxmlElement('w:u')
+      u.set(docx.oxml.shared.qn('w:val'), 'none')
+      rPr.append(u)
+
+    # Join all the xml elements together add add the required text to the w:r element
+    new_run.append(rPr)
+    new_run.text = text
+    hyperlink.append(new_run)
+
+    paragraph._p.append(hyperlink)
+
+    return hyperlink
+#
+# End of stackoverflow example. Thanks!
 #
 
 def add_page_slug_header(section):
@@ -157,20 +220,20 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
 
 
 def write_preamble(doc):
-        # Set up the document
-        style     = doc.styles['Normal']
-        font      = style.font
-        font.name = core.settings["font"]
-        font.size = Pt(int(core.settings["fontsize"]))
+    # Set up the document
+    style     = doc.styles['Normal']
+    font      = style.font
+    font.name = core.settings["font"]
+    font.size = Pt(int(core.settings["fontsize"]))
 
-        # Styles
-        styleIndent = doc.styles.add_style('Indent', WD_STYLE_TYPE.PARAGRAPH)
-        pf = styleIndent.paragraph_format
-        pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
-        # pf.left_indent = Inches(0.25)
-        pf.first_line_indent = Inches(0.5)
-        pf.space_before = Pt(12)
-        pf.widow_control = True
+    # Styles
+    styleIndent = doc.styles.add_style('Indent', WD_STYLE_TYPE.PARAGRAPH)
+    pf = styleIndent.paragraph_format
+    pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    # pf.left_indent = Inches(0.25)
+    pf.first_line_indent = Inches(0.5)
+    pf.space_before = Pt(12)
+    pf.widow_control = True
 
 def write_postamble(doc):
     print("WORD: write_postamble (no-op)")
@@ -201,33 +264,28 @@ def write_scene_separator(doc, scene):
 # write a single scene
 # -----------------------------------------------------------------------------
 def write_scene(doc, scene):
+    global TheRenderer
+
     scenefile = core.get_scenefile(scene)
 
+    p = doc.add_paragraph()
+    # TheRenderer.TheParagraph = p
     if os.path.isfile(scenefile):
-        with open(scenefile, "r") as sfile:
-            data = sfile.read()
-            # handle everything
-            # count the number of words in the file
-            count = data.split()
-            data = data.strip()
-            split = data.split("\n\n")
-            for paragraph in split:
-                paragraph = paragraph.strip()
-                # substitute single spaces for everything
-                paragraph = re.sub(r'\s+', r' ', paragraph)
-                if paragraph:
-                    # write the paragraph 
-                    p = doc.add_paragraph()
-                    p.style = 'Indent'
-                    run = p.add_run(paragraph)
-                    font = run.font
-                    font.name = core.settings["font"]
-                    font.size = Pt(int(core.settings["fontsize"]))
-
-            return count
+        with open(scenefile, "r") as s_file:
+            scenetext = s_file.read()
+            print("here 01")
+            rendered = TheRenderer.render(MistletoeDocument(scenetext))
+            print(rendered)
     else:
         print("ERROR: can't find scene file: " + scenefile)
         return 0
+
+# -----------------------------------------------------------------------------
+# remove comments 
+# -----------------------------------------------------------------------------
+def handle_comments( data ):
+    data  = re.sub('\[comment\]\:\s*\*\s*\([^\)]*\)', '', data, re.DOTALL)
+    return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
     write_chapter_heading(doc, chapter, chapnum, chaptype)
@@ -265,27 +323,30 @@ def write_chapters(doc, manuscript):
 
 
 def write(outputfile):
+    global TheRenderer
 
-    with open( outputfile, "w") as f:
-        success = True
+    # create the renderer, and get started
+    with HTMLRenderer() as TheRenderer: 
+        with open( outputfile, "w") as f:
+            success = True
 
-        # create the one document
-        theDocument  = Document()
+            # create the one document
+            theDocument  = Document()
 
-        # construct the document
-        write_preamble(theDocument)
-        write_docinfo(theDocument)
-        # write_headers(theDocument)
-        write_title(theDocument)
-        add_section(theDocument, WD_SECTION.CONTINUOUS)
-        # debug_sections(theDocument)
-        write_chapters(theDocument, core.manuscript)
-        write_postamble(theDocument)
+            # construct the document
+            write_preamble(theDocument)
+            write_docinfo(theDocument)
+            # write_headers(theDocument)
+            write_title(theDocument)
+            add_section(theDocument, WD_SECTION.CONTINUOUS)
+            # debug_sections(theDocument)
+            write_chapters(theDocument, core.manuscript)
+            write_postamble(theDocument)
 
-        theDocument.save(outputfile)
+            theDocument.save(outputfile)
 
-        if (success == True):
-            print("wrote file: " + core.settings["outputfile"])
+            if (success == True):
+                print("wrote file: " + core.settings["outputfile"])
 
 
 
