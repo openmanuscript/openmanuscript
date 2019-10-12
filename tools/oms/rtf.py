@@ -294,7 +294,6 @@ def write_scene(f, scene):
                 paragraph = paragraph.strip()
                 paragraph = re.sub(r'\s+', r' ', paragraph)
                 if paragraph: 
-
                     if core.is_header(paragraph):
                         update_state("header")
                         paragraph = re.sub( '\n', ' ', paragraph)
