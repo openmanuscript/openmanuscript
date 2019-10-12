@@ -90,6 +90,6 @@ elif (args.outformat == "csv"):
                            args.authorfile, args.outputfile)
 
 elif (args.outformat == "docx"):
-    oms.word.write_docx( args.manuscriptdir,  args.manuscriptfile,
+    oms.docx.write_docx( args.manuscriptdir,  args.manuscriptfile,
                         args.authorfile, args.outputfile)
 

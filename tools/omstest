@@ -5,7 +5,6 @@ import oms
 
 
 print("Kicking tires ...")
-oms.word.kick_tires()
 oms.test.kick_tires()
 
 # overall state

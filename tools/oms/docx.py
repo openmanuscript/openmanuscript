@@ -47,10 +47,6 @@ def add_page_number(run):
 # end of stackoverflow solution. Thanks!
 #
 
-def kick_tires():
-    print("oms.word test print")
-    print("    author: {}".format(core.author))
-
 def add_page_slug_header(section):
     # section.different_first_page_header = True
     header = section.header

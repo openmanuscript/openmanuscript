@@ -135,4 +135,4 @@ if not os.path.isfile( oms.core.get_manuscriptfile() ):
 oms.core.read_data()
 
 # write
-oms.word.write( args.outputfile )
+oms.docx.write( args.outputfile )
