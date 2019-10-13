@@ -290,6 +290,7 @@ def write_scene(doc, scene):
         TheRenderer.TheParagraph = p
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
+            scenetext = scenetext.strip()
             rendered = TheRenderer.render(MistletoeDocument(scenetext))
     else:
         print("ERROR: can't find scene file: " + scenefile)
@@ -328,7 +329,7 @@ def write_chapters(doc, manuscript):
                 if core.settings["chaptersummary"]:
                     write_chaptersummary(f, chapter, chapnum, chaptype)
                 else:
-                    write_chapter(f, chapter, chapnum, chaptype)
+                    write_chapter(doc, chapter, chapnum, chaptype)
             else:
                 if core.settings["chaptersummary"]:
                     write_chaptersummary(f, chapter, chapnum)
