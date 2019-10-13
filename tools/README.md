@@ -17,6 +17,12 @@ By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line. See
 examples below.
 
+## oms2docx
+
+This script creates a `.docx` file from an `openmanuscript` database. It is
+currently under development, and does not support all features. This is built on
+top of `mistletoe` and `python-dox`.
+
 ### Known issues
 
 - Mac's `Pages` application does not recognize the `.rtf` footnotes syntax
