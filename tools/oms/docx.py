@@ -288,9 +288,21 @@ def write_scene(doc, scene):
     if os.path.isfile(scenefile):
         p = doc.add_paragraph()
         TheRenderer.TheParagraph = p
+
+        # read and clean up the input data - mostly newlines and spaces
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
             scenetext = scenetext.strip()
+            scenetext = handle_comments(scenetext)
+            split = scenetext.split("\n\n")
+            scenetext = ""
+            # clean up the paragraphs, then stitch them back together
+            for p in split:
+                p = p.strip()
+                if p:
+                    p = re.sub(r'\s+', r' ', p)
+                    p = re.sub(r'\r+', r' ', p)
+                    scenetext = scenetext + "\n\n" + p
             rendered = TheRenderer.render(MistletoeDocument(scenetext))
     else:
         print("ERROR: can't find scene file: " + scenefile)
@@ -300,7 +312,8 @@ def write_scene(doc, scene):
 # remove comments 
 # -----------------------------------------------------------------------------
 def handle_comments( data ):
-    data  = re.sub('\[comment\]\:\s*\*\s*\([^\)]*\)', '', data, re.DOTALL)
+    data  = re.sub('\[comment\]\:\s+#\s+\([^\)]*\)', '', data, re.DOTALL)
+    print(data)
     return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
