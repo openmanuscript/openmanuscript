@@ -24,6 +24,11 @@ MARGIN = {
     "page" : 1
 }
 
+SETTINGS = {
+    "paragraph_before" : 0,
+    "paragraph_after"  : 0
+}
+
 PART_STATE = {
     "bold"   : False,
     "italic" : False
@@ -250,7 +255,9 @@ def write_preamble(doc):
     pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     # pf.left_indent = Inches(0.25)
     pf.first_line_indent = Inches(0.5)
-    pf.space_before = Pt(12)
+    # pf.space_before = Pt(int(core.settings["fontsize"]))
+    pf.space_before  = SETTINGS["paragraph_before"] 
+    pf.space_after   = SETTINGS["paragraph_after"] 
     pf.widow_control = True
 
 def write_postamble(doc):
@@ -293,6 +300,7 @@ def write_scene(doc, scene):
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
             scenetext = scenetext.strip()
+            scenetext = handle_footnotes(scenetext)
             scenetext = handle_comments(scenetext)
             split = scenetext.split("\n\n")
             scenetext = ""
@@ -309,11 +317,20 @@ def write_scene(doc, scene):
         return 0
 
 # -----------------------------------------------------------------------------
+# handle footnotes
+#   for now, this removes them 
+# -----------------------------------------------------------------------------
+def handle_footnotes( data ):
+    data = re.sub('\[\^(.+?)\][^\:]', ' ', data, re.MULTILINE)
+    data = re.sub('\[\^(.+?)\]\:(.+)(?:\s+[^\[]|$)', ' ', data, flags=re.DOTALL|re.MULTILINE)
+    data  = re.sub('\[\^(.+?)\]\:(.+)', ' ', data)
+    return data
+
+# -----------------------------------------------------------------------------
 # remove comments 
 # -----------------------------------------------------------------------------
 def handle_comments( data ):
     data  = re.sub('\[comment\]\:\s+#\s+\([^\)]*\)', '', data, re.DOTALL)
-    print(data)
     return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
