@@ -15,7 +15,6 @@ from docx.oxml.shared import OxmlElement, qn
 
 from mistletoe import Document as MistletoeDocument
 from mistletoe.oms_renderer import OMSRenderer
-from mistletoe.html_renderer import HTMLRenderer
 
 # -----------------------------------------------------------------------------
 # globals
@@ -342,7 +341,7 @@ def write(outputfile):
     global TheRenderer
 
     # create the renderer, and get started
-    with HTMLRenderer() as TheRenderer: 
+    with OMSRenderer() as TheRenderer: 
         with open( outputfile, "w") as f:
             success = True
 
