@@ -59,6 +59,21 @@ def add_page_number(run):
 # End of stackoverflow solution. Thanks!
 #
 
+def add_to_run(run, text):
+    fldChar1 = create_element('w:fldChar')
+    create_attribute(fldChar1, 'w:fldCharType', 'begin')
+
+    instrText = create_element('w:instrText')
+    create_attribute(instrText, 'xml:space', 'preserve')
+    instrText.text = text 
+
+    fldChar2 = create_element('w:fldChar')
+    create_attribute(fldChar2, 'w:fldCharType', 'end')
+
+    run._r.append(fldChar1)
+    run._r.append(instrText)
+    run._r.append(fldChar2)
+
 # The following function adds a hyperlink. Thanks to:
 # https://stackoverflow.com/questions/48374357/how-to-add-hyperlink-to-an-image-in-python-docx 
 #
@@ -228,8 +243,12 @@ def write_preamble(doc):
 
     # Styles
     styleIndent = doc.styles.add_style('Indent', WD_STYLE_TYPE.PARAGRAPH)
+    font      = styleIndent.font
+    font.name = core.settings["font"]
+    font.size = Pt(int(core.settings["fontsize"]))
     pf = styleIndent.paragraph_format
     pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     # pf.left_indent = Inches(0.25)
     pf.first_line_indent = Inches(0.5)
     pf.space_before = Pt(12)
@@ -267,15 +286,12 @@ def write_scene(doc, scene):
     global TheRenderer
 
     scenefile = core.get_scenefile(scene)
-
-    p = doc.add_paragraph()
-    # TheRenderer.TheParagraph = p
     if os.path.isfile(scenefile):
+        p = doc.add_paragraph()
+        TheRenderer.TheParagraph = p
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
-            print("here 01")
             rendered = TheRenderer.render(MistletoeDocument(scenetext))
-            print(rendered)
     else:
         print("ERROR: can't find scene file: " + scenefile)
         return 0
@@ -332,6 +348,8 @@ def write(outputfile):
 
             # create the one document
             theDocument  = Document()
+            TheRenderer.Verbose = False
+            TheRenderer.TheDocument = theDocument
 
             # construct the document
             write_preamble(theDocument)
