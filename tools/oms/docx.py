@@ -264,7 +264,6 @@ def write_scene(doc, scene):
                     ptext = re.sub(r'\s+', r' ', ptext)
                     ptext = re.sub(r'\r+', r' ', ptext)
                     html_tree = markdown.markdown(ptext)
-                    print(html_tree)
                     htmldocx.add_html(pgraph, html_tree)
                     # scenetext = scenetext + "\n\n" + p
             # rendered = TheRenderer.render(MistletoeDocument(scenetext))
