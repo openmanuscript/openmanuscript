@@ -1,0 +1,18 @@
+{
+"version" : "1.0",
+"manuscript" : {
+    "title" : "Simple Examples",
+    "runningtitle" : "simple",
+    "chapters" : [
+        {
+            "title"   : "Simple Text",
+            "pov"     : "Mercury",
+            "tod"     : "morning",
+            "setting" : "Mr. Mercury's front yard.",
+            "desc"    : "An important scene.",
+            "tags"    : "simple",
+            "scenes"  : ["one"]
+        }
+    ]
+}
+}

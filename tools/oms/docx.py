@@ -3,6 +3,9 @@ from . import core
 import os
 import json
 import re
+import markdown
+
+import htmldocx
 
 import docx
 from docx import Document
@@ -242,8 +245,9 @@ def write_scene(doc, scene):
 
     scenefile = core.get_scenefile(scene)
     if os.path.isfile(scenefile):
-        p = doc.add_paragraph()
-        TheRenderer.TheParagraph = p
+        pgraph = doc.add_paragraph()
+        pgraph.style = 'Indent'
+        TheRenderer.TheParagraph = pgraph
 
         # read and clean up the input data - mostly newlines and spaces
         with open(scenefile, "r") as s_file:
@@ -254,13 +258,16 @@ def write_scene(doc, scene):
             split = scenetext.split("\n\n")
             scenetext = ""
             # clean up the paragraphs, then stitch them back together
-            for p in split:
-                p = p.strip()
-                if p:
-                    p = re.sub(r'\s+', r' ', p)
-                    p = re.sub(r'\r+', r' ', p)
-                    scenetext = scenetext + "\n\n" + p
-            rendered = TheRenderer.render(MistletoeDocument(scenetext))
+            for ptext in split:
+                ptext = ptext.strip()
+                if ptext:
+                    ptext = re.sub(r'\s+', r' ', ptext)
+                    ptext = re.sub(r'\r+', r' ', ptext)
+                    html_tree = markdown.markdown(ptext)
+                    print(html_tree)
+                    htmldocx.add_html(pgraph, html_tree)
+                    # scenetext = scenetext + "\n\n" + p
+            # rendered = TheRenderer.render(MistletoeDocument(scenetext))
     else:
         print("ERROR: can't find scene file: " + scenefile)
         return 0
@@ -327,7 +334,7 @@ def write(outputfile):
 
             # create the one document
             theDocument  = Document()
-            TheRenderer.Verbose = False
+            TheRenderer.Verbose = True
             TheRenderer.TheDocument = theDocument
 
             # construct the document
