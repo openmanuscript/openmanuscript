@@ -21,7 +21,8 @@ examples below.
 
 This script creates a `.docx` file from an `openmanuscript` database. It is
 currently under development, and does not support all features. This is built on
-top of `mistletoe` and `python-dox`.
+top of `python-dox` and an adapted snippet of html tree parsing code shared in the
+comments of that project.
 
 ### Known issues
 
