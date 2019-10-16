@@ -13,7 +13,7 @@ Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 
 ## Introduction
 
-This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for creating manuscripts. 
+This is a specification for OpenManuscript v1.0, a database for an ASCII text-based workflow for writing fiction, managing drafts, and creating [fiction manuscripts](https://www.shunn.net/format/story.html).
 
 By using OpenManuscript-based workflows, the writer can create a workflow that best supports a personal, intuitive and specific way of crafting novels. 
 Using the OpenManuscript format separates the data from the applications 
