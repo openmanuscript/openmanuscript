@@ -263,6 +263,6 @@ applications.
         Multiline comments can be included. They are ignored by any formatting,
         but could be captured and used by applications. 
 
-        [comment]: * (This is the comment, and it can be as many lines as
+        [comment]: # (This is the comment, and it can be as many lines as
         you'd like. It ends when the closing parenthesis is encountered.)
 ```

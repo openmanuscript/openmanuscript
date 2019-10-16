@@ -6,6 +6,13 @@ For more information about these tools, contact david@dhrogers.com.
 
 This is a set of tools that support `openmanuscript` workflows.
 
+## oms2docx (new)
+
+This script will become the standard OMS conversion script, with others being deprecated. This script creates a `.docx` file from an `openmanuscript` database. It is
+currently under development, and does not support all features. This is built on
+top of `python-dox` and an adapted snippet of html tree parsing code shared in the
+comments of that project.
+
 ## oms2rtf
 
 The `oms2rtf` script creates an `.rtf` file from an `openmanuscript` database. 
@@ -17,12 +24,7 @@ By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line. See
 examples below.
 
-## oms2docx
 
-This script creates a `.docx` file from an `openmanuscript` database. It is
-currently under development, and does not support all features. This is built on
-top of `python-dox` and an adapted snippet of html tree parsing code shared in the
-comments of that project.
 
 ### Known issues
 

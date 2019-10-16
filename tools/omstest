@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import os
-import oms
+import openms
 
 
 print("Kicking tires ...")
-oms.test.kick_tires()
+openms.test.kick_tires()
 
 # overall state
 msdir  = "../example"
@@ -16,19 +16,19 @@ afile  = "author.json"
 ofile = "omstest_manuscript.csv"
 print("Testing creation of manuscript csv file")
 print("    writing file: {}".format(ofile))
-oms.core.manuscript_to_csv(msdir, msfile, afile, ofile)
+openms.core.manuscript_to_csv(msdir, msfile, afile, ofile)
 
 # csv to manuscript 
 ofile   = "omstest_manuscript.json"
 csvfile = "../example/outline.csv"
 print("Testing creation of manuscript json from csv file")
 print("    writing file: {}".format(ofile))
-oms.core.csv_to_manuscript(csvfile, ofile)
+openms.core.csv_to_manuscript(csvfile, ofile)
 
 # export docx
 ofile  = "omstest_manuscript.docx"
 print("Running oms2docx")
-msfile = "simple.json"
+# msfile = "simple.json"
 os.system("./oms2docx --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes".format(msdir, msfile, afile, ofile))
 
 ofile = "omstest_manuscript.rtf"

@@ -5,7 +5,8 @@ import json
 import re
 import markdown
 
-import htmldocx
+# from oms.htmldocx import *
+from .htree import add_html
 
 import docx
 from docx import Document
@@ -15,9 +16,6 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.text import WD_LINE_SPACING
 from docx.enum.section import WD_SECTION
 from docx.oxml.shared import OxmlElement, qn
-
-from mistletoe import Document as MistletoeDocument
-from mistletoe.oms_renderer import OMSRenderer
 
 # -----------------------------------------------------------------------------
 # globals
@@ -36,8 +34,6 @@ PART_STATE = {
     "bold"   : False,
     "italic" : False
 }
-
-TheRenderer = None
 
 # the following three fuctions add page numbers, thanks to:
 # https://stackoverflow.com/questions/56658872/add-page-number-using-python-docx
@@ -198,7 +194,8 @@ def write_preamble(doc):
     font.size = Pt(int(core.settings["fontsize"]))
 
     # Styles
-    styleIndent = doc.styles.add_style('Indent', WD_STYLE_TYPE.PARAGRAPH)
+    # Body
+    styleIndent = doc.styles.add_style('Body', WD_STYLE_TYPE.PARAGRAPH)
     font      = styleIndent.font
     font.name = core.settings["font"]
     font.size = Pt(int(core.settings["fontsize"]))
@@ -212,14 +209,33 @@ def write_preamble(doc):
     pf.space_after   = SETTINGS["paragraph_after"] 
     pf.widow_control = True
 
+    # Heading1
+    for i in range(0, 3):
+        curstyle = doc.styles.add_style('Heading{}'.format(i), 
+                                            WD_STYLE_TYPE.PARAGRAPH)
+        font      = curstyle.font
+        font.name = core.settings["font"]
+        font.size = Pt(int(core.settings["fontsize"]))
+        font.bold = True
+        pf = curstyle.paragraph_format
+        pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+        pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        pf.first_line_indent = Inches(0.0)
+        pf.space_before  = SETTINGS["paragraph_before"] 
+        pf.space_after   = SETTINGS["paragraph_after"] 
+        pf.widow_control = True
+
 def write_postamble(doc):
-    print("WORD: write_postamble (no-op)")
+    # print("WORD: write_postamble (no-op)")
+    return
 
 def write_docinfo(doc):
-    print("WORD: write_docinfo (no-op)")
+    # print("WORD: write_docinfo (no-op)")
+    return
 
-def write_chaptersummary(doc, chapter, chapnum, chaptype):
-    print("WORD: write_chaptersummary (no-op)")
+def write_chaptersummary(doc, chapter, chapnum, chaptype=None):
+    # print("WORD: write_chaptersummary (no-op)")
+    return
 
 # -----------------------------------------------------------------------------
 # write a scene separator
@@ -241,13 +257,10 @@ def write_scene_separator(doc, scene):
 # write a single scene
 # -----------------------------------------------------------------------------
 def write_scene(doc, scene):
-    global TheRenderer
-
     scenefile = core.get_scenefile(scene)
     if os.path.isfile(scenefile):
         pgraph = doc.add_paragraph()
-        pgraph.style = 'Indent'
-        TheRenderer.TheParagraph = pgraph
+        pgraph.style = 'Body'
 
         # read and clean up the input data - mostly newlines and spaces
         with open(scenefile, "r") as s_file:
@@ -264,9 +277,8 @@ def write_scene(doc, scene):
                     ptext = re.sub(r'\s+', r' ', ptext)
                     ptext = re.sub(r'\r+', r' ', ptext)
                     html_tree = markdown.markdown(ptext)
-                    htmldocx.add_html(pgraph, html_tree)
-                    # scenetext = scenetext + "\n\n" + p
-            # rendered = TheRenderer.render(MistletoeDocument(scenetext))
+                    add_html(pgraph, html_tree)
+
     else:
         print("ERROR: can't find scene file: " + scenefile)
         return 0
@@ -294,6 +306,7 @@ def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
     # write content
     first = True
     for scene in chapter["scenes"]:
+        # print("OMS: processing {}".format(scene))
         if not first:
             write_scene_separator(doc, scene)
         else:
@@ -312,44 +325,40 @@ def write_chapters(doc, manuscript):
             if core.is_prologue(chapter) or core.is_epilogue(chapter):
                 chaptype = chapter["type"].upper()
                 if core.settings["chaptersummary"]:
-                    write_chaptersummary(f, chapter, chapnum, chaptype)
+                    write_chaptersummary(doc, chapter, chapnum, chaptype)
                 else:
                     write_chapter(doc, chapter, chapnum, chaptype)
             else:
                 if core.settings["chaptersummary"]:
-                    write_chaptersummary(f, chapter, chapnum)
+                    write_chaptersummary(doc, chapter, chapnum)
                 else:
                     write_chapter(doc, chapter, chapnum)
                 chapnum += 1
 
 
 def write(outputfile):
-    global TheRenderer
 
     # create the renderer, and get started
-    with OMSRenderer() as TheRenderer: 
-        with open( outputfile, "w") as f:
-            success = True
+    with open( outputfile, "w") as f:
+        success = True
 
-            # create the one document
-            theDocument  = Document()
-            TheRenderer.Verbose = True
-            TheRenderer.TheDocument = theDocument
+        # create the one document
+        theDocument  = Document()
 
-            # construct the document
-            write_preamble(theDocument)
-            write_docinfo(theDocument)
-            # write_headers(theDocument)
-            write_title(theDocument)
-            add_section(theDocument, WD_SECTION.CONTINUOUS)
-            # debug_sections(theDocument)
-            write_chapters(theDocument, core.manuscript)
-            write_postamble(theDocument)
+        # construct the document
+        write_preamble(theDocument)
+        write_docinfo(theDocument)
+        # write_headers(theDocument)
+        write_title(theDocument)
+        add_section(theDocument, WD_SECTION.CONTINUOUS)
+        # debug_sections(theDocument)
+        write_chapters(theDocument, core.manuscript)
+        write_postamble(theDocument)
 
-            theDocument.save(outputfile)
+        theDocument.save(outputfile)
 
-            if (success == True):
-                print("wrote file: " + core.settings["outputfile"])
+        if (success == True):
+            print("wrote file: " + core.settings["outputfile"])
 
 
 

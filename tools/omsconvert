@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import argparse
 import configparser
-import oms
+import openms
 
 
 # ---------------------------------------------------------------------------
@@ -73,23 +73,20 @@ parser.add_argument( "--csvfile", default="outline.csv",
 parser.add_argument( "--outputfile", default="manuscript.json", 
                         help="write output to this file")
 
-parser.add_argument( "--outformat", choices=["json","csv","docx"], dest="format", 
+parser.add_argument( "--outformat", choices=["json","csv"], 
+                        dest="format", 
                         default="ms",
                         help="format for output")
 
 parser.add_argument( "--version", action="version", 
-                        version=str(oms.core.get_version()) ) 
+                        version=str(openms.core.get_version()) ) 
 
 args = parser.parse_args(remaining_argv)
 
 if (args.outformat == "json"): 
-    oms.csv_to_manuscript( args.csvfile, args.outputfile )
+    openms.csv_to_manuscript( args.csvfile, args.outputfile )
 
 elif (args.outformat == "csv"):
-    oms.manuscript_to_csv( args.manuscriptdir,  args.manuscriptfile,
+    openms.manuscript_to_csv( args.manuscriptdir,  args.manuscriptfile,
                            args.authorfile, args.outputfile)
-
-elif (args.outformat == "docx"):
-    oms.docx.write_docx( args.manuscriptdir,  args.manuscriptfile,
-                        args.authorfile, args.outputfile)
 
