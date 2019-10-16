@@ -12,7 +12,7 @@ setuptools.setup(
     long_description="This tool utilizes the data definition for the OpenManuscript project and implements a set of creation capabilities for the OpenManuscript format.", 
     long_description_content_type="text/markdown",
     url="https://github.com/openmanuscript/openmanuscript",
-    packages=["openms", "openms.htree"],
+    packages=["openms", "openms.html"],
     scripts=["oms2docx", "oms2rtf", "omsconvert", "oms2outline", "oms2parts"],
     classifiers=[
         "Programming Language :: Python :: 3",

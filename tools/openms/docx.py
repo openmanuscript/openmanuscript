@@ -6,7 +6,7 @@ import re
 import markdown
 
 # from oms.htmldocx import *
-from .htree import add_html
+from .html import add_html
 
 import docx
 from docx import Document
