@@ -26,9 +26,12 @@ tools, and writers can adopt them without any data conversion, or loss of work.
 
 The advantages of the OpenManuscript format are many:
 
-- OpenManuscript is an open standard, and we are developing a community of
-  support around it. Over time, this community will grow to support and include
-  many tools and workflows.
+- OpenManuscript is an open standard, using only common text-based file formats.
+  We are developing a community of support around it. Over time, this community 
+  will grow to support and include many tools and workflows.
+  - Currenly, only JSON and Markdown files are needed. We use
+    [Gruber's](https://daringfireball.net/projects/markdown/) specification of
+    markdown.
 - OpenManuscript invites innovation and expansion, because it is an open
   standard. Developers across the world are encouraged to add extensions,
   applications and editors of all types to this community.
