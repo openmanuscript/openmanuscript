@@ -79,7 +79,7 @@ parser.add_argument( "--manuscriptdir", default=".",
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
     help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
-parser.add_argument( "--outputfile", default="manuscript.rtf", 
+parser.add_argument( "--outputfile", default="manuscript.docx", 
     help="write output to this file")
 parser.add_argument( "--quote", action="store_true", default=False, 
     help="if there is a quote, include it at the beginning")

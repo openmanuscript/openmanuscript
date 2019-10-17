@@ -1,0 +1,22 @@
+{
+"version" : "1.0",
+"manuscript" : {
+    "title" : "OpenManuscript Template",
+    "runningtitle" : "template",
+    "chapters" : [
+        {
+            "desc"    : "The first chapter", 
+            "pov"     : "Bill", 
+            "scenes"  : ["001", "002", "003"], 
+            "setting" : "The cabin",
+            "story"   : "We are introduced to the main character",
+            "tags"    : ["final"], 
+            "title"   : "The Big Beginning", 
+            "tod"     : "night" 
+        },
+        {
+            "scenes"  : ["anything"]
+        }
+    ]
+}
+}

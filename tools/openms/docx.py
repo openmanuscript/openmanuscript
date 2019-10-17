@@ -162,9 +162,12 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
         pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
         pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
+    chaptername = ""
+    if "title" in chapter:
+        chaptername = chapter["title"]
+
     if (chaptype == "CHAPTER"):
         allcaps_title = chapnum
-        chaptername   = chapter["title"]
     else:
         allcaps_title = chaptype
         chaptername   = ""
