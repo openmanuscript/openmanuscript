@@ -123,7 +123,7 @@ def write_title(document):
     pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
-    for i in range(0, 9):
+    for i in range(7):
         document.add_paragraph()
 
     p = document.add_paragraph()
@@ -210,7 +210,7 @@ def write_preamble(doc):
     pf.widow_control = True
 
     # Heading1
-    for i in range(0, 3):
+    for i in range(10):
         curstyle = doc.styles.add_style('Heading{}'.format(i), 
                                             WD_STYLE_TYPE.PARAGRAPH)
         font      = curstyle.font
