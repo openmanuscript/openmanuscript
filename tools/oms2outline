@@ -35,7 +35,7 @@ import argparse
 import configparser
 import os
 import openms
-import openms.html.html as html
+import openms.outline
 
 
 # ---------------------------------------------------------------------------
@@ -140,4 +140,4 @@ if not os.path.isfile( openms.core.get_manuscriptfile() ):
 openms.core.read_data()
 
 # write
-html.write_outline()
+openms.outline.write_outline()
