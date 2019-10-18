@@ -5,7 +5,6 @@ import json
 import re
 import markdown
 
-# from oms.htmldocx import *
 from .html import add_html
 
 import docx
