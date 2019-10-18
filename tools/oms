@@ -140,12 +140,18 @@ if not os.path.isfile( openms.core.get_manuscriptfile() ):
 # do everything
 # At the moment, this tool only provides feedback on command line options
 
-if (openms.core.get_output_type() == "docx"):
-    # read
+output_type = openms.core.get_output_type()
+
+if (output_type == "docx"):
     openms.core.read_data()
-    # write
     openms.docx.write( args.outputfile )
 
+elif (output_type == "rtf"):
+    openms.core.read_data()
+    openms.rtf.write( args.outputfile )
 
+else:
+    print("ERROR: cannot write output file of type \'{}\'".format(output_type))
+    exit(1)
 
 

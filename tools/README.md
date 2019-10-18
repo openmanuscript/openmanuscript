@@ -6,15 +6,14 @@ For more information about these tools, contact david@dhrogers.com.
 
 This is a set of tools that support `openmanuscript` workflows.
 
-## oms2docx (new)
+## oms (new)
 
 This script will become the standard OMS conversion script, with others being deprecated. Features will be added to this script to support all aspects of the OpenManuscript format.
 
-This is built on
-top of `python-dox` and an adapted snippet of html tree parsing code shared in the
-comments of that project.
+The script looks at the type of the output file requested, and attempts to write out that type of file. The script will report on failure (if it can't write out that type of file).
 
-## oms2rtf
+
+## oms2rtf (legacy)
 
 Previously the workhorse of the OpenManuscript scripts, the `oms2rtf` script is being depricated. It creates an `.rtf` file from an `openmanuscript` database. 
 To create a *Microsoft Word* document, open the `.rtf` file in *Microsoft Word*,
