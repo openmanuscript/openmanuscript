@@ -13,7 +13,11 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/openmanuscript/openmanuscript",
     packages=["openms", "openms.html"],
-    scripts=["oms", "oms2docx", "oms2rtf", "omsconvert", "oms2outline", "oms2parts"],
+    scripts=["oms", "omsconvert", "oms2outline", "oms2parts"],
+    install_requires=[
+        "markdown",
+        "python-docx"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: BSD",

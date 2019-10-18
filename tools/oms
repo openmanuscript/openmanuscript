@@ -93,6 +93,8 @@ parser.add_argument( "--synopsisfile", default="synopsis.md",
     help="read synopsis from this file")
 parser.add_argument( "--tags", nargs='+', type=str,
     help="add chapter tags that are considered 'on'")
+parser.add_argument( "--types", action="store_true", default=False,
+    help="report the output data types supported")
 parser.add_argument( "--version", action="version", 
                         version=str(openms.core.get_version()) ) 
 parser.add_argument( "--underline", action="store_true", default=False, 
@@ -126,6 +128,10 @@ openms.core.set("underline", args.underline)
 
 if args.specversion:
     print(openms.core.get_spec_version())
+    exit(0)
+
+if args.types:
+    print("docx rtf")
     exit(0)
 
 # check existence of the files we will need
