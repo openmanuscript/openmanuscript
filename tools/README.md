@@ -8,14 +8,15 @@ This is a set of tools that support `openmanuscript` workflows.
 
 ## oms2docx (new)
 
-This script will become the standard OMS conversion script, with others being deprecated. This script creates a `.docx` file from an `openmanuscript` database. It is
-currently under development, and does not support all features. This is built on
+This script will become the standard OMS conversion script, with others being deprecated. Features will be added to this script to support all aspects of the OpenManuscript format.
+
+This is built on
 top of `python-dox` and an adapted snippet of html tree parsing code shared in the
 comments of that project.
 
 ## oms2rtf
 
-The `oms2rtf` script creates an `.rtf` file from an `openmanuscript` database. 
+Previously the workhorse of the OpenManuscript scripts, the `oms2rtf` script is being depricated. It creates an `.rtf` file from an `openmanuscript` database. 
 To create a *Microsoft Word* document, open the `.rtf` file in *Microsoft Word*,
 and then *Save As...* a `.docx` file. This conversion will change the inter-word
 spacing of the document, but will otherwise not change anything.
@@ -48,26 +49,19 @@ The following commands use the `example/` directory from this repository, and as
 that you have installed the tool, per instructions above, and are starting from 
 within the `tools/` directory. 
 
-The following command uses all default settings, and will create a file named `manuscript.rtf`. 
+The following command uses all default settings, and will create a file named `manuscript.docx`. 
 This is run within the `example` directory.
 
 ```
-    cd ../example
-    oms2rtf
-```
-
-This command creates the manuscript, but this time enables the `footnotes`
-option, so that footnotes are printed as needed at the bottom of the page.
-```
-    cd ../example
-    oms2rtf --footnotes
+cd ../example
+oms2docx
 ```
 
 This command shows how to use several command line options to override defaults.
 
 ```
-    cd ../example
-    oms2rtf --authorfile a.json --manuscriptfile m.json --outputfile m.rtf
+cd ../example
+oms2docx --authorfile a.json --manuscriptfile m.json --outputfile m.docx
 ```
 
 This command is run from the `tools` directory, and shows an example in which
@@ -75,15 +69,15 @@ This command is run from the `tools` directory, and shows an example in which
 be written in the `tools` directory.
 
 ```
-    oms2rtf --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
+oms2docx --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
 ```
 
-Finally, this command will create the `manuscript.rtf` file at a specific
+Finally, this command will create the `manuscript.docx` file at a specific
 location, per the `--outputfile` argument. In this case, it will create the file
 in the user's home directory.
 
 ```
-    oms2rtf --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.rtf
+oms2docx --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
 ```
 
 
