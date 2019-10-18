@@ -4,8 +4,8 @@ import csv
 import re
 
 __oms = {
-    "toolversion" : "1.0",
-    "specversion" : "1.0"
+    "toolversion" : "1.1",
+    "specversion" : "1.1"
 }
 
 settings = {
@@ -90,6 +90,10 @@ def get_scenefile( scene ):
     scene = clean_scene_filename(scene)
     return os.path.join( settings["manuscriptdir"], "scenes", scene)
 
+def get_output_type():
+    name, ext = os.path.splitext(settings["outputfile"])
+    ext, numtimes = re.subn(r'^.', r'', ext)
+    return ext
 # ---------------------------------------------------------------------------
 # clean scene filename 
 #
