@@ -20,8 +20,6 @@ that edit, display or print it, which is a very powerful mechanism for invention
 
 A writer can use a variety of tools instead of being locked into using a specific one. Software developers can create new tools, and writers can adopt them without any data conversion, or loss of work.
 
-The bigger the community, the better it is for all of us!
-
 ## Advantages of OpenManuscript
 
 The advantages of the OpenManuscript format are many:
@@ -34,6 +32,7 @@ The advantages of the OpenManuscript format are many:
 - The author can use favorite tools for editing text, **markdown** and **JSON** files.
 - Because the basic unit of writing in OpenManuscript is the **scene**, an author can easily try and compare different chapter/scene oders, combinations and versions with minimal effort. This is a huge advantage over writing workflows based on, for example, Microsoft Word, which allows no such flexibility.
 
+The bigger the community, the better it is for all of us!
 
 ## The Overall Workflow for OpenManuscript
 <p align="center">
