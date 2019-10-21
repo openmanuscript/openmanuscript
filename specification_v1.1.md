@@ -182,6 +182,7 @@ Scenes are included in the order that they appear in the scene list.
         "scenes"  : Array.of(String),
         "setting" : String, 
         "story"   : String, 
+        "summary" : String, 
         "tags"    : Array.of(Strong) 
         "title"   : String, 
         "tod"     : String
