@@ -156,20 +156,22 @@ A chapter is a collection of scene files, with additional optional metadata.
 Chapters are numbered automatically based on their order in the file.
 Scenes are included in the order that they appear in the scene list.
 
-- **desc**  A short description of the chapter, to be used in outlines.
-- **pov**   Point of view of the chapter. Any string is valid.
-- **scenes** An array of scene names. These are expected to be present in the
-  `scenes` directory, but this is not strictly required by the specification. 
-- **setting** The setting of the scene. Any string is valid.
-- **story** A description of the story points in a scene. This is used for 
-   notes to the author, and is not included in the outline.
-- **tags** An array of strings used to define collections of chapters.
-- **title** The title of the chapter.
-- **tod** Time of day. Any string is valid.
-- **summary** A scene file that is a summary of the chapter. Expected to be in
-  the `scenes` directory.
-- Other valid `JSON` data may be present, but is not part of this    
-  specification.
+- **required tags** These must be present.
+  - **scenes** An array of scene names. These are expected to be present in the
+    `scenes` directory, but this is not strictly required by the specification. 
+- **optional tags** These are defined by the specification, but need not be present.
+  - **desc**  A short description of the chapter, to be used in outlines.
+  - **pov**   Point of view of the chapter. Any string is valid.
+  - **setting** The setting of the scene. Any string is valid.
+  - **story** A description of the story points in a scene. This is used for 
+  - **summary** A scene file that is a summary of the chapter. Expected to be in
+    the `scenes` directory.
+    notes to the author, and is not included in the outline.
+  - **tags** An array of strings used to define collections of chapters.
+  - **title** The title of the chapter.
+  - **tod** Time of day. Any string is valid.
+  - Other valid `JSON` data may be present, but is not part of this    
+    specification.
 
 ```
     CHAPTER specification
