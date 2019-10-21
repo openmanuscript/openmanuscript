@@ -87,7 +87,7 @@ The content of the value for each key is not examined for correctness - each is 
     EXAMPLE of author file
 
     {
-    "version" : "1.0",
+    "version" : "1.1",
     "author" : {
         "name"      : "Ima Q. Writer",
         "surname"   : "Writer",
@@ -129,7 +129,7 @@ scenes.
 
     EXAMPLE
     {
-    "version" : "1.0",
+    "version" : "1.1",
     "manuscript" : {
         "title" : "Finding the Story: A Novel",
         "runningtitle" : "finding",
