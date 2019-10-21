@@ -28,11 +28,8 @@ The advantages of the OpenManuscript format are many:
   - Currenly, only **JSON** and **Markdown** files are needed. We use
     [Gruber's](https://daringfireball.net/projects/markdown/) specification of
     markdown.
-- As an open source specification and toolset, OpenManuscrip invites contributions from around the world.
 - The author can use favorite tools for editing text, **markdown** and **JSON** files.
-- Because the basic unit of writing in OpenManuscript is the **scene**, an author can easily try and compare different chapter/scene oders, combinations and versions with minimal effort. This is a huge advantage over writing workflows based on, for example, Microsoft Word, which allows no such flexibility.
-
-The bigger the community, the better it is for all of us!
+- Build a manuscript from scenes and chapters. The basic unit of writing in OpenManuscript is the **scene**, so an author can easily compare different chapter/scene oders, combinations and versions with minimal effort. This is a huge advantage over writing workflows based on, for example, Microsoft Word.
 
 ## The Overall Workflow for OpenManuscript
 <p align="center">
