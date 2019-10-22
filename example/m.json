@@ -13,8 +13,8 @@
             "scenes" : ["This_name", "look01", "chapter_i_hate"]
         },
         {
-            "title"  : "Quotes and Footnotes",
-            "scenes" : ["footnotes", "quotes"]
+            "title"  : "Quotes",
+            "scenes" : ["quotes"]
         }
     ]
 }

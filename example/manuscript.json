@@ -45,11 +45,11 @@
             "scenes"  : ["comments"]
         },
         {
-            "title"   : "Quotes and Footnotes",
+            "title"   : "End",
             "pov"     : "Saturn",
             "setting" : "Saturn's front yard.",
             "desc"    : "This is the final scene",
-            "scenes"  : ["footnotes", "end"]
+            "scenes"  : ["end"]
         }
     ]
 }
