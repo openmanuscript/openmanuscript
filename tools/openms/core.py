@@ -4,6 +4,7 @@ import csv
 import re
 
 __oms = {
+    "name"        : "OpenManuscript",
     "toolversion" : "1.1",
     "specversion" : "1.1"
 }
@@ -48,6 +49,10 @@ def set_manuscriptfile( mfile ):
 def set_authorfile( afile ):
     global settings
     settings["authorfile"] = afile 
+
+def get_name():
+    global __oms
+    return __oms["name"]
 
 def get_version():
     return get_tool_version()

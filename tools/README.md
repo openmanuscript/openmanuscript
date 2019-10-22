@@ -42,7 +42,7 @@ pip install .
 ## Example
 
 The `example` directory contains a sample `openmanuscript` database, and two
-output files - `` and `` - that show the results of the `oms2rtf` workflow.
+output files - `` and `` - that show the results of the `oms` workflow.
 
 The following commands use the `example/` directory from this repository, and assume 
 that you have installed the tool, per instructions above, and are starting from 
@@ -53,22 +53,22 @@ This is run within the `example` directory.
 
 ```
 cd ../example
-oms2docx
+oms
 ```
 
 This command shows how to use several command line options to override defaults.
 
 ```
 cd ../example
-oms2docx --authorfile a.json --manuscriptfile m.json --outputfile m.docx
+oms --authorfile a.json --manuscriptfile m.json --outputfile m.docx
 ```
 
 This command is run from the `tools` directory, and shows an example in which
-`oms2rtf` runs using explicit paths. In this case, the `manuscript.rtf` file will
+`oms` runs using explicit paths. In this case, the `manuscript.rtf` file will
 be written in the `tools` directory.
 
 ```
-oms2docx --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
+oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
 ```
 
 Finally, this command will create the `manuscript.docx` file at a specific
@@ -76,7 +76,5 @@ location, per the `--outputfile` argument. In this case, it will create the file
 in the user's home directory.
 
 ```
-oms2docx --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
+oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
 ```
-
-

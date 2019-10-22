@@ -3,7 +3,9 @@ from . import core
 import os
 import json
 import re
-import markdown
+import commonmark
+import datetime
+import time
 
 from .html import add_html
 
@@ -232,7 +234,11 @@ def write_postamble(doc):
     return
 
 def write_docinfo(doc):
-    # print("WORD: write_docinfo (no-op)")
+    p = doc.core_properties
+    p.author   = core.author["name"]
+    p.created  = datetime.datetime.now()
+    p.title    = core.manuscript["title"]
+    p.comments = "created by {} v{}".format(core.get_name(), core.get_version())
     return
 
 def write_chaptersummary(doc, chapter, chapnum, chaptype=None):
@@ -278,7 +284,8 @@ def write_scene(doc, scene):
                 if ptext:
                     ptext = re.sub(r'\s+', r' ', ptext)
                     ptext = re.sub(r'\r+', r' ', ptext)
-                    html_tree = markdown.markdown(ptext)
+                    html_tree = commonmark.commonmark(ptext)
+                    # html_tree = markdown.markdown(ptext)
                     add_html(pgraph, html_tree)
 
     else:

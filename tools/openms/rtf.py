@@ -387,7 +387,6 @@ def handle_footnotes( data ):
 
         for note in inline:
             #  first, see if we have a paired footnote, and handle that
-            print("{}: is inline".format(note))
             if note in d_paired:
                 print("{}:{}".format(note, d_paired[note]))
                 # we sub the paired (bottom) part inline

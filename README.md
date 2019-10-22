@@ -44,11 +44,6 @@ a final manuscript, share it as a specific document type (Word, PDF, etc.) or
 publish it as a final product (ebook, etc.), the writer uses another tool to
 create that product.
 
-Using a text-based standard means
-the author needn't worry that the format will be unreadable down the road
-because the software you used outdated, no longer reads that version of the
-output, or is simply gone. 
-
 This repository includes a specification document, simple tools, and an example of the file format.
 
 Keep it simple.

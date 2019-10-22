@@ -2,11 +2,11 @@
 
 The Open Manuscript data specification is a set of files and directories
 contained within a single top level directory. All files are ASCII POSIX text
-files. 
+files, in either `json` or `markdown` format, as required in the specification.
 
 This specification defines the data that OpenManuscript expects and supports.
 Other files can appear in directories and subdirectories, and other data can
-appear in `JSON` files, but this data is ignored by the OpenManuscript
+appear in `json` files, but this data is ignored by the OpenManuscript
 specification. Thus, the file format can be extended by other applications.
 
 - **manuscript directory** (required). Top level directory. This is 
@@ -22,7 +22,7 @@ specification. Thus, the file format can be extended by other applications.
   them. The specification is below. Name of this file is not specified by this
   document. There must be at least one manuscript file.
 
-- **scenes/** (required). This is a directory containing scene files. There may 
+- **scenes/** (required). This is a directory containing ``scene`` files, which are required to be **markdown** format, per the specification below. There may 
   be unused scenes (scenes not noted in a `manuscript.json` file).
   
 ```
@@ -158,7 +158,8 @@ Scenes are included in the order that they appear in the scene list.
 
 - **required tags** These must be present.
   - **scenes** An array of scene names. These are expected to be present in the
-    `scenes` directory, but this is not strictly required by the specification. 
+    `scenes` directory, but applications are expected to react gracefully (report
+    the missing file, and not crash) if the files do not exist. 
 - **optional tags** These are defined by the specification, but need not be present.
   - **desc**  A short description of the chapter, to be used in outlines.
   - **pov**   Point of view of the chapter. Any string is valid.
@@ -189,83 +190,6 @@ Scenes are included in the order that they appear in the scene list.
     }
 ```
 **SCENE.MD file**
-A scene file is *required* to be a text-only file using a subset of
-markdown for any formatting (bold, italic, lists, footnotes or endnotes,
-etc.) The following markdown must be supported by any application that
-implements this specification. All other markdown is ignored by
-OpenManuscript-compliant applications, and can be handled by extensions or other
-applications. 
-
-- bold 
-
-```
-        Here is a bold word: **word** 
-```
-    
-- italic 
-
-```
-        Here is an italicized word: *word* 
-```
-
-- ordered lists
-
-```
-        1. first
-        2. second
-        3. third
-```
-
-- unordered lists
-
-```
-        - first
-        - second
-        - third
-```
-
-- footnote or endnote 
-
-```
-        This is a sentence, with a footnote[^ this is a footnote]
-        This is another sentence, with a footnote[^check]
-
-        [^check]:If you have a long note, you can put it in another place
-        in the document, like maybe at the bottom of the doc. Any application
-        that reads, writes or displays OpenManuscript format handles this.
-```
-
-- links
-
-```
-        [Here is a link.](http://www.link.com)
-        [Here's another way of doing it.][1]
-        And one more [way to do it].
-        And one that you can parse [yourself].
-
-        [1]: http://something.com
-        [way to do it]: http://another_something.com
-        [yourself]: This can contain anything, and you can do ... anything 
-```
-
-- horizontal rule 
-```
-        Applications can implement whatever formatting they'd like, but
-        the following sequences of characters are to be recognized
-        as a horizontal rule. Typically this is used as a shorthand
-        to create a scene separator, but the formatting of this is left to
-        the application.
-
-        ***
-        ---
-        ###
-```
-
-- comments 
-```
-        Multiline comments can be included. They are ignored by any formatting,
-        but could be captured and used by applications. 
-
-        [comment]: # (This is the comment, and it can be as many lines as
-        you'd like. It ends when the closing parenthesis is encountered.)
-```
+A scene file is required to be a ``markdown`` file, utilizing the
+[commonmark](https://spec.commonmark.org) specification, 
+and the [commonmark parser](https://github.com/readthedocs/commonmark.py) (in its simplest form, the file is just a text file, with no markup).
