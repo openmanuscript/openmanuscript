@@ -294,9 +294,10 @@ def write_scene(doc, scene):
 #   for now, this removes them 
 # -----------------------------------------------------------------------------
 def handle_footnotes( data ):
-    data = re.sub('\[\^(.+?)\][^\:]', ' ', data, re.MULTILINE)
+    data = re.sub('\[\^(.+?)\]\:', ' ', data, re.MULTILINE)
     data = re.sub('\[\^(.+?)\]\:(.+)(?:\s+[^\[]|$)', ' ', data, flags=re.DOTALL|re.MULTILINE)
-    data  = re.sub('\[\^(.+?)\]\:(.+)', ' ', data)
+    data = re.sub('\[\^(.+?)\]\:(.+)', ' ', data)
+    data = re.sub('\[\^(.+?)\]', '', data)
     return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
