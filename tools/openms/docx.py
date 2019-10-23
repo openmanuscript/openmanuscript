@@ -254,11 +254,17 @@ def write_scene_separator(doc, scene):
     if core.settings["filescenesep"]:
         separator = scene
 
+    for i in range(1):
+        doc.add_paragraph()
+
     p = doc.add_paragraph()
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
     pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
     run = p.add_run(separator)
+
+    for i in range(1):
+        doc.add_paragraph()
 
 
 # -----------------------------------------------------------------------------
@@ -275,18 +281,9 @@ def write_scene(doc, scene):
             scenetext = s_file.read()
             scenetext = scenetext.strip()
             scenetext = handle_footnotes(scenetext)
-            scenetext = handle_comments(scenetext)
-            split = scenetext.split("\n\n")
-            scenetext = ""
-            # clean up the paragraphs, then stitch them back together
-            for ptext in split:
-                ptext = ptext.strip()
-                if ptext:
-                    ptext = re.sub(r'\s+', r' ', ptext)
-                    ptext = re.sub(r'\r+', r' ', ptext)
-                    html_tree = commonmark.commonmark(ptext)
-                    # html_tree = markdown.markdown(ptext)
-                    add_html(pgraph, html_tree)
+            if scenetext:
+                html_tree = commonmark.commonmark(scenetext)
+                add_html(pgraph, html_tree)
 
     else:
         print("ERROR: can't find scene file: " + scenefile)
@@ -300,13 +297,6 @@ def handle_footnotes( data ):
     data = re.sub('\[\^(.+?)\][^\:]', ' ', data, re.MULTILINE)
     data = re.sub('\[\^(.+?)\]\:(.+)(?:\s+[^\[]|$)', ' ', data, flags=re.DOTALL|re.MULTILINE)
     data  = re.sub('\[\^(.+?)\]\:(.+)', ' ', data)
-    return data
-
-# -----------------------------------------------------------------------------
-# remove comments 
-# -----------------------------------------------------------------------------
-def handle_comments( data ):
-    data  = re.sub('\[comment\]\:\s+#\s+\([^\)]*\)', '', data, re.DOTALL)
     return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):

@@ -13,12 +13,10 @@ Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 
 ## Introduction
 
-This is a specification for OpenManuscript v1.1, a database for an ASCII text-based workflow for writing fiction, managing drafts, and creating [fiction manuscripts](https://www.shunn.net/format/story.html).
+This is a specification for OpenManuscript, an ASCII text-based workflow for writing fiction, managing drafts, and creating [fiction manuscripts](https://www.shunn.net/format/story.html).
 
-The OpenManuscript format separates the data from the applications 
-that edit, display or print it, which is a very powerful mechanism for invention
-
-A writer can use a variety of tools instead of being locked into using a specific one. Software developers can create new tools, and writers can adopt them without any data conversion, or loss of work.
+The OpenManuscript format separates data from the applications that edit,
+display or print it, which is a very powerful mechanism for invention.
 
 ## Advantages of OpenManuscript
 
@@ -28,9 +26,14 @@ The advantages of the OpenManuscript format are many:
   - Currenly, only **JSON** and **Markdown** files are needed. We use
     [Gruber's](https://daringfireball.net/projects/markdown/) specification of
     markdown.
-- The author can use favorite tools for editing text, **markdown** and **JSON** files.
-- Build a manuscript from scenes and chapters. 
-  - The basic unit of writing in OpenManuscript is the **scene**, so an author can easily compare different chapter/scene oders, combinations and versions with minimal effort. This is a huge advantage over writing workflows based on, for example, Microsoft Word.
+- The author can use favorite tools for editing text, **markdown** and **JSON**
+  files.
+- The author can build a manuscript from scenes and chapters, in a way that
+  works for that author.
+  - The basic unit of writing in OpenManuscript is the **scene**, so an author
+    can easily compare different chapter/scene orders, combinations and versions 
+    with minimal effort. This is a huge advantage over writing workflows based on, 
+    for example, Microsoft Word.
 
 ## The Overall Workflow for OpenManuscript
 <p align="center">

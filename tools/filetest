@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+import commonmark
+
+scenes = [
+            "../example/scenes/comments.md",
+            "../example/scenes/lists.md"
+         ]
+
+for s in scenes:
+    print("<p><strong>File:</strong> {}</p>".format(s))
+    with open(s, "r") as s_file:
+        scenetext = s_file.read()
+        html_tree = commonmark.commonmark(scenetext)
+        print(html_tree)

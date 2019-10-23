@@ -1,11 +1,13 @@
 from .tag import TagDispatcher, replace_whitespaces
 
-_list_style = dict(
-    ol='List Number',
-    ul='List Bullet'
-)
+_list_style = {
+    'ol': 'List Number',
+    'ul': 'List Bullet'
+}
 
 class ListItemDispatcher(TagDispatcher):
+    list_type = "List Number" 
+
     def __init__(self):
         super(ListItemDispatcher, self).__init__()
 
@@ -28,8 +30,12 @@ class ListItemDispatcher(TagDispatcher):
         text = replace_whitespaces(text)
         text = '' if text == ' ' else text
 
-        container.style = _list_style.get(element.getparent().tag, 
-                                            'List Bullet')
+        if (element.getparent().tag == "ul"):
+            ListItemDispatcher.list_type = "List Bullet" 
+        elif (element.getparent().tag == "ol"):
+            ListItemDispatcher.list_type = "List Number" 
+
+        container.style = ListItemDispatcher.list_type
         container.add_run(text)
 
         return container
