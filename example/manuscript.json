@@ -45,11 +45,11 @@
             "scenes"  : ["comments"]
         },
         {
-            "title"   : "Footnotes",
+            "title"   : "Notes",
             "pov"     : "Saturn",
             "setting" : "Saturn's front yard.",
             "desc"    : "See? The previous one was missing.",
-            "scenes"  : ["footnotes"]
+            "scenes"  : ["notes"]
         },
         {
             "title"   : "End",
