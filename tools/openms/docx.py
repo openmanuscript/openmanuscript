@@ -3,7 +3,10 @@ from . import core
 import os
 import json
 import re
-import commonmark
+# import commonmark
+import markdown
+# from marko import Markdown
+# from marko.ext.footnote import FootnoteExtension
 import datetime
 import time
 
@@ -214,9 +217,8 @@ def write_preamble(doc):
     pf.widow_control = True
 
     # Heading1
-    for i in range(10):
-        curstyle = doc.styles.add_style('Heading{}'.format(i), 
-                                            WD_STYLE_TYPE.PARAGRAPH)
+    for i in range(1, 10):
+        curstyle  = doc.styles.add_style('Heading{}'.format(i), WD_STYLE_TYPE.PARAGRAPH)
         font      = curstyle.font
         font.name = core.settings["font"]
         font.size = Pt(int(core.settings["fontsize"]))
@@ -228,6 +230,12 @@ def write_preamble(doc):
         pf.space_before  = SETTINGS["paragraph_before"] 
         pf.space_after   = SETTINGS["paragraph_after"] 
         pf.widow_control = True
+
+    # List items
+    style     = doc.styles['List Bullet']
+    style.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    style     = doc.styles['List Number']
+    style.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
 
 def write_postamble(doc):
     # print("WORD: write_postamble (no-op)")
@@ -244,6 +252,13 @@ def write_docinfo(doc):
 def write_chaptersummary(doc, chapter, chapnum, chaptype=None):
     # print("WORD: write_chaptersummary (no-op)")
     return
+
+# -----------------------------------------------------------------------------
+# remove comments 
+# -----------------------------------------------------------------------------
+def remove_comments( data ):
+    data  = re.sub('\[comment\]\:\s*\#\s*\([^\)]*\)', '', data, re.DOTALL)
+    return data
 
 # -----------------------------------------------------------------------------
 # write a scene separator
@@ -280,9 +295,17 @@ def write_scene(doc, scene):
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
             scenetext = scenetext.strip()
-            scenetext = handle_footnotes(scenetext)
+            scenetext = remove_comments(scenetext)
+
+            if not core.settings["footnotes"]:
+                scenetext = remove_footnotes(scenetext)
+
             if scenetext:
-                html_tree = commonmark.commonmark(scenetext)
+                # html_tree = commonmark.commonmark(scenetext)
+                html_tree = markdown.markdown(scenetext, extensions=['footnotes'])
+                # markdown = Markdown(extensions=[FootnoteExtension])
+                # html_tree = markdown.convert(scenetext)
+                # print(html_tree)
                 add_html(pgraph, html_tree)
 
     else:
@@ -290,14 +313,13 @@ def write_scene(doc, scene):
         return 0
 
 # -----------------------------------------------------------------------------
-# handle footnotes
-#   for now, this removes them 
+# remove footnotes
 # -----------------------------------------------------------------------------
-def handle_footnotes( data ):
-    data = re.sub('\[\^(.+?)\]\:', ' ', data, re.MULTILINE)
-    data = re.sub('\[\^(.+?)\]\:(.+)(?:\s+[^\[]|$)', ' ', data, flags=re.DOTALL|re.MULTILINE)
-    data = re.sub('\[\^(.+?)\]\:(.+)', ' ', data)
-    data = re.sub('\[\^(.+?)\]', '', data)
+def remove_footnotes( data ):
+    data = re.sub(r'\[\^.+\]\: .+\n\n', ' ', data)
+    data = re.sub(r'\[\^.+\]\: .+\n$', ' ', data)
+    data = re.sub(r'\[\^.+\]\: [^\n]*$', ' ', data)
+    data = re.sub(r'\[\^.+\]', '', data)
     return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):

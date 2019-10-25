@@ -12,6 +12,8 @@ from .link import LinkDispatcher
 from .list_item import ListItemDispatcher
 from .paragraph import ParagraphDispatcher
 from .strong import StrongDispatcher 
+from .rule import HorizontalRuleDispatcher 
+from .div import DivDispatcher 
 
 def get_tag_dispatcher(html_tag):
     """
@@ -25,6 +27,8 @@ def get_tag_dispatcher(html_tag):
 heading_dispatcher = HeadingDispatcher()
 
 _dispatch_html = dict(
+    div=DivDispatcher(),
+    hr=HorizontalRuleDispatcher(),
     p=ParagraphDispatcher(),
     a=LinkDispatcher(),
     li=ListItemDispatcher(),
