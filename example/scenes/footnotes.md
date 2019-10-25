@@ -9,5 +9,14 @@ himenaeos. Curabitur sodales ligula in libero.
 
 [^this]: Here is the first real footnote
 
-[^that]: Here is the second real note
+[^that]:
+    Here is the second real note.
+    Here is the second real note.
+    Here is the second real note.
+    Here is the second real note.
+    Here is the second real note.
+
+    Here is the second real note.
+
+This test is a paragraph
 
