@@ -15,6 +15,8 @@ setuptools.setup(
     packages=["openms", "openms.html"],
     scripts=["oms"],
     install_requires=[
+        "marko",
+        "commonmark",
         "markdown",
         "python-docx"
     ],

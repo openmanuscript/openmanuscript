@@ -4,9 +4,9 @@ import os
 import json
 import re
 import commonmark
-import markdown
-# from marko import Markdown
-# from marko.ext.footnote import FootnoteExtension
+import markdown as MDown
+from marko import Markdown
+from marko.ext.footnote import FootnoteExtension
 import datetime
 import time
 
@@ -31,7 +31,8 @@ MARGIN = {
 
 SETTINGS = {
     "paragraph_before" : 0,
-    "paragraph_after"  : 0
+    "paragraph_after"  : 0,
+    "mark_parser"      : "python-markdown"
 }
 
 PART_STATE = {
@@ -315,10 +316,18 @@ def write_scene(doc, scene):
             scenetext = handle_notes(scenetext, core.settings["notes"])
 
             if scenetext:
-                html_tree = commonmark.commonmark(scenetext)
-                # html_tree = markdown.markdown(scenetext, extensions=['footnotes'])
-                # markdown = Markdown(extensions=[FootnoteExtension])
-                # html_tree = markdown.convert(scenetext)
+                html_tree = ""
+                if (SETTINGS["mark_parser"] == "commonmark"):
+                    # commonmark
+                    html_tree = commonmark.commonmark(scenetext)
+                elif (SETTINGS["mark_parser"] == "python-markdown"):
+                    # python-markdown
+                    html_tree = MDown.markdown(scenetext, extensions=['footnotes'])
+                else:
+                    # marko
+                    markdown = Markdown(extensions=[FootnoteExtension])
+                    html_tree = markdown.convert(scenetext)
+
                 # print(html_tree)
                 add_html(pgraph, html_tree)
 
