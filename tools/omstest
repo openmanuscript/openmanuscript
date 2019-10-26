@@ -29,11 +29,11 @@ openms.core.manuscript_to_csv(msdir, msfile, afile, ofile)
 ofile  = "omstest_manuscript.docx"
 print("Running oms")
 # msfile = "simple.json"
-os.system("./oms --footnotes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes".format(msdir, msfile, afile, ofile))
+os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
 
 ofile = "omstest_manuscript.rtf"
 print("Running oms2rtf")
-os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes".format(msdir, msfile, afile, ofile))
+os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
 
 ofile = "omstest_manuscript_filescene.rtf"
 print("Running oms")

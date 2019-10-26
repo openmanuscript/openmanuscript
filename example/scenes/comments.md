@@ -2,21 +2,15 @@ This scene shows comments working. There are two paragraphs after this one in th
 
 ### No paragraph below this (a properly formatted comment)
 
-[comment]: # (
+<comment>
 ERROR: THIS PARAGRAPH SHOULD NOT APPEAR IN THE DOCUMENT. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. 
-)
+</comment>
 
 ### Paragraph below this (an improperly formatted comment)
 
-[something]: # (
+<p>
 Testing comments: THIS PARAGRAPH SHOULD APPEAR IN THE DOCUMENT. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. 
-)
-
-### Paragraph below this (an improperly formatted comment)
-
-[]: (
-Testing comments: THIS PARAGRAPH SHOULD APPEAR IN THE DOCUMENT. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. 
-)
+</p>
 
 ### Paragraph below this (no comment)
 

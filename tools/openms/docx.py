@@ -257,7 +257,25 @@ def write_chaptersummary(doc, chapter, chapnum, chaptype=None):
 # remove comments 
 # -----------------------------------------------------------------------------
 def remove_comments( data ):
-    data  = re.sub('\[comment\]\:\s*\#\s*\([^\)]*\)', '', data, re.DOTALL)
+    data  = re.sub('\<comment\>.*\<\/comment\>', '', data, re.DOTALL)
+    return data
+
+
+# -----------------------------------------------------------------------------
+# remove notes 
+# -----------------------------------------------------------------------------
+def handle_notes( data, state ):
+    if state:
+        # include the note text
+        print("including notes")
+        data  = data.replace("<notes>", "") 
+        data  = data.replace("</notes>", "") 
+    else:
+        # remove the note text
+        s = re.compile("<notes>.*</notes>", re.DOTALL)
+        data = re.sub(s, "", data)
+        print("REMOVING NOTES: {}".format(data))
+
     return data
 
 # -----------------------------------------------------------------------------
@@ -296,9 +314,7 @@ def write_scene(doc, scene):
             scenetext = s_file.read()
             scenetext = scenetext.strip()
             scenetext = remove_comments(scenetext)
-
-            if not core.settings["footnotes"]:
-                scenetext = remove_footnotes(scenetext)
+            scenetext = handle_notes(scenetext, core.settings["footnotes"])
 
             if scenetext:
                 # html_tree = commonmark.commonmark(scenetext)
