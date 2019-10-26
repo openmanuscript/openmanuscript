@@ -16,7 +16,7 @@ settings = {
     "filescenesep"   : False,
     "font"           : "Courier",
     "fontsize"       : "12",
-    "footnotes"      : False,
+    "notes"          : False,
     "manuscriptdir"  : ".",
     "manuscriptfile" : "manuscript.json",
     "outputfile"     : "manuscript.rtf",

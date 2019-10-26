@@ -73,12 +73,12 @@ parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
     help="Use this font for the manuscript")
 parser.add_argument( "--fontsize", default="12", 
     help="Use this font size for the manuscript")
-parser.add_argument( "--footnotes", action="store_true", default=False, 
-    help="if there are footnotes, print them")
 parser.add_argument( "--manuscriptdir", default=".", 
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
     help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--notes", action="store_true", default=False, 
+    help="if there are notes, print them")
 parser.add_argument( "--outputfile", default="manuscript.docx", 
     help="write output to this file")
 parser.add_argument( "--quote", action="store_true", default=False, 
@@ -113,7 +113,7 @@ args = parser.parse_args(remaining_argv)
 openms.core.set_authorfile(args.authorfile)
 openms.core.set("chaptersummary", args.chaptersummary)
 openms.core.set("filescenesep", args.filescenesep)
-openms.core.set("footnotes", args.footnotes)
+openms.core.set("notes", args.notes)
 openms.core.set("font", args.font)
 openms.core.set("fontsize", args.fontsize)
 openms.core.set_manuscriptdir(args.manuscriptdir)
@@ -131,7 +131,7 @@ if args.specversion:
     exit(0)
 
 if args.types:
-    print("docx rtf")
+    print("docx")
     exit(0)
 
 # check existence of the files we will need
@@ -151,10 +151,6 @@ output_type = openms.core.get_output_type()
 if (output_type == "docx"):
     openms.core.read_data()
     openms.docx.write( args.outputfile )
-
-elif (output_type == "rtf"):
-    openms.core.read_data()
-    openms.rtf.write( args.outputfile )
 
 else:
     print("ERROR: cannot write output file of type \'{}\'".format(output_type))

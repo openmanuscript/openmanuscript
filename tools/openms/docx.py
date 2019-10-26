@@ -3,7 +3,7 @@ from . import core
 import os
 import json
 import re
-# import commonmark
+import commonmark
 import markdown
 # from marko import Markdown
 # from marko.ext.footnote import FootnoteExtension
@@ -267,14 +267,12 @@ def remove_comments( data ):
 def handle_notes( data, state ):
     if state:
         # include the note text
-        print("including notes")
         data  = data.replace("<notes>", "") 
         data  = data.replace("</notes>", "") 
     else:
         # remove the note text
-        s = re.compile("<notes>.*</notes>", re.DOTALL)
+        s = re.compile("<notes>.*?</notes>", re.DOTALL)
         data = re.sub(s, "", data)
-        print("REMOVING NOTES: {}".format(data))
 
     return data
 
@@ -314,11 +312,11 @@ def write_scene(doc, scene):
             scenetext = s_file.read()
             scenetext = scenetext.strip()
             scenetext = remove_comments(scenetext)
-            scenetext = handle_notes(scenetext, core.settings["footnotes"])
+            scenetext = handle_notes(scenetext, core.settings["notes"])
 
             if scenetext:
-                # html_tree = commonmark.commonmark(scenetext)
-                html_tree = markdown.markdown(scenetext, extensions=['footnotes'])
+                html_tree = commonmark.commonmark(scenetext)
+                # html_tree = markdown.markdown(scenetext, extensions=['footnotes'])
                 # markdown = Markdown(extensions=[FootnoteExtension])
                 # html_tree = markdown.convert(scenetext)
                 # print(html_tree)
@@ -327,16 +325,6 @@ def write_scene(doc, scene):
     else:
         print("ERROR: can't find scene file: " + scenefile)
         return 0
-
-# -----------------------------------------------------------------------------
-# remove footnotes
-# -----------------------------------------------------------------------------
-def remove_footnotes( data ):
-    data = re.sub(r'\[\^.+\]\: .+\n\n', ' ', data)
-    data = re.sub(r'\[\^.+\]\: .+\n$', ' ', data)
-    data = re.sub(r'\[\^.+\]\: [^\n]*$', ' ', data)
-    data = re.sub(r'\[\^.+\]', '', data)
-    return data
 
 def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
     write_chapter_heading(doc, chapter, chapnum, chaptype)

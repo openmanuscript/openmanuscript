@@ -18,24 +18,13 @@ print("Testing creation of manuscript csv file")
 print("    writing file: {}".format(ofile))
 openms.core.manuscript_to_csv(msdir, msfile, afile, ofile)
 
-# csv to manuscript 
-# ofile   = "omstest_manuscript.json"
-# csvfile = "../example/outline.csv"
-# print("Testing creation of manuscript json from csv file")
-# print("    writing file: {}".format(ofile))
-# openms.core.csv_to_manuscript(csvfile, ofile)
-
 # export docx
 ofile  = "omstest_manuscript.docx"
 print("Running oms")
 # msfile = "simple.json"
 os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
 
-ofile = "omstest_manuscript.rtf"
-print("Running oms2rtf")
-os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-
-ofile = "omstest_manuscript_filescene.rtf"
+ofile  = "omstest_manuscript_notes.docx"
 print("Running oms")
-os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --footnotes --filescenesep".format(msdir, msfile, afile, ofile))
-
+# msfile = "simple.json"
+os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
