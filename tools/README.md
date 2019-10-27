@@ -44,7 +44,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
 	- ``--tags`` define a list of tags used to filter the scenes for different operations. Scenes with tags that appear in this list are considered 'on'.
 - Switches
-	- ``--chaptersummary`` print a chapter summary, if there is one, at the beginning of each chapter
+	- ``--chaptersummary`` print a chapter summary, if there is one, instaed of the chapter.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--notes`` print **notes** content in each scene, if present.
 	- ``--quote`` if there is a quote chapter in the manuscript ``json`` file, include it. 
