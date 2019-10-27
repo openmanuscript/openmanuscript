@@ -3,7 +3,7 @@ from . import core
 import os
 import json
 import re
-import commonmark
+# import commonmark
 import markdown as MDown
 import datetime
 import time
