@@ -6,16 +6,6 @@ For more information about these tools, contact david@dhrogers.com.
 
 This is a set of tools that support `openmanuscript` workflows.
 
-### oms
-
-This script is the standard OMS conversion script, with others being deprecated. Features will be added to this script to support all aspects of the OpenManuscript format.
-
-The script looks at the type of the output file requested, and attempts to write out that type of file. The script will report on failure (if it can't write out that type of file).
-
-By default, the tool assumes it is being run in the manuscript directory. If
-this is not the case, an explicit path must set on the command line. See
-examples below.
-
 ## Requirements
 
 Requirements for this toolset:
@@ -32,6 +22,41 @@ These tools installs in the normal python way. From the `tools/` directory, run:
 ```
 pip3 install .
 ```
+
+## Tools
+
+### oms
+
+This script is the standard OMS conversion script, with others being deprecated. 
+Features will be added to this script to support all aspects of the OpenManuscript format.
+
+The script looks at the type of the output file requested, and attempts to write 
+out that type of file. The script will report on failure (if it can't write 
+out that type of file).
+
+By default, the tool assumes it is being run in the manuscript directory. If
+this is not the case, an explicit path must set on the command line.
+
+- Input/Output
+	- ``--authorfile`` the name of the author json file in the ``manuscriptdir``. Defaults to ``author.json``
+	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
+	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
+	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
+	- ``--quotefile`` defines the scene file used for a beginning quote. Defaults to ``quote.md``.
+	- ``--tags`` define a list of tags that determine which scenes are 'on' for an operation. You can use this to filter the scenes for different operations.
+- Switches
+	- ``--chaptersummary`` print a chapter summary, if there is one, at the beginning of each chapter
+	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
+	- ``--notes`` print **notes** content in each scene, if present.
+	- ``--quote`` if there is a quote scene file, include it at the beginning of the manuscript. The argument ``--quotefile`` defines the name of this file.
+	- ``--specversion`` report the version of ``OpenManuscript`` specification that this tool supports.
+	- ``--synopsis`` if there is a synopsis scene file, include it at the beginning of the manuscript. The argument ``--synopsisfile`` defines the name of this file.
+	- ``--version`` report this application's version number and exit.
+- Formatting
+	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
+	- ``--fontsize`` define the font size for the manuscript. Default is ``12``.
+	- ``--underline`` use underline to show emphasis (instead of bold or italics).ß
+
 
 ## Examples
 
