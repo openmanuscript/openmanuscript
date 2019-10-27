@@ -12,12 +12,6 @@ msdir  = "../example"
 msfile = "manuscript.json"
 afile  = "author.json"
 
-# manuscript to csv
-ofile = "omstest_manuscript.csv"
-print("Testing creation of manuscript csv file")
-print("    writing file: {}".format(ofile))
-openms.core.manuscript_to_csv(msdir, msfile, afile, ofile)
-
 # export docx
 ofile  = "omstest_manuscript.docx"
 print("Running oms")

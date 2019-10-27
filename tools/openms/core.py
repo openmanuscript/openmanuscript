@@ -5,8 +5,8 @@ import re
 
 __oms = {
     "name"        : "OpenManuscript",
-    "toolversion" : "1.1",
-    "specversion" : "1.1"
+    "toolversion" : "2.0",
+    "specversion" : "2.0"
 }
 
 settings = {
@@ -220,7 +220,7 @@ def csv_to_manuscript( csvfile, ms ):
         with open(ms, "w") as mfile:
 
             mfile.write("{\n")
-            mfile.write("\"version\" : \"1.0\",\n")
+            mfile.write("\"version\" : \"{}\",\n".format(get_version()))
             mfile.write("\"manuscript\" : {\n")
             mfile.write("    \"title\" : \"Sample\",\n")
             mfile.write("    \"runningtitle\" : \"sample\",\n")
