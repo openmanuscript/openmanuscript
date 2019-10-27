@@ -254,10 +254,6 @@ def write_docinfo(doc):
     p.comments = "created by {} v{}".format(core.get_name(), core.get_version())
     return
 
-def write_chaptersummary(doc, chapter, chapnum):
-    print("WORD: write_chaptersummary (no-op)")
-    return
-
 # -----------------------------------------------------------------------------
 # remove comments 
 # -----------------------------------------------------------------------------
@@ -378,12 +374,15 @@ def write_chapters(doc, manuscript):
     incr_chapter = True
     for chapter in manuscript["chapters"]:
         if core.check_chapter_tags(chapter, core.settings["tags"]):
+
             if core.settings["chaptersummary"]:
-                write_chaptersummary(doc, chapter, chapnum)
+                if "summary" in chapter:
+                    incr_chapter = write_chapter(f, chapter["summary"]) 
             else:
                 incr_chapter = write_chapter(doc, chapter, chapnum)
-                if (incr_chapter):
-                    chapnum += 1
+
+            if (incr_chapter):
+                chapnum += 1
 
 def write(outputfile):
 
