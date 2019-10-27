@@ -5,6 +5,16 @@
     "runningtitle" : "examples",
     "chapters" : [
         {
+            "title"   : "Quote",
+            "type"    : "quote",
+            "scenes"  : ["quotes"]
+        },
+        {
+            "title"   : "Synopsis",
+            "type"    : "synopsis",
+            "scenes"  : ["synopsis"]
+        },
+        {
             "title"   : "Simple Text",
             "pov"     : "Mercury",
             "tod"     : "morning",

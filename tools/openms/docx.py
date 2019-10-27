@@ -155,8 +155,11 @@ def write_title(document):
         section.left_margin   = Inches(MARGIN["page"])
         section.right_margin  = Inches(MARGIN["page"])
 
+    add_section(document, WD_SECTION.CONTINUOUS)
+
 def write_chapter_heading(document, chapter, chapnum, chaptype):
     chapnum = "CHAPTER {0}".format(chapnum).upper()
+    increment_chapter = True
     document.add_page_break()
 
     for i in range(0, 10):
@@ -174,6 +177,7 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
     else:
         allcaps_title = chaptype
         chaptername   = ""
+        increment_chapter = False
 
     p = document.add_paragraph()
     pf = p.paragraph_format
@@ -190,6 +194,8 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
     run.bold = True
 
     p = document.add_paragraph()
+
+    return increment_chapter
 
 
 def write_preamble(doc):
@@ -248,8 +254,8 @@ def write_docinfo(doc):
     p.comments = "created by {} v{}".format(core.get_name(), core.get_version())
     return
 
-def write_chaptersummary(doc, chapter, chapnum, chaptype=None):
-    # print("WORD: write_chaptersummary (no-op)")
+def write_chaptersummary(doc, chapter, chapnum):
+    print("WORD: write_chaptersummary (no-op)")
     return
 
 # -----------------------------------------------------------------------------
@@ -296,7 +302,6 @@ def write_scene_separator(doc, scene):
     for i in range(1):
         doc.add_paragraph()
 
-
 # -----------------------------------------------------------------------------
 # write a single scene
 # -----------------------------------------------------------------------------
@@ -334,41 +339,51 @@ def write_scene(doc, scene):
         print("ERROR: can't find scene file: " + scenefile)
         return 0
 
-def write_chapter(doc, chapter, chapnum, chaptype="CHAPTER"):
-    write_chapter_heading(doc, chapter, chapnum, chaptype)
+# -----------------------------------------------------------------------------
+# write a single chapter 
+# -----------------------------------------------------------------------------
+def write_chapter(doc, chapter, chapnum):
+    increment_chapter = False
 
-    # write content
-    first = True
-    for scene in chapter["scenes"]:
-        # print("OMS: processing {}".format(scene))
-        if not first:
-            write_scene_separator(doc, scene)
-        else:
-            if core.settings["filescenesep"]:
+    if "type" in chapter:
+        chaptype = chapter["type"].upper()
+    else:
+        chaptype = "CHAPTER"
+
+    if (chaptype == "QUOTE") and (not core.settings["quote"]):
+        return increment_chapter
+    elif (chaptype == "SYNOPSIS") and (not core.settings["synopsis"]):
+        return increment_chapter
+    else:
+        increment_chapter = write_chapter_heading(doc, chapter, chapnum, chaptype)
+
+        # write content
+        first = True
+        for scene in chapter["scenes"]:
+            if not first:
                 write_scene_separator(doc, scene)
-            first = False
+            else:
+                if core.settings["filescenesep"]:
+                    write_scene_separator(doc, scene)
+                first = False
 
-        if not scene.endswith(".pdf"):
-            write_scene(doc, scene)
+            if not scene.endswith(".pdf"):
+                write_scene(doc, scene)
+
+        return increment_chapter
 
 def write_chapters(doc, manuscript):
     chapnum = 1
 
+    incr_chapter = True
     for chapter in manuscript["chapters"]:
         if core.check_chapter_tags(chapter, core.settings["tags"]):
-            if core.is_prologue(chapter) or core.is_epilogue(chapter):
-                chaptype = chapter["type"].upper()
-                if core.settings["chaptersummary"]:
-                    write_chaptersummary(doc, chapter, chapnum, chaptype)
-                else:
-                    write_chapter(doc, chapter, chapnum, chaptype)
+            if core.settings["chaptersummary"]:
+                write_chaptersummary(doc, chapter, chapnum)
             else:
-                if core.settings["chaptersummary"]:
-                    write_chaptersummary(doc, chapter, chapnum)
-                else:
-                    write_chapter(doc, chapter, chapnum)
-                chapnum += 1
-
+                incr_chapter = write_chapter(doc, chapter, chapnum)
+                if (incr_chapter):
+                    chapnum += 1
 
 def write(outputfile):
 
@@ -384,8 +399,8 @@ def write(outputfile):
         write_docinfo(theDocument)
         # write_headers(theDocument)
         write_title(theDocument)
-        add_section(theDocument, WD_SECTION.CONTINUOUS)
         # debug_sections(theDocument)
+
         write_chapters(theDocument, core.manuscript)
         write_postamble(theDocument)
 

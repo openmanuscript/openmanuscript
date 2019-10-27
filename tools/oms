@@ -83,14 +83,10 @@ parser.add_argument( "--outputfile", default="manuscript.docx",
     help="write output to this file")
 parser.add_argument( "--quote", action="store_true", default=False, 
     help="if there is a quote, include it at the beginning")
-parser.add_argument( "--quotefile", default="quotes.md", 
-    help="read quote from this file")
 parser.add_argument( "--specversion", action="store_true", default=False,
     help="report the version of OpenManuscript specification this tool supports")
 parser.add_argument( "--synopsis", action="store_true", default=False, 
     help="if there is a synopsis, include it at the beginning")
-parser.add_argument( "--synopsisfile", default="synopsis.md", 
-    help="read synopsis from this file")
 parser.add_argument( "--tags", nargs='+', type=str,
     help="add chapter tags that are considered 'on'")
 parser.add_argument( "--types", action="store_true", default=False,
@@ -120,9 +116,7 @@ openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
 openms.core.set("outputfile", args.outputfile)
 openms.core.set("quote", args.quote)
-openms.core.set("quotefile", args.quotefile)
 openms.core.set("synopsis", args.synopsis)
-openms.core.set("synopsisfile", args.synopsisfile)
 openms.core.set("tags", args.tags)
 openms.core.set("underline", args.underline)
 

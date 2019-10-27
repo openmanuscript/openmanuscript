@@ -19,7 +19,7 @@ print("Running oms")
 os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
 
 # export docx with notes
-ofile  = "omstest_manuscript_notes.docx"
+ofile  = "omstest_manuscript_all.docx"
 print("Running oms")
 # msfile = "simple.json"
-os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+os.system("./oms --filescenesep --quote --synopsis --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))

@@ -42,16 +42,14 @@ this is not the case, an explicit path must set on the command line.
 	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
-	- ``--quotefile`` defines the scene file used for a beginning quote. Defaults to ``quote.md``.
-	- ``--synopsisfile`` defines the scene file used for a synopsis. Defaults to ``synopsis.md``.
 	- ``--tags`` define a list of tags used to filter the scenes for different operations. Scenes with tags that appear in this list are considered 'on'.
 - Switches
 	- ``--chaptersummary`` print a chapter summary, if there is one, at the beginning of each chapter
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--notes`` print **notes** content in each scene, if present.
-	- ``--quote`` if there is a quote scene file, include it at the beginning of the manuscript. The argument ``--quotefile`` defines the name of this file.
+	- ``--quote`` if there is a quote chapter in the manuscript ``json`` file, include it. 
 	- ``--specversion`` report the version of ``OpenManuscript`` specification that this tool supports.
-	- ``--synopsis`` if there is a synopsis scene file, include it at the beginning of the manuscript. The argument ``--synopsisfile`` defines the name of this file.
+	- ``--synopsis`` if there is a synopsis chapter in the manuscript ``json`` file, include it. 
 	- ``--version`` report this application's version number and exit.
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
