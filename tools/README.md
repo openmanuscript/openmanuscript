@@ -6,7 +6,7 @@ For more information about these tools, contact david@dhrogers.com.
 
 This is a set of tools that support `openmanuscript` workflows.
 
-## oms
+### oms
 
 This script is the standard OMS conversion script, with others being deprecated. Features will be added to this script to support all aspects of the OpenManuscript format.
 
@@ -16,16 +16,24 @@ By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line. See
 examples below.
 
+## Requirements
 
-## Installation
+Requirements for this toolset:
+
+- **python 3.x**
+- Modules as listed in the ``setup.py`` file. These will be installed
+  automatically if ``pip`` setup is used, per instructions.
+
+
+## Installation 
 
 These tools installs in the normal python way. From the `tools/` directory, run:
 
 ```
-pip install .
+pip3 install .
 ```
 
-## Example
+## Examples
 
 The `example` directory contains a sample `openmanuscript` database, and two
 output files - `` and `` - that show the results of the `oms` workflow.
