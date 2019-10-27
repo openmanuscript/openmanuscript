@@ -43,7 +43,8 @@ this is not the case, an explicit path must set on the command line.
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
 	- ``--quotefile`` defines the scene file used for a beginning quote. Defaults to ``quote.md``.
-	- ``--tags`` define a list of tags that determine which scenes are 'on' for an operation. You can use this to filter the scenes for different operations.
+	- ``--synopsisfile`` defines the scene file used for a synopsis. Defaults to ``synopsis.md``.
+	- ``--tags`` define a list of tags used to filter the scenes for different operations. Scenes with tags that appear in this list are considered 'on'.
 - Switches
 	- ``--chaptersummary`` print a chapter summary, if there is one, at the beginning of each chapter
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
