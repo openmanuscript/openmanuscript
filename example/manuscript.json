@@ -52,9 +52,16 @@
             "scenes"  : ["notes"]
         },
         {
+            "title"   : "Footnotes",
+            "pov"     : "Uranus",
+            "setting" : "Uranus's front yard.",
+            "desc"    : "See? The previous one was missing.",
+            "scenes"  : ["footnotes"]
+        },
+        {
             "title"   : "End",
-            "pov"     : "Saturn",
-            "setting" : "Saturn's front yard.",
+            "pov"     : "Neptune",
+            "setting" : "Neptune's front yard.",
             "desc"    : "This is the final scene",
             "scenes"  : ["end"]
         }

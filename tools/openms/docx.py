@@ -5,8 +5,6 @@ import json
 import re
 import commonmark
 import markdown as MDown
-from marko import Markdown
-from marko.ext.footnote import FootnoteExtension
 import datetime
 import time
 
@@ -312,21 +310,22 @@ def write_scene(doc, scene):
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
             scenetext = scenetext.strip()
-            scenetext = remove_comments(scenetext)
+            # scenetext = remove_comments(scenetext)
             scenetext = handle_notes(scenetext, core.settings["notes"])
 
             if scenetext:
                 html_tree = ""
                 if (SETTINGS["mark_parser"] == "commonmark"):
                     # commonmark
+                        # does not handle footnotes
                     html_tree = commonmark.commonmark(scenetext)
                 elif (SETTINGS["mark_parser"] == "python-markdown"):
                     # python-markdown
+                        # handles footnotes
                     html_tree = MDown.markdown(scenetext, extensions=['footnotes'])
                 else:
-                    # marko
-                    markdown = Markdown(extensions=[FootnoteExtension])
-                    html_tree = markdown.convert(scenetext)
+                    print("ERROR: unsupported markdown parser")
+                    exit(1)
 
                 # print(html_tree)
                 add_html(pgraph, html_tree)
