@@ -22,4 +22,4 @@ os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --output
 ofile  = "omstest_manuscript_all.docx"
 print("Running oms")
 # msfile = "simple.json"
-os.system("./oms --filescenesep --quote --synopsis --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+os.system("./oms --chaptersummary --filescenesep --quote --synopsis --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
