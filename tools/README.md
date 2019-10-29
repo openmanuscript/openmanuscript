@@ -48,12 +48,14 @@ this is not the case, an explicit path must set on the command line.
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--notes`` print **notes** content in each scene, if present.
-	- ``--specversion`` report the version of ``OpenManuscript`` specification that this tool supports.
-	- ``--version`` report this application's version number and exit.
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
 	- ``--fontsize`` define the font size for the manuscript. Default is ``12``.
 	- ``--underline`` use underline to show emphasis (instead of bold or italics).ß
+- Operations
+	- ``--specversion`` report the version of ``OpenManuscript`` specification
+      that this tool supports, then exit.
+	- ``--version`` report this application's version number, then exit.
 
 
 ## Examples
