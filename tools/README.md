@@ -60,8 +60,8 @@ this is not the case, an explicit path must set on the command line.
 
 ## Examples
 
-The `example` directory contains a sample `openmanuscript` database, and two
-output files - `` and `` - that show the results of the `oms` workflow.
+The `example` directory contains a sample `openmanuscript` database for examples
+and testing.
 
 The following commands use the `example/` directory from this repository, and assume 
 that you have installed the tool, per instructions above, and are starting from 
