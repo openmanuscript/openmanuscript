@@ -51,7 +51,7 @@ this is not the case, an explicit path must set on the command line.
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
 	- ``--fontsize`` define the font size for the manuscript. Default is ``12``.
-	- ``--underline`` use underline to show emphasis (instead of bold or italics).ß
+	- ``--underline`` use underline to show emphasis (instead of bold or italics).
 - Operations
 	- ``--specversion`` report the version of ``OpenManuscript`` specification
       that this tool supports, then exit.
