@@ -7,6 +7,8 @@ class ParagraphDispatcher(TagDispatcher):
     @classmethod
     def append_head(cls, element, container):
         paragraph = cls.get_new_paragraph(container)
+        if element.getparent().tag == 'blockquote':
+            paragraph.style = 'Quote' 
         return cls._append_paragraph(element.text, element, paragraph)
 
     @classmethod
@@ -24,8 +26,8 @@ class ParagraphDispatcher(TagDispatcher):
             return container
 
         style = None
-        if element.getparent().tag == 'blockquote':
-            style = 'IntenseQuote'
+        # if element.getparent().tag == 'blockquote':
+            # style = 'Intense Quote'
 
         container.add_run(text=text, style=style)
         return container
