@@ -18,8 +18,20 @@ print("Running oms")
 # msfile = "simple.json"
 os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
 
-# export docx with notes
-ofile  = "omstest_manuscript_all.docx"
+# export docx
+ofile  = "omstest_manuscript_noquote-nosynopsis.docx"
 print("Running oms")
 # msfile = "simple.json"
-os.system("./oms --chaptersummary --filescenesep --quote --synopsis --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+os.system("./oms --exclude_tags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+
+# export docx
+ofile  = "omstest_manuscript_simple.docx"
+print("Running oms")
+# msfile = "simple.json"
+os.system("./oms --include_tags simple --exclude_tags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+
+# export docx
+ofile  = "omstest_manuscript_notes.docx"
+print("Running oms")
+# msfile = "simple.json"
+os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))

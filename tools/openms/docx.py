@@ -341,21 +341,19 @@ def write_scene(doc, scene):
 def write_chapter(doc, chapter, chapnum):
     increment_chapter = False
 
+    chaptype = None
     if "type" in chapter:
         chaptype = chapter["type"].upper()
     else:
         chaptype = "CHAPTER"
 
-    if (chaptype == "QUOTE") and (not core.settings["quote"]):
-        return increment_chapter
-    elif (chaptype == "SYNOPSIS") and (not core.settings["synopsis"]):
-        return increment_chapter
-    else:
+    scenes = None
+    if True:
         increment_chapter = write_chapter_heading(doc, chapter, chapnum, chaptype)
 
         # write content
         first = True
-        for scene in chapter["scenes"]:
+        for scene in chapter["scenes"]: 
             if not first:
                 write_scene_separator(doc, scene)
             else:
@@ -366,18 +364,21 @@ def write_chapter(doc, chapter, chapnum):
             if not scene.endswith(".pdf"):
                 write_scene(doc, scene)
 
-        return increment_chapter
+    return increment_chapter
 
 def write_chapters(doc, manuscript):
     chapnum = 1
 
     incr_chapter = True
     for chapter in manuscript["chapters"]:
-        if core.check_chapter_tags(chapter, core.settings["tags"]):
-
+        if core.check_chapter_tags(chapter):
             if core.settings["chaptersummary"]:
                 if "summary" in chapter:
-                    incr_chapter = write_chapter(f, chapter["summary"]) 
+                    incr_chapter = write_chapter(doc, chapter["summary"], chapnum) 
+                else:
+                    # not sure if this is the right thing to do ...
+                    print("Chapter summary, but no summary present")
+                    # incr_chapter = write_chapter(doc, None, chapnum) 
             else:
                 incr_chapter = write_chapter(doc, chapter, chapnum)
 

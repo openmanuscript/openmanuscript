@@ -7,11 +7,13 @@
         {
             "title"   : "Quote",
             "type"    : "quote",
+            "tags"    : ["quote"],
             "scenes"  : ["quotes"]
         },
         {
             "title"   : "Synopsis",
             "type"    : "synopsis",
+            "tags"    : ["synopsis"],
             "scenes"  : ["synopsis"]
         },
         {
@@ -20,7 +22,7 @@
             "tod"     : "morning",
             "setting" : "Mr. Mercury's front yard.",
             "desc"    : "An important scene.",
-            "tags"    : "simple",
+            "tags"    : ["simple"],
             "scenes"  : ["003", "002", "001"]
         },
         {
@@ -29,7 +31,7 @@
             "tod"     : "noon",
             "setting" : "Ms. Venus's front yard.",
             "desc"    : "An important scene.",
-            "tags"    : "second",
+            "tags"    : ["second"],
             "scenes"  : ["This_name", "look01", "chapter_i_hate"]
         },
         {

@@ -13,18 +13,15 @@ settings = {
     "authorfile"     : "author.json",
     "chaptersummary" : False,
     "columns"        : None,
+    "exclude_tags"   : None, 
     "filescenesep"   : False,
     "font"           : "Courier",
     "fontsize"       : "12",
+    "include_tags"   : None, 
     "notes"          : False,
     "manuscriptdir"  : ".",
     "manuscriptfile" : "manuscript.json",
     "outputfile"     : "manuscript.rtf",
-    "quote"          : False,
-    "quotefile"      : "quotes.md",
-    "synopsis"       : False,
-    "synopsisfile"   : "synopsis.md",
-    "tags"           : None, 
     "underline"      : False
 }
 
@@ -73,14 +70,6 @@ def get_manuscriptfile():
     global settings
     return os.path.join( settings["manuscriptdir"], settings["manuscriptfile"] )
 
-def get_synopsisfile():
-    global settings
-    return settings["synopsisfile"]
-
-def get_quotefile():
-    global settings
-    return settings["quotefile"]
-
 def get_author():
     global author
     return author
@@ -112,16 +101,35 @@ def clean_scene_filename(scene):
         return scene + ".md"
 
 # ---------------------------------------------------------------------------
-# check tags of a chapter 
+# check tags in a chapter against those requested to be included
 # ---------------------------------------------------------------------------
-def check_chapter_tags( chapter, tags ): 
-    result = False
+def check_chapter_tags( chapter ): 
+    include = True
+    exclude = False
 
-    if (tags is None):
+    if (not ("tags" in chapter)):
+        if (settings["include_tags"] != None):
+            include = False 
+        else:
+            include = True
+
+        exclude = False
+    else:
+        if (settings["include_tags"] != None):
+            include = any( i in chapter["tags"] for i in settings["include_tags"])
+        else:
+            include = True
+
+        if (settings["exclude_tags"] != None):
+            exclude = any( i in chapter["tags"] for i in settings["exclude_tags"])
+        else:
+            exclude = False
+
+    results = True
+    if (include and not exclude):
         result = True
-    elif (not tags is None) and (("tags" in chapter) and 
-             any( i in chapter["tags"] for i in tags)):
-        result = True
+    else:
+        result = False
 
     return result
 
@@ -136,18 +144,6 @@ def check_chapter_type( chapter, chaptype ):
         result = True
 
     return result
-
-# -----------------------------------------------------------------------------
-# check for a synopsis 
-# -----------------------------------------------------------------------------
-def is_synopsis( chapter ):
-    return check_chapter_type( chapter, "synopsis" ) 
-
-# -----------------------------------------------------------------------------
-# check for a quote 
-# -----------------------------------------------------------------------------
-def is_quote( chapter ):
-    return check_chapter_type( chapter, "quote" ) 
 
 # -----------------------------------------------------------------------------
 # check for a prologue 
@@ -337,9 +333,9 @@ def manuscript_to_html( mdir, mfile, afile, ofile ):
 
 def find_tagged_scenes():
     scenes = []
+
     for chapter in manuscript["chapters"]:
-        if "tags" in chapter:
-            if (check_chapter_tags( chapter, chapter["tags"] )):
-                scenes.append(chapter)
+        if check_chapter_tags( chapter ):
+            scenes.append(chapter)
 
     return scenes

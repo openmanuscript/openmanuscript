@@ -67,12 +67,16 @@ parser.add_argument( "--authorfile", default="author.json",
     help="read author data from this file. Must be located in MANUSCRIPTDIR")
 parser.add_argument( "--chaptersummary", action="store_true", default=False, 
     help="print a chapter summary, if there is one")
+parser.add_argument( "--exclude_tags", nargs='+', type=str,
+    help="add chapter tags that are considered 'off'")
 parser.add_argument( "--filescenesep", action="store_true", default=False, 
     help="print file name as scene separator, instead of ###")
 parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
     help="Use this font for the manuscript")
 parser.add_argument( "--fontsize", default="12", 
     help="Use this font size for the manuscript")
+parser.add_argument( "--include_tags", nargs='+', type=str,
+    help="add chapter tags that are considered 'on'")
 parser.add_argument( "--manuscriptdir", default=".", 
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default="manuscript.json", 
@@ -81,14 +85,8 @@ parser.add_argument( "--notes", action="store_true", default=False,
     help="if there are notes, print them")
 parser.add_argument( "--outputfile", default="manuscript.docx", 
     help="write output to this file")
-parser.add_argument( "--quote", action="store_true", default=False, 
-    help="if there is a quote, include it at the beginning")
 parser.add_argument( "--specversion", action="store_true", default=False,
     help="report the version of OpenManuscript specification this tool supports")
-parser.add_argument( "--synopsis", action="store_true", default=False, 
-    help="if there is a synopsis, include it at the beginning")
-parser.add_argument( "--tags", nargs='+', type=str,
-    help="add chapter tags that are considered 'on'")
 parser.add_argument( "--types", action="store_true", default=False,
     help="report the output data types supported")
 parser.add_argument( "--version", action="version", 
@@ -110,14 +108,13 @@ openms.core.set_authorfile(args.authorfile)
 openms.core.set("chaptersummary", args.chaptersummary)
 openms.core.set("filescenesep", args.filescenesep)
 openms.core.set("notes", args.notes)
+openms.core.set("exclude_tags", args.exclude_tags)
 openms.core.set("font", args.font)
 openms.core.set("fontsize", args.fontsize)
+openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
 openms.core.set("outputfile", args.outputfile)
-openms.core.set("quote", args.quote)
-openms.core.set("synopsis", args.synopsis)
-openms.core.set("tags", args.tags)
 openms.core.set("underline", args.underline)
 
 if args.specversion:

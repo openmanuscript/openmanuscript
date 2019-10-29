@@ -42,14 +42,13 @@ this is not the case, an explicit path must set on the command line.
 	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
-	- ``--tags`` define a list of tags used to filter the scenes for different operations. Scenes with tags that appear in this list are considered 'on'.
+	- ``--include_tags`` define a list of tags that are 'on', and are included in any operation. Default is empty list, and all tags are included. 
+	- ``--exclude_tags`` define a list of tags that are 'off', and are not included in any operation. Default is empty listy, and no tags are excluded.
 - Switches
-	- ``--chaptersummary`` print a chapter summary, if there is one, instaed of the chapter.
+	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--notes`` print **notes** content in each scene, if present.
-	- ``--quote`` if there is a quote chapter in the manuscript ``json`` file, include it. 
 	- ``--specversion`` report the version of ``OpenManuscript`` specification that this tool supports.
-	- ``--synopsis`` if there is a synopsis chapter in the manuscript ``json`` file, include it. 
 	- ``--version`` report this application's version number and exit.
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
