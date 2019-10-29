@@ -89,14 +89,6 @@ parser.add_argument( "--outputfile", default="manuscript.html",
 parser.add_argument( "--columns", nargs="+", default = ["Title", "Arc",
     "POV", "TOD", "Setting", "Scenes", "Desc"], 
     help="set which columns of the outline to print when creating outline")
-parser.add_argument( "--quote", action="store_true", default=False, 
-    help="if there is a quote, include it at the beginning")
-parser.add_argument( "--quotefile", default="quotes.md", 
-    help="read quote from this file")
-parser.add_argument( "--synopsis", action="store_true", default=False, 
-    help="if there is a synopsis, include it at the beginning")
-parser.add_argument( "--synopsisfile", default="synopsis.md", 
-    help="read synopsis from this file")
 parser.add_argument( "--version", action="version", 
                         version=str(openms.core.get_version()) ) 
 parser.add_argument( "--underline", action="store_true", default=False, 
@@ -123,10 +115,6 @@ openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
 openms.core.set("outputfile", args.outputfile)
-openms.core.set("quote", args.quote)
-openms.core.set("quotefile", args.quotefile)
-openms.core.set("synopsis", args.synopsis)
-openms.core.set("synopsisfile", args.synopsisfile)
 openms.core.set("underline", args.underline)
 openms.core.set("columns", args.columns)
 
@@ -144,3 +132,4 @@ openms.core.read_data()
 
 # write
 openms.outline.write_outline()
+print("wrote file {}".format(openms.core.settings["outputfile"]))

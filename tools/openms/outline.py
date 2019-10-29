@@ -158,7 +158,7 @@ def write_outline():
         f.write("</tr>\n")
         tags = None
         for chapter in core.manuscript["chapters"]:
-            if (core.check_chapter_tags( chapter, tags )):
+            if (core.check_chapter_tags( chapter )):
                 f.write("<tr>\n")
                 f.write("<td>{0}</td>\n".format(chapnum))
                 chapnum = chapnum + 1

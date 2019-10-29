@@ -34,13 +34,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import argparse
 import configparser
 import os
+import textwrap
 import openms
+
+ProgName = "oms"
 
 
 # ---------------------------------------------------------------------------
-#
-# get initial settings from settings file, if there is one
-#
+# set up command line args
 # ---------------------------------------------------------------------------
 conf_parser = argparse.ArgumentParser(
     # Turn off help, so we print all options in response to -h
@@ -49,20 +50,39 @@ conf_parser = argparse.ArgumentParser(
 
 args, remaining_argv = conf_parser.parse_known_args()
 
-# ---------------------------------------------------------------------------
-#
-# command line options
-#
-# ---------------------------------------------------------------------------
-# Don't surpress add_help here so it will handle -h
-parser = argparse.ArgumentParser(
-    # Don't mess with format of description
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    # Inherit options from config_parser
-    parents=[conf_parser]
-)
+desc = """An tool that renders OpenManuscript data in Word (docx) format.
+"""
+ep = """
+Examples:
+    oms
+        If executed within an OpenManuscript directory, this will use default
+        arguments to construct 'manuscript.docx' from 'author.json' and
+        'manuscript.json' 
+        
+    oms --font Times
+        If executed within an OpenManuscript directory, this will use default
+        arguments to construct 'manuscript.docx' from 'author.json' and
+        'manuscript.json', using the font 'Times'
 
-# parser.set_defaults(**defaults)
+    oms --manuscriptdir mydir
+
+        Given an explicit path to the OpenManuscript data at 'mydir', this will
+        use other defaults to render 'manuscript.docx' from 'author.json' and
+        'manuscript.json'
+
+    oms --manuscriptdir mydir --authorfile a.json --manuscriptfile m.json --outputfile m.docx 
+
+        Given an explicit path to the OpenManuscript data at 'mydir', this will
+        render 'm.docx' using 'a.json' and 'm.json'.
+
+"""
+parser = argparse.ArgumentParser(  
+                    formatter_class=argparse.RawDescriptionHelpFormatter,
+                    parents=[conf_parser],
+                    description=textwrap.dedent(desc), 
+                    epilog=textwrap.dedent(ep)
+                    )
+
 parser.add_argument( "--authorfile", default="author.json",
     help="read author data from this file. Must be located in MANUSCRIPTDIR")
 parser.add_argument( "--chaptersummary", action="store_true", default=False, 
