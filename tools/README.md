@@ -27,15 +27,15 @@ pip3 install .
 
 ## oms
 
-This script is the standard OMS conversion script, with others being deprecated. 
-Features will be added to this script to support all aspects of the OpenManuscript format.
+![Page One](../img/pages.png)
 
-The script looks at the type of the output file requested, and attempts to write 
-out that type of file. The script will report on failure (if it can't write 
-out that type of file).
+This script is the standard OMS conversion script, with others being deprecated. 
+Features will be added to this script to support all aspects of the OpenManuscript format. The script currently outputs ``Word`` files (docx), as this is the industry standard for manuscript formats.
 
 By default, the tool assumes it is being run in the manuscript directory. If
-this is not the case, an explicit path must set on the command line.
+this is not the case, an explicit path must set on the command line. The output is a document
+
+
 
 - Input/Output
 	- ``--authorfile`` the name of the author json file in the ``manuscriptdir``. Defaults to ``author.json``
