@@ -23,9 +23,9 @@ These tools installs in the normal python way. From the `tools/` directory, run:
 pip3 install .
 ```
 
-## Tools
+# Tools
 
-### oms
+## oms
 
 This script is the standard OMS conversion script, with others being deprecated. 
 Features will be added to this script to support all aspects of the OpenManuscript format.
@@ -58,7 +58,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--version`` report this application's version number, then exit.
 
 
-## Examples
+### Examples
 
 The `example` directory contains a sample `openmanuscript` database for examples
 and testing.
@@ -97,3 +97,34 @@ in the user's home directory.
 ```
 oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
 ```
+
+### Known issues
+
+``oms`` uses several other libraries under the covers to write out ``docx``
+files, and is limited by those tools. In particular, the current version of
+``oms`` has the following limitations:
+
+1. **Issue** Numbered lists do not reset. If you have numbered lists across chapters,
+these chapters will share a single numbering system. A fix is in development,
+and will be released when it is available.
+
+    - *Solution* Use bullet (unordered) lists whenever possible.
+
+2. **Issue** Footnotes will appear at the end of a chapter, but not in the footer of the
+pages. Footnotes also suffer from the same numbering issue as #1. It is assumed
+that most fiction manuscripts will use the footnotes as reminders of ideas and
+edits, and not part of a finished manuscript, so this is not a show stopper.
+
+    - *Solution* Use footnotes as internal notes for edits and ideas, and not as
+      part of a final manuscript.
+
+## oms2outline
+
+This tool creates an ``html``-based table outline, using information in the project's manuscript ``json`` file. Scene files are linked in the **Scenes** column. See the example below.
+
+![outline](../img/outline.png)
+
+The command has the same options as ``oms`` (shown above), with the addition of one to control the columns shown.
+
+- Input/Output
+	- ``--columns`` define a list of columns that are used to created the outline. If a scene does not have a column, a blank is shown. Check the output of the tool's help for a list of default values.
