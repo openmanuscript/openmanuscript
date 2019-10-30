@@ -37,7 +37,7 @@ print("Running oms")
 os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
 
 # export outline
-ofile  = "omstest_outline.html"
+ofile  = "omstest_manuscript_outline.html"
 print("Running oms2outline")
 # msfile = "simple.json"
 os.system("./oms2outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
