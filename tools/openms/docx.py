@@ -160,13 +160,6 @@ def write_title(document):
 def write_chapter_heading(document, chapter, chapnum, chaptype):
     chapnum = "CHAPTER {0}".format(chapnum).upper()
     increment_chapter = True
-    document.add_page_break()
-
-    for i in range(0, 10):
-        p = document.add_paragraph()
-        pf = p.paragraph_format
-        pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
     chaptername = ""
     if "title" in chapter:
@@ -175,10 +168,18 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
     if (chaptype == "CHAPTER"):
         allcaps_title = chapnum
     else:
-        allcaps_title = chaptype
-        chaptername   = ""
+        allcaps_title = "" 
         increment_chapter = False
 
+    # add half a page of spacing
+    document.add_page_break()
+    for i in range(0, 10):
+        p = document.add_paragraph()
+        pf = p.paragraph_format
+        pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+
+    # add title
     p = document.add_paragraph()
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -186,6 +187,7 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
     run = p.add_run(allcaps_title)
     run.bold = True
 
+    # add chapter name
     p = document.add_paragraph()
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
