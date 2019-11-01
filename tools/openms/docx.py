@@ -115,7 +115,7 @@ def add_section(document, s_type):
 def write_title(document):
     # word count
     count = core.get_approximate_word_count() 
-    p = document.add_paragraph("Approx. words: {}".format(count))
+    p = document.add_paragraph("Approx. words: {:,}".format(count))
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
