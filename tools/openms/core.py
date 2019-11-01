@@ -5,7 +5,7 @@ import re
 
 __oms = {
     "name"        : "OpenManuscript",
-    "toolversion" : "2.0",
+    "toolversion" : "2.1",
     "specversion" : "2.0"
 }
 

@@ -40,8 +40,7 @@ import datetime
 # global variables
 # ---------------------------------------------------------------------------
 APP = {
-    "name"      : "oms2html",
-    "version"   : "2.0"
+    "name"      : "oms2html"
 }
 
 #
