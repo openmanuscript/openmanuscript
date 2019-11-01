@@ -21,8 +21,7 @@ settings = {
     "notes"          : False,
     "manuscriptdir"  : ".",
     "manuscriptfile" : "manuscript.json",
-    "outputfile"     : "manuscript.rtf",
-    "underline"      : False
+    "outputfile"     : "manuscript.rtf"
 }
 
 author = {

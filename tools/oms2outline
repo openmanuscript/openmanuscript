@@ -91,8 +91,6 @@ parser.add_argument( "--columns", nargs="+", default = ["Title", "Arc",
     help="set which columns of the outline to print when creating outline")
 parser.add_argument( "--version", action="version", 
                         version=str(openms.core.get_version()) ) 
-parser.add_argument( "--underline", action="store_true", default=False, 
-    help="instead of bold or italic, use underline to show emphasis")
 
 args = parser.parse_args(remaining_argv)
 
@@ -115,7 +113,6 @@ openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
 openms.core.set("outputfile", args.outputfile)
-openms.core.set("underline", args.underline)
 openms.core.set("columns", args.columns)
 
 # check existence of the files we will need

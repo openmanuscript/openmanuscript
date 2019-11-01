@@ -4,7 +4,7 @@ For more information about these tools, contact david@dhrogers.com.
 
 ## Introduction
 
-This is a set of tools that support `openmanuscript` workflows.
+This is a set of tools that support **OpenManuscript** workflows.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ Requirements for this toolset:
 These tools installs in the normal python way. From the `tools/` directory, run:
 
 ```
-pip3 install .
+pip3 install ."
 ```
 
 # Tools
@@ -51,7 +51,6 @@ this is not the case, an explicit path must set on the command line. The output 
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
 	- ``--fontsize`` define the font size for the manuscript. Default is ``12``.
-	- ``--underline`` use underline to show emphasis (instead of bold or italics).
 - Operations
 	- ``--specversion`` report the version of ``OpenManuscript`` specification
       that this tool supports, then exit.
@@ -60,7 +59,7 @@ this is not the case, an explicit path must set on the command line. The output 
 
 ### Examples
 
-The `example` directory contains a sample `openmanuscript` database for examples
+The `example` directory contains a sample **OpenManuscript** database for examples
 and testing.
 
 The following commands use the `example/` directory from this repository, and assume 
