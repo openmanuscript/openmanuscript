@@ -128,4 +128,8 @@ This tool creates an ``html``-based table outline, using information in the proj
 The command has the same options as ``oms`` (shown above), with the addition of one to control the columns shown.
 
 - Input/Output
-	- ``--columns`` define a list of columns that are used to created the outline. If a scene does not have a column, a blank is shown. Check the output of the tool's help for a list of default values.
+	- ``--columns`` define a list of columns that are used to created the
+      outline. Possible values are the tags defined for a scene in the
+      OpenManuscript specification. If a scene does not have a value for a 
+      column, a blank is shown. Check the output of the tool's help for a 
+      list of default values.
