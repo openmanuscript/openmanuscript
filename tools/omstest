@@ -4,9 +4,6 @@ import os
 import openms
 
 
-print("Kicking tires ...")
-openms.test.kick_tires()
-
 # overall state
 msdir  = "../example"
 msfile = "manuscript.json"

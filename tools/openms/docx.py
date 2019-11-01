@@ -113,6 +113,14 @@ def add_section(document, s_type):
     add_page_slug_header(new_section)
 
 def write_title(document):
+    # word count
+    count = core.get_approximate_word_count() 
+    p = document.add_paragraph("Approx. words: {}".format(count))
+    pf = p.paragraph_format
+    pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+
+    # author information
     p = document.add_paragraph("{}\n{}\n{}, {} {}\n{}\n{}\n".format(
                             core.author["name"],
                             core.author["streetAddress"],
@@ -121,26 +129,29 @@ def write_title(document):
                             core.author["postalCode"],
                             core.author["phone"],
                             core.author["email"]))
-
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
+    # spacing to title
     for i in range(7):
         document.add_paragraph()
 
+    # title
     p = document.add_paragraph()
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
     pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
     run = p.add_run(core.manuscript["title"])
 
+    # by 
     p = document.add_paragraph()
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
     pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
     run = p.add_run("by")
 
+    # author 
     p = document.add_paragraph()
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -198,6 +209,7 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
     p = document.add_paragraph()
 
     return increment_chapter
+
 
 
 def write_preamble(doc):

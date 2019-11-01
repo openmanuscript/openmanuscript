@@ -335,6 +335,25 @@ def find_tagged_scenes():
 
     for chapter in manuscript["chapters"]:
         if check_chapter_tags( chapter ):
-            scenes.append(chapter)
+            scenes.extend(chapter["scenes"])
 
     return scenes
+
+def get_word_count( fname ):
+    count = 0
+
+    with open( fname ) as scenefile:
+        for line in scenefile:
+            count += len(line.split()) 
+
+    return count
+
+def get_approximate_word_count():
+    scenes = find_tagged_scenes()
+
+    count = 0
+    for scene in scenes:
+        count = count + get_word_count(get_scenefile(scene))
+
+    count -= count % -100 
+    return count
