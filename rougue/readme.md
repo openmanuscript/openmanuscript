@@ -84,10 +84,6 @@ Some tape and bubble gum keeping it together is a good thing. As long as you hav
 
 ## OS/Software
 
-Next, you should [install the OS for your PI](http://someplace.html). Or, easier
-still, you can buy a memory card that has the [OS
-pre-installed.](http://someplace.html)
-
 Now that you have a **RogueWriter** up and running, you have a choice. What workflow
 do you want to support? The native OS for the `pi` is `Raspbian`, and it is
 very flexible. You can easily:
