@@ -1,6 +1,8 @@
 # RogueWriter: A do-it-yourself distraction-free writing device
 
-It's a writer's dream. Or maybe it's just an obsession. 
+It's a writer's dream. Or maybe it's just an obsession.
+
+![three](img/rw_three.png)
 
 **RogueWriter** is a portable device that makes it easy to write, without all the distractions 
 that a laptop can offer. There are a lot of different attempts at this, and for mine, I wanted something that:
@@ -29,7 +31,9 @@ and **2)** fitting them into a case.
 
 Let's lay this thing out and take a look at the guts. Once you have these things, you have a working computer. It's basically these components, for a total of about **$150**:
 
-- **Computer. ($14)** This design uses the **Raspberry Pi W**, a small, low-power computer
+![guts](img/rw_diagram.png)
+
+1. **Computer. ($14)** This design uses the **Raspberry Pi W**, a small, low-power computer
   that has both wifi and bluetooth on board. This particular design uses a **Pi W** with pre-soldered [header pins](https://www.adafruit.com/product/3708), so you can plug in the specified display.
 	- You can buy a memory card with the [OS pre-installed](https://www.adafruit.com/product/3259), or you can [install it yourself](https://www.raspberrypi.org/downloads/noobs/).
 - **Display. ($49)** The display is pretty important. I've seen a lot of designs for
@@ -47,7 +51,9 @@ Let's lay this thing out and take a look at the guts. Once you have these things
 - **Battery. ($18)** Your choice, based on price, battery life, form factor, etc. A lot of
   different batteries will work, and I always have an eye out for a smaller
   battery pack on sale. [Here's the one that I'm using now](https://www.amazon.com/POWERADD-Pilot-2GS-High-Speed-Smartphone/dp/B00N2JBTEM/ref=sr_1_1_sspa?keywords=poweradd%2B10000).
-  
+- [USB on/off switch](https://www.amazon.com/gp/product/B07CTHKXDW/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This keeps the battery from draining, even after you've shut down the `pi`.
+- [USB right angle adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) You may not need them, but for my arrangement of parts in the cigar box, I needed these. Take a look at how I use two of these, to provice access to the USB connector on the `pi` board, while still jamming it up against the battery.  
+- USB micro cable.
 
 ## Other Parts
 
@@ -55,15 +61,9 @@ Let's lay this thing out and take a look at the guts. Once you have these things
   final device. Don't obsess too long about it, though, as you can always take
   these parts and put them into a new, cooler case. In fact, you might say that
   that's kind of the point of this whole thing.
-- Miscellaneous USB cables that connect the battery to the `pi`. These will
-  vary, depending upon your case, but I found the essential bit is the on/off
-  switch. Here's what I ended up using:
-    - USB micro cable, to connect the battery to the switch (see below).
-    - [USB on/off switch](https://www.amazon.com/gp/product/B07CTHKXDW/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This keeps the battery from draining, even after you've shut down the `pi`.
-    - [USB right angle adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) You may not need them, but for my arrangement of parts in the cigar box, I needed these. Take a look at how I use two of these, to provice access to the USB connector on the `pi` board, while still jamming it up against the battery.
 - Double stick tape and velcro. This holds things together well enough to keep
-  everything in place, but it can be repositioned if you need to change things. I ended up using velcro to 
-  keep the battery in place, because it's the one thing you need the most access to.
+  everything in place, but it can be repositioned if you need to change things. I ended up using 
+  velcro to keep the battery in place, because it's the one thing you need the most access to.
 - Small bit of lighting chain, and two screws to keep the lid in place. You
   may not need this, if your cigar box has some nifty hinges that stay open.
 - Tools. All I needed was an x-acto knife to cut the double sided tape, and the cardboard cover.
