@@ -2,7 +2,7 @@
 
 It's a writer's dream. Or maybe it's just an obsession. 
 
-RogueWriter is a portable device that makes it easy to write, without all the distractions 
+**RogueWriter** is a portable device that makes it easy to write, without all the distractions 
 that a laptop can offer. I've used a lot of these, and you can take a look at my
 article on that obsessive journey.
 
@@ -34,18 +34,14 @@ Let's lay this thing out and take a look at the guts. It's basically these
 components:
 
 - Computer. This design uses the **Raspberry Pi W**, a small, low-power computer
-  that has both wifi and bluethooth on board.
-    - This particular design uses a **Pi W** with pre-soldered [GPIO
-      pins](https://www.amazon.com/Raspberry-Pi-Zero-WH-Pre-soldered/dp/B07B8MMD3V).
+  that has both wifi and bluethooth on board. This particular design uses a **Pi W** with pre-soldered [GPIO pins](https://www.amazon.com/Raspberry-Pi-Zero-WH-Pre-soldered/dp/B07B8MMD3V).
 - Display. The display is pretty important. I've seen a lot of designs for
   things like this using small displays, and they typically have cables and plus
-  sticking out of them.
-	- I wanted something cleaner, so I chose a [display that lays flat, and has a ribbon connection](https://www.amazon.com/gp/product/B0716RVNTS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
+  sticking out of them. I wanted something cleaner, so I chose a [display that lays flat, and has a ribbon connection](https://www.amazon.com/gp/product/B0716RVNTS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
 - Keyboard. Buyer's choice here. There are lots of options for bluetooth
   keyboards, and you can make your own choices on portability, feel, size, etc.
   I have two options that work well for me, and that reliably connect to the
-  `pi` over bluetooth.
-	- Here's my current [favorite keyboard](https://www.amazon.com/gp/product/B019PIXO78/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
+  `pi` over bluetooth. Here's my current [favorite keyboard](https://www.amazon.com/gp/product/B019PIXO78/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
 - Battery, Your choice, based on price, battery life, form factor, etc. A lot of
   different batteries will work, and I always have an eye out for a smaller
   battery pack on sale. 
@@ -110,7 +106,7 @@ Next, you should [install the OS for your PI](http://someplace.html). Or, easier
 still, you can buy a memory card that has the [OS
 pre-installed.](http://someplace.html)
 
-Now that you have a RogueWriter up and running, you have a choice. What workflow
+Now that you have a **RogueWriter** up and running, you have a choice. What workflow
 do you want to support? The native OS for the `pi` is `Raspbian`, and it is
 very flexible. You can easily:
     
@@ -119,6 +115,6 @@ very flexible. You can easily:
   pair a mouse with the computer, as well. If that's what you want to do, that
   should work fine.
 - Set up things to work in a terminal-only mode. If this option makes sense to
-  you, you're closer to making a more distraction-free RogueWriter. 
+  you, you're closer to making a more distraction-free **RogueWriter**. 
 
 
