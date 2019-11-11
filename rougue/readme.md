@@ -31,6 +31,7 @@ Let's lay this thing out and take a look at the guts. Once you have these things
 
 - **Computer. ($14)** This design uses the **Raspberry Pi W**, a small, low-power computer
   that has both wifi and bluetooth on board. This particular design uses a **Pi W** with pre-soldered [header pins](https://www.adafruit.com/product/3708), so you can plug in the specified display.
+	- You can buy a memory card with the [OS pre-installed](https://www.adafruit.com/product/3259), or you can [install it yourself](https://www.raspberrypi.org/downloads/noobs/).
 - **Display. ($49)** The display is pretty important. I've seen a lot of designs for
   things like this using small displays, and they typically have cables and plus
   sticking out of them. 
