@@ -28,7 +28,7 @@ the purchasing decisions.
 So our project breaks into two parts: **1** Connecting some components together 
 and **2)** fitting them into a case.
 
-# The Guts
+## The Guts
 
 Let's lay this thing out and take a look at the guts. It's basically these
 components:
@@ -90,11 +90,14 @@ components:
 - Tools. All I needed was an x-acto knife to cut the double sided tape, and 
   something to cut the cardboard cover.
 
-### Step II: plug everything together
-
+## Step I: assemble your parts
 1. Assemble the guts of the device.
 2. Plug them together to make sure it all works.
-3. Find a nice way to fit everything into your case, and lightly double stick
+
+## Step II: fit it into the case
+This is an ongoing process, but since we aren't soldering, 3D printing, or otherwise specifically making the guts fit the box, we can change it as we use it. So, in this step:
+
+1. Find a nice way to fit everything into your case, and lightly double stick
 tape the components in place. This will take some trial and error, but since
 you're not soldering or gluing, it's pretty easy to fit things in.
 
