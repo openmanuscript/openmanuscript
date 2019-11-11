@@ -29,12 +29,13 @@ and **2)** fitting them into a case.
 
 Let's lay this thing out and take a look at the guts. Once you have these things, you have a working computer. It's basically these components, for a total of about **$150**:
 
-- Computer. **($14)** This design uses the **Raspberry Pi W**, a small, low-power computer
-  that has both wifi and bluetooth on board. This particular design uses a **Pi W** with pre-soldered [header pins](https://www.adafruit.com/product/3708).
-- Display. **($49)** The display is pretty important. I've seen a lot of designs for
+- **Computer. ($14)** This design uses the **Raspberry Pi W**, a small, low-power computer
+  that has both wifi and bluetooth on board. This particular design uses a **Pi W** with pre-soldered [header pins](https://www.adafruit.com/product/3708), so you can plug in the specified display.
+- **Display. ($49)** The display is pretty important. I've seen a lot of designs for
   things like this using small displays, and they typically have cables and plus
-  sticking out of them. I wanted something cleaner, so I chose a [display that lays flat, and has a ribbon connection](https://www.amazon.com/gp/product/B0716RVNTS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
-- Keyboard. **($55)** Buyer's choice here. There are lots of options for bluetooth
+  sticking out of them. 
+    - I wanted something without a lot of messy cable connections, so I chose a [display that lays flat and has a ribbon connection](https://www.amazon.com/gp/product/B0716RVNTS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
+- **Keyboard. ($55)** Buyer's choice here. There are lots of options for bluetooth
   keyboards, and you can make your own choices on portability, feel, size, etc.
   I have two options that work well for me, and that reliably connect to the
   `pi` over bluetooth. 
@@ -42,7 +43,7 @@ Let's lay this thing out and take a look at the guts. Once you have these things
       that maintains a connection with the `pi` through power cycles. It's a nice size, and the
       layout is great for touch typing. It holds a good charge, and turns on/off
       as the keyboard is opened/closed. Nice product.
-- Battery. ***($18)** Your choice, based on price, battery life, form factor, etc. A lot of
+- **Battery. ($18)** Your choice, based on price, battery life, form factor, etc. A lot of
   different batteries will work, and I always have an eye out for a smaller
   battery pack on sale. [Here's the one that I'm using now](https://www.amazon.com/POWERADD-Pilot-2GS-High-Speed-Smartphone/dp/B00N2JBTEM/ref=sr_1_1_sspa?keywords=poweradd%2B10000).
   
@@ -64,13 +65,12 @@ Let's lay this thing out and take a look at the guts. Once you have these things
   keep the battery in place, because it's the one thing you need the most access to.
 - Small bit of lighting chain, and two screws to keep the lid in place. You
   may not need this, if your cigar box has some nifty hinges that stay open.
-- Tools. All I needed was an x-acto knife to cut the double sided tape, and 
-  something to cut the cardboard cover.
+- Tools. All I needed was an x-acto knife to cut the double sided tape, and the cardboard cover.
 
 ## Assembly
 
 It's important that you let go of making this some futzy, crazy, perfect thing.
-Some tape and bubble gum keeping it together is a good thing.
+Some tape and bubble gum keeping it together is a good thing. As long as you have a cool cigar box, this will look cool.
 
 1. Assemble the guts of the device (computer, display, battery), and have a USB mouse and keyboard available to set everything up. The bluetooth keyboard needs to be paired by starting things up in 'normal' desktop mode.
 2. Plug them together to make sure it all works. This includes installing the OS for the `pi`.
