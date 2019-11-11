@@ -3,10 +3,7 @@
 It's a writer's dream. Or maybe it's just an obsession. 
 
 **RogueWriter** is a portable device that makes it easy to write, without all the distractions 
-that a laptop can offer. I've used a lot of these, and you can take a look at my
-article on that obsessive journey.
-
-I wanted something that:
+that a laptop can offer. There are a lot of different attempts at this, and for mine, I wanted something that:
 
 - Was reliable, simple, and flexible
 - Was portable, with good battery life
