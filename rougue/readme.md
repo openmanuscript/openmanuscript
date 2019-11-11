@@ -33,27 +33,16 @@ Let's lay this thing out and take a look at the guts. Once you have these things
 
 ![guts](img/rw_diagram.png)
 
-1. **Computer. ($14)** This design uses the **Raspberry Pi W**, a small, low-power computer
-  that has both wifi and bluetooth on board. This particular design uses a **Pi W** with pre-soldered [header pins](https://www.adafruit.com/product/3708), so you can plug in the specified display.
-	- You can buy a memory card with the [OS pre-installed](https://www.adafruit.com/product/3259), or you can [install it yourself](https://www.raspberrypi.org/downloads/noobs/).
-- **Display. ($49)** The display is pretty important. I've seen a lot of designs for
-  things like this using small displays, and they typically have cables and plus
-  sticking out of them. 
+1. **Computer. ($14)** This design uses the **Raspberry Pi W**, a small, low-power computer that has both wifi and bluetooth on board. This particular design uses a **Pi W** with pre-soldered [header pins](https://www.adafruit.com/product/3708), so you can plug in the specified display.
+	- You can buy a memory card with the [OS pre-installed](https://www.adafruit.com/product/3259), or you can [install it yourself](https://www.raspberrypi.org/downloads/noobs/). 
+2. **Display. ($49)** The display is pretty important. I've seen a lot of designs for things like this using small displays, and they typically have cables and plus sticking out of them. 
     - I wanted something without a lot of messy cable connections, so I chose a [display that lays flat and has a ribbon connection](https://www.amazon.com/gp/product/B0716RVNTS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
-- **Keyboard. ($55)** Buyer's choice here. There are lots of options for bluetooth
-  keyboards, and you can make your own choices on portability, feel, size, etc.
-  I have two options that work well for me, and that reliably connect to the
-  `pi` over bluetooth. 
-    - Here's my current [favorite keyboard](https://www.amazon.com/gp/product/B019PIXO78/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This is one of the only keyboards that I've found 
-      that maintains a connection with the `pi` through power cycles. It's a nice size, and the
-      layout is great for touch typing. It holds a good charge, and turns on/off
-      as the keyboard is opened/closed. Nice product.
-- **Battery. ($18)** Your choice, based on price, battery life, form factor, etc. A lot of
-  different batteries will work, and I always have an eye out for a smaller
-  battery pack on sale. [Here's the one that I'm using now](https://www.amazon.com/POWERADD-Pilot-2GS-High-Speed-Smartphone/dp/B00N2JBTEM/ref=sr_1_1_sspa?keywords=poweradd%2B10000).
-- [USB on/off switch](https://www.amazon.com/gp/product/B07CTHKXDW/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This keeps the battery from draining, even after you've shut down the `pi`.
-- [USB right angle adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) You may not need them, but for my arrangement of parts in the cigar box, I needed these. Take a look at how I use two of these, to provice access to the USB connector on the `pi` board, while still jamming it up against the battery.  
-- USB micro cable.
+3. **Keyboard. ($55)** Buyer's choice here. There are lots of options for bluetooth keyboards, and you can make your own choices on portability, feel, size, etc. I have two options that work well for me, and that reliably connect to the `pi` over bluetooth. 
+    - Here's my current [favorite keyboard](https://www.amazon.com/gp/product/B019PIXO78/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This is one of the only keyboards that I've found that maintains a connection with the `pi` through power cycles. It's a nice size, and the layout is great for touch typing. It holds a good charge, and turns on/off as the keyboard is opened/closed. Nice product.
+4. **Battery. ($18)** Your choice, based on price, battery life, form factor, etc. A lot of different batteries will work, and I always have an eye out for a smaller battery pack on sale. [Here's the one that I'm using now](https://www.amazon.com/POWERADD-Pilot-2GS-High-Speed-Smartphone/dp/B00N2JBTEM/ref=sr_1_1_sspa?keywords=poweradd%2B10000).
+5. [USB on/off switch](https://www.amazon.com/gp/product/B07CTHKXDW/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This keeps the battery from draining, even after you've shut down the `pi`.
+6. [USB right angle adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) You may not need them, but for my arrangement of parts in the cigar box, I needed these. Take a look at how I use two of these, to provice access to the USB connector on the `pi` board, while still jamming it up against the battery.  
+7. USB micro cable.
 
 ## Other Parts
 
