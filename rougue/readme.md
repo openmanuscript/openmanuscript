@@ -2,7 +2,7 @@
 
 It's a writer's dream. Or maybe it's just an obsession. 
 
-A portable device that makes it easy to write, without all the distractions 
+RogueWriter is a portable device that makes it easy to write, without all the distractions 
 that a laptop can offer. I've used a lot of these, and you can take a look at my
 article on that obsessive journey.
 
@@ -35,14 +35,17 @@ components:
 
 - Computer. This design uses the **Raspberry Pi W**, a small, low-power computer
   that has both wifi and bluethooth on board.
+    - This particular design uses a **Pi W** with pre-soldered [GPIO
+      pins](https://www.amazon.com/Raspberry-Pi-Zero-WH-Pre-soldered/dp/B07B8MMD3V).
 - Display. The display is pretty important. I've seen a lot of designs for
   things like this using small displays, and they typically have cables and plus
-  sticking out of them. These are fine, but I wanted something cleaner, so
-  I chose a specific display that lays flat, and has a ribbon connection.
+  sticking out of them.
+	- I wanted something cleaner, so I chose a [display that lays flat, and has a ribbon connection](https://www.amazon.com/gp/product/B0716RVNTS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
 - Keyboard. Buyer's choice here. There are lots of options for bluetooth
   keyboards, and you can make your own choices on portability, feel, size, etc.
   I have two options that work well for me, and that reliably connect to the
   `pi` over bluetooth.
+	- Here's my current [favorite keyboard](https://www.amazon.com/gp/product/B019PIXO78/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
 - Battery, Your choice, based on price, battery life, form factor, etc. A lot of
   different batteries will work, and I always have an eye out for a smaller
   battery pack on sale. 
@@ -65,9 +68,9 @@ components:
 - Miscellaneous USB cables that connect the battery to the `pi`. These will
   vary, depending upon your case, but I found the essential bit is the on/off
   switch. Here's what I ended up using:
-    - USB cable
-    - USB on/off switch
-    - USB right angle (I needed this because of the arrangement of the case
+    - USB micro cable
+    - [USB on/off switch](https://www.amazon.com/gp/product/B07CTHKXDW/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+    - [USB right angle adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) I needed this because of the arrangement of the case
       and the size of the battery. You may not need them.
 - Full size Plugable foldable bluetooth keyboard ($59)
     - This is one of the only keyboards that I've found that maintains
