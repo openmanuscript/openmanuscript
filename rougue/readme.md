@@ -32,7 +32,8 @@ and **2)** fitting them into a case.
 
 ## The Guts
 
-Let's lay this thing out and take a look at the guts. Once you have these things, you have a working computer. It's basically these components, for a total of about **$150**:
+Let's lay this thing out and take a look at the guts. Once plug these things
+together (no cabling or soldering needed!), you have a working computer. It's basically these components, for a total of about **$150**:
 
 ![guts](img/rw_diagram.png)
 
