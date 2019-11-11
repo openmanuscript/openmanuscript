@@ -41,7 +41,13 @@ Let's lay this thing out and take a look at the guts. Once you have these things
     - Here's my current [favorite keyboard](https://www.amazon.com/gp/product/B019PIXO78/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This is one of the only keyboards that I've found that maintains a connection with the `pi` through power cycles. It's a nice size, and the layout is great for touch typing. It holds a good charge, and turns on/off as the keyboard is opened/closed. Nice product.
 4. **Battery. ($18)** Your choice, based on price, battery life, form factor, etc. A lot of different batteries will work, and I always have an eye out for a smaller battery pack on sale. [Here's the one that I'm using now](https://www.amazon.com/POWERADD-Pilot-2GS-High-Speed-Smartphone/dp/B00N2JBTEM/ref=sr_1_1_sspa?keywords=poweradd%2B10000).
 5. [USB on/off switch](https://www.amazon.com/gp/product/B07CTHKXDW/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1). This keeps the battery from draining, even after you've shut down the `pi`.
-6. [USB right angle adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) You may not need them, but for my arrangement of parts in the cigar box, I needed these. Take a look at how I use two of these, to provice access to the USB connector on the `pi` board, while still jamming it up against the battery.  
+6. [USB right angle
+adapter](https://www.amazon.com/gp/product/B01C6031MA/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1).
+You may not need them, but for my arrangement of parts in the cigar box,
+I needed these. Take a look at how I use two of these: the visible one on the
+right connects to the on/off switch. The second one, just barely visible
+extending to the left of the ribbon cable, provides access to the `pi`'s USB
+connector. This lets me plug in a mouse for software fixes if that's needed.
 7. USB micro cable.
 
 ## Other Parts
