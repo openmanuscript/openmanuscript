@@ -367,7 +367,17 @@ def write_chapter(doc, chapter, chapnum):
 
         # write content
         first = True
-        for scene in chapter["scenes"]: 
+        scenes = [] 
+        if core.settings["chaptersummary"]:
+            if "summary" in chapter:
+                scenes = [chapter["summary"]]
+            else:
+                # not sure if this is the right thing to do ...
+                print("Chapter summary, but no summary present")
+        else:
+            scenes = chapter["scenes"]
+
+        for scene in scenes: 
             if not first:
                 write_scene_separator(doc, scene)
             else:
@@ -386,15 +396,7 @@ def write_chapters(doc, manuscript):
     incr_chapter = True
     for chapter in manuscript["chapters"]:
         if core.check_chapter_tags(chapter):
-            if core.settings["chaptersummary"]:
-                if "summary" in chapter:
-                    incr_chapter = write_chapter(doc, chapter["summary"], chapnum) 
-                else:
-                    # not sure if this is the right thing to do ...
-                    print("Chapter summary, but no summary present")
-                    # incr_chapter = write_chapter(doc, None, chapnum) 
-            else:
-                incr_chapter = write_chapter(doc, chapter, chapnum)
+            incr_chapter = write_chapter(doc, chapter, chapnum)
 
             if (incr_chapter):
                 chapnum += 1
