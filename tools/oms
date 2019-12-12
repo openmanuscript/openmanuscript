@@ -50,7 +50,7 @@ conf_parser = argparse.ArgumentParser(
 
 args, remaining_argv = conf_parser.parse_known_args()
 
-desc = """An tool that renders OpenManuscript data in Word (docx) format.
+desc = """A tool that renders OpenManuscript data in Word (docx) format.
 """
 ep = """
 Examples:
