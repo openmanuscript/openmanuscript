@@ -34,7 +34,7 @@ This script is the standard conversion script. The script outputs ``Word`` files
 (docx), as this is the industry standard for sharing manuscripts.
 
 By default, the tool assumes it is being run in the manuscript directory. If
-this is not the case, an explicit path must set on the command line. The output is a document
+this is not the case, an explicit path must set on the command line.
 
 
 
