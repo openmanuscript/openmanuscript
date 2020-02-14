@@ -48,6 +48,7 @@ this is not the case, an explicit path must set on the command line. The output 
 - Switches
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
+	- ``--includesections`` if there are sections in scenes surrounded by arbitrary html tags, include those that are listed in this arg. 
 	- ``--notes`` print **notes** content in each scene, if present.
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
