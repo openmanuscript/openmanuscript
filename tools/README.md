@@ -20,7 +20,7 @@ Requirements for this toolset:
 These tools installs in the normal python way. From the `tools/` directory, run:
 
 ```
-pip3 install ."
+pip3 install .
 ```
 
 # Tools
