@@ -272,21 +272,25 @@ def write_docinfo(doc):
 # remove comments 
 # -----------------------------------------------------------------------------
 def remove_comments( data ):
-    data  = re.sub('\<comment\>.*\<\/comment\>', '', data, re.DOTALL)
-    return data
-
+    return handle_tag( data, "comment", False) 
 
 # -----------------------------------------------------------------------------
 # remove notes 
 # -----------------------------------------------------------------------------
 def handle_notes( data, state ):
+    return handle_tag( data, "notes", state)
+
+# -----------------------------------------------------------------------------
+# handle arbitrary html syntax tag 
+# -----------------------------------------------------------------------------
+def handle_tag( data, tag, state ):
     if state:
-        # include the note text
-        data  = data.replace("<notes>", "") 
-        data  = data.replace("</notes>", "") 
+        # include the text surrounded by the tag
+        data  = data.replace("<{}>".format(tag), "") 
+        data  = data.replace("</{}>".format(tag), "") 
     else:
-        # remove the note text
-        s = re.compile("<notes>.*?</notes>", re.DOTALL)
+        # remove the text surrounded by the tag
+        s = re.compile("<{}>.*</{}>".format(tag, tag), re.DOTALL)
         data = re.sub(s, "", data)
 
     return data
@@ -325,7 +329,11 @@ def write_scene(doc, scene):
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
             scenetext = scenetext.strip()
-            # scenetext = remove_comments(scenetext)
+            scenetext = remove_comments(scenetext)
+            if (core.settings["includesections"] != None):
+                for section in core.settings["includesections"]:
+                    print("section: {}".format(section))
+                    scenetext = handle_tag(scenetext, section, True) 
             scenetext = handle_notes(scenetext, core.settings["notes"])
 
             if scenetext:

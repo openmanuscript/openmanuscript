@@ -10,18 +10,19 @@ __oms = {
 }
 
 settings = {
-    "authorfile"     : "author.json",
-    "chaptersummary" : False,
-    "columns"        : None,
-    "exclude_tags"   : None, 
-    "filescenesep"   : False,
-    "font"           : "Courier",
-    "fontsize"       : "12",
-    "include_tags"   : None, 
-    "notes"          : False,
-    "manuscriptdir"  : ".",
-    "manuscriptfile" : "manuscript.json",
-    "outputfile"     : "manuscript.rtf"
+    "authorfile"      : "author.json",
+    "chaptersummary"  : False,
+    "columns"         : None,
+    "exclude_tags"    : None, 
+    "filescenesep"    : False,
+    "font"            : "Courier",
+    "fontsize"        : "12",
+    "include_tags"    : None, 
+    "includesettings" : None, 
+    "notes"           : False,
+    "manuscriptdir"   : ".",
+    "manuscriptfile"  : "manuscript.json",
+    "outputfile"      : "manuscript.rtf"
 }
 
 author = {

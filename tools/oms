@@ -105,6 +105,8 @@ parser.add_argument( "--notes", action="store_true", default=False,
     help="if there are notes, print them")
 parser.add_argument( "--outputfile", default="manuscript.docx", 
     help="write output to this file")
+parser.add_argument( "--includesections", nargs='+', type=str,
+    help="add scene sections that are considered 'on'") 
 parser.add_argument( "--specversion", action="store_true", default=False,
     help="report the version of OpenManuscript specification this tool supports")
 parser.add_argument( "--types", action="store_true", default=False,
@@ -133,6 +135,7 @@ openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
 openms.core.set("outputfile", args.outputfile)
+openms.core.set("includesections", args.includesections)
 
 if args.specversion:
     print(openms.core.get_spec_version())
