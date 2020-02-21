@@ -378,9 +378,6 @@ def write_chapter(doc, chapter, chapnum):
         if core.settings["chaptersummary"]:
             if "summary" in chapter:
                 scenes = [chapter["summary"]]
-            else:
-                # not sure if this is the right thing to do ...
-                print("Chapter summary, but no summary present")
         else:
             scenes = chapter["scenes"]
 
@@ -411,6 +408,7 @@ def write_chapters(doc, manuscript):
 def write(outputfile):
 
     # create the renderer, and get started
+    success = False 
     with open( outputfile, "w") as f:
         success = True
 
@@ -429,8 +427,7 @@ def write(outputfile):
 
         theDocument.save(outputfile)
 
-        if (success == True):
-            print("wrote file: " + core.settings["outputfile"])
+    return success
 
 
 
