@@ -85,6 +85,8 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument( "--authorfile", default="author.json",
     help="read author data from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--chapterdesc", action="store_true", default=False, 
+    help="print a chapter desc, if there is one")
 parser.add_argument( "--chaptersummary", action="store_true", default=False, 
     help="print a chapter summary, if there is one")
 parser.add_argument( "--exclude_tags", nargs='+', type=str,
@@ -125,6 +127,7 @@ args = parser.parse_args(remaining_argv)
 
 # set settings
 openms.core.set_authorfile(args.authorfile)
+openms.core.set("chapterdesc", args.chapterdesc)
 openms.core.set("chaptersummary", args.chaptersummary)
 openms.core.set("filescenesep", args.filescenesep)
 openms.core.set("notes", args.notes)

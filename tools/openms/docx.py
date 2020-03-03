@@ -319,42 +319,71 @@ def write_scene_separator(doc, scene):
 # -----------------------------------------------------------------------------
 # write a single scene
 # -----------------------------------------------------------------------------
-def write_scene(doc, scene):
+def write_scenefile(doc, scene):
     scenefile = core.get_scenefile(scene)
     if os.path.isfile(scenefile):
         pgraph = doc.add_paragraph()
         pgraph.style = 'Body'
 
-        # read and clean up the input data - mostly newlines and spaces
+        # read, transform and add the scene file 
         with open(scenefile, "r") as s_file:
             scenetext = s_file.read()
-            scenetext = scenetext.strip()
-            scenetext = remove_comments(scenetext)
-            if (core.settings["includesections"] != None):
-                for section in core.settings["includesections"]:
-                    scenetext = handle_tag(scenetext, section, True) 
-            scenetext = handle_notes(scenetext, core.settings["notes"])
+            html_tree = create_scene_text(scenetext)
 
-            if scenetext:
-                html_tree = ""
-                if (SETTINGS["mark_parser"] == "commonmark"):
-                    # commonmark
-                        # does not handle footnotes
-                    html_tree = commonmark.commonmark(scenetext)
-                elif (SETTINGS["mark_parser"] == "python-markdown"):
-                    # python-markdown
-                        # handles footnotes
-                    html_tree = MDown.markdown(scenetext, extensions=['footnotes'])
-                else:
-                    print("ERROR: unsupported markdown parser")
-                    exit(1)
-
+            if (html_tree != None):
                 # print(html_tree)
                 add_html(pgraph, html_tree)
 
     else:
         print("ERROR: can't find scene file: " + scenefile)
         return 0
+
+# -----------------------------------------------------------------------------
+# write a single scene
+# -----------------------------------------------------------------------------
+def write_scenetext(doc, scenetext):
+    # print("in write_scenetext")
+    pgraph = doc.add_paragraph()
+    pgraph.style = 'Body'
+
+    html_tree = create_scene_text(scenetext)
+
+    if (html_tree != None):
+        # print(html_tree)
+        add_html(pgraph, html_tree)
+
+    else:
+        print("ERROR: can't add scene text: " + scenetext)
+        return 0
+
+# -----------------------------------------------------------------------------
+# transform raw input text into text that can be added to a paragraph 
+#   this includes both cleaning up whitespace and transforming into html
+# -----------------------------------------------------------------------------
+def create_scene_text(scenetext):
+    scenetext = scenetext.strip()
+    scenetext = remove_comments(scenetext)
+    if (core.settings["includesections"] != None):
+        for section in core.settings["includesections"]:
+            scenetext = handle_tag(scenetext, section, True) 
+
+    scenetext = handle_notes(scenetext, core.settings["notes"])
+
+    html_tree = None
+    if scenetext:
+        if (SETTINGS["mark_parser"] == "commonmark"):
+            # commonmark
+                # does not handle footnotes
+            html_tree = commonmark.commonmark(scenetext)
+        elif (SETTINGS["mark_parser"] == "python-markdown"):
+            # python-markdown
+                # handles footnotes
+            html_tree = MDown.markdown(scenetext, extensions=['footnotes'])
+        else:
+            print("ERROR: unsupported markdown parser")
+            exit(1)
+
+    return html_tree
 
 # -----------------------------------------------------------------------------
 # write a single chapter 
@@ -381,16 +410,22 @@ def write_chapter(doc, chapter, chapnum):
         else:
             scenes = chapter["scenes"]
 
-        for scene in scenes: 
-            if not first:
-                write_scene_separator(doc, scene)
-            else:
-                if core.settings["filescenesep"]:
+        if core.settings["chapterdesc"]:
+            # just write the description of the chapter
+            if "desc" in chapter:
+                write_scenetext(doc, chapter["desc"])
+        else:
+            # write out all the scenes
+            for scene in scenes: 
+                if not first:
                     write_scene_separator(doc, scene)
-                first = False
+                else:
+                    if core.settings["filescenesep"]:
+                        write_scene_separator(doc, scene)
+                    first = False
 
-            if not scene.endswith(".pdf"):
-                write_scene(doc, scene)
+                if not scene.endswith(".pdf"):
+                    write_scenefile(doc, scene)
 
     return increment_chapter
 
