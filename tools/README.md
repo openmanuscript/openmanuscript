@@ -46,6 +46,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--include_tags`` define a list of tags that are 'on', and are included in any operation. Default is empty list, and all tags are included. 
 	- ``--exclude_tags`` define a list of tags that are 'off', and are not included in any operation. Default is empty listy, and no tags are excluded.
 - Switches
+	- ``--chapterdesc`` print a chapter description, if there is one, instead of the chapter.
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--includesections`` if there are sections in scenes surrounded by arbitrary html tags, include those that are listed in this arg. 
