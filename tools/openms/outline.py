@@ -156,15 +156,3 @@ def write_outline():
         write_postamble(f)
 
     return result
-
-def write_markdown():
-    result = False
-    with open( core.settings["outputfile"], "w" ) as f:
-        chapnum = 1;
-        for chapter in core.manuscript["chapters"]:
-            if (core.check_chapter_tags( chapter )):
-                f.write("\n")
-                f.write("### Chapter {}: {}\n\n".format(chapnum, chapter["title"]))
-                f.write(chapter["desc"])
-                f.write("\n")
-                chapnum = chapnum + 1
