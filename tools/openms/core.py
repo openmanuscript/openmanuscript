@@ -340,9 +340,13 @@ def get_scenelist():
         for scene in chapter["scenes"]:
             scenelist.append(scene)
 
-    scenelist.sort()
+    newlist = []
+    for i in scenelist:
+        if i not in newlist:
+            newlist.append(i)
+    newlist.sort()
 
-    return scenelist
+    return newlist 
 
 def find_tagged_scenes():
     scenes = []
