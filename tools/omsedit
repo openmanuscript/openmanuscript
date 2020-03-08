@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vi scenes/$1.md
