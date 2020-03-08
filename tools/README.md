@@ -55,8 +55,8 @@ this is not the case, an explicit path must set on the command line.
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
 	- ``--fontsize`` define the font size for the manuscript. Default is ``12``.
 - Operations
-	- ``--specversion`` report the version of ``OpenManuscript`` specification
-      that this tool supports, then exit.
+	- ``--listscenes`` print a sorted list of the scenes defined by the other command line options 
+	- ``--specversion`` report the version of ``OpenManuscript`` specification that this tool supports, then exit.
 	- ``--version`` report this application's version number, then exit.
 
 
