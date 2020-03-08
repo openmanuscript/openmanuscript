@@ -109,6 +109,8 @@ parser.add_argument( "--outputfile", default="manuscript.docx",
     help="write output to this file")
 parser.add_argument( "--includesections", nargs='+', type=str,
     help="add scene sections that are considered 'on'") 
+parser.add_argument( "--listscenes", action="store_true", default=False, 
+    help="list the scenes and exit")
 parser.add_argument( "--specversion", action="store_true", default=False,
     help="report the version of OpenManuscript specification this tool supports")
 parser.add_argument( "--types", action="store_true", default=False,
@@ -129,16 +131,16 @@ args = parser.parse_args(remaining_argv)
 openms.core.set_authorfile(args.authorfile)
 openms.core.set("chapterdesc", args.chapterdesc)
 openms.core.set("chaptersummary", args.chaptersummary)
-openms.core.set("filescenesep", args.filescenesep)
-openms.core.set("notes", args.notes)
 openms.core.set("exclude_tags", args.exclude_tags)
+openms.core.set("filescenesep", args.filescenesep)
 openms.core.set("font", args.font)
 openms.core.set("fontsize", args.fontsize)
+openms.core.set("includesections", args.includesections)
 openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
+openms.core.set("notes", args.notes)
 openms.core.set("outputfile", args.outputfile)
-openms.core.set("includesections", args.includesections)
 
 if args.specversion:
     print(openms.core.get_spec_version())
@@ -151,14 +153,18 @@ if args.types:
 # check existence of the files we will need
 if not os.path.isfile(openms.core.get_authorfile()):
     print("ERROR: cannot open file: " + openms.core.get_authorfile())
-    exit(0)
+    exit(1)
 
 if not os.path.isfile( openms.core.get_manuscriptfile() ):
     print("ERROR: cannot open file: " + openms.core.get_manuscriptfile())
-    exit(0)
+    exit(1)
 
 # do everything
 # At the moment, this tool only provides feedback on command line options
+
+if args.listscenes:
+    print( openms.core.get_scenelist() )
+    exit(0)
 
 output_type = openms.core.get_output_type()
 

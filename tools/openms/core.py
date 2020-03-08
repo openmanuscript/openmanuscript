@@ -330,6 +330,19 @@ def manuscript_to_html( mdir, mfile, afile, ofile ):
         ofile.write("</body>")
         ofile.write("</html>")
 
+def get_scenelist():
+    global manuscript
+
+    read_data()
+
+    scenelist = []
+    for chapter in manuscript["chapters"]:
+        for scene in chapter["scenes"]:
+            scenelist.append(scene)
+
+    scenelist.sort()
+
+    return scenelist
 
 def find_tagged_scenes():
     scenes = []
