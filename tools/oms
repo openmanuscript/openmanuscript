@@ -163,7 +163,9 @@ if not os.path.isfile( openms.core.get_manuscriptfile() ):
 # At the moment, this tool only provides feedback on command line options
 
 if args.listscenes:
-    print( openms.core.get_scenelist() )
+    scenes = openms.core.get_scenelist()
+    for scene in scenes:
+        print(scene)
     exit(0)
 
 output_type = openms.core.get_output_type()
