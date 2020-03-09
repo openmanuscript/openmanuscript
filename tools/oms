@@ -107,8 +107,8 @@ parser.add_argument( "--notes", action="store_true", default=False,
     help="if there are notes, print them")
 parser.add_argument( "--outputfile", default="manuscript.docx", 
     help="write output to this file")
-parser.add_argument( "--includesections", nargs='+', type=str,
-    help="add scene sections that are considered 'on'") 
+parser.add_argument( "--excludesections", nargs='+', type=str,
+    help="add scene sections that are considered 'off'") 
 parser.add_argument( "--listscenes", action="store_true", default=False, 
     help="list the scenes and exit")
 parser.add_argument( "--specversion", action="store_true", default=False,
@@ -135,7 +135,7 @@ openms.core.set("exclude_tags", args.exclude_tags)
 openms.core.set("filescenesep", args.filescenesep)
 openms.core.set("font", args.font)
 openms.core.set("fontsize", args.fontsize)
-openms.core.set("includesections", args.includesections)
+openms.core.set("excludesections", args.excludesections)
 openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
