@@ -281,6 +281,22 @@ def handle_notes( data, state ):
     return handle_tag( data, "notes", state)
 
 # -----------------------------------------------------------------------------
+# include a file 
+# -----------------------------------------------------------------------------
+def handle_include( data ):
+    includes = re.findall(r'(<include>\s*([^<]+).md\s*</include>)', data, flags=re.DOTALL)
+
+    for i in includes:
+        scenefile = core.get_scenefile(i[1])
+        with open(scenefile, "r") as s_file:
+            scenetext = s_file.read()
+            isub = re.compile(i[0], re.DOTALL)
+            data = re.sub(isub, scenetext, data)
+
+    return data
+
+
+# -----------------------------------------------------------------------------
 # handle arbitrary html syntax tag 
 # -----------------------------------------------------------------------------
 def handle_tag( data, tag, state ):
@@ -367,6 +383,7 @@ def create_scene_text(scenetext):
         for section in core.settings["excludesections"]:
             scenetext = handle_tag(scenetext, section, False) 
 
+    scenetext = handle_include(scenetext)
     scenetext = handle_notes(scenetext, core.settings["notes"])
 
     html_tree = None
