@@ -36,7 +36,16 @@ for sharing manuscripts.
 By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line.
 
+### the <include> directive
 
+This tool will include files one level deep. It looks in the `scenes` directory
+for `filename` with the directive formatted this way:
+
+```
+<include>filename</include>
+```
+
+### command line arguments
 
 - Input/Output
 	- ``--authorfile`` the name of the author json file in the ``manuscriptdir``. Defaults to ``author.json``
