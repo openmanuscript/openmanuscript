@@ -68,7 +68,7 @@ args = parser.parse_args(remaining_argv)
 
 # settings
 openms.core.set_authorfile(args.authorfile)
-openms.core.set("exclude_tags", args.include_tags)
+openms.core.set("exclude_tags", args.exclude_tags)
 openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)
 openms.core.set_manuscriptfile(args.manuscriptfile)
