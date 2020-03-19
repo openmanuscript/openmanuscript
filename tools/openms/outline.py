@@ -135,8 +135,13 @@ def write_outline():
         for chapter in core.manuscript["chapters"]:
             if (core.check_chapter_tags( chapter )):
                 f.write("<tr>\n")
-                f.write("<td>{0}</td>\n".format(chapnum))
-                chapnum = chapnum + 1
+
+                if (core.get_chapter_type(chapter) == "CHAPTER"):
+                    f.write("<td>{0}</td>\n".format(chapnum))
+                    chapnum = chapnum + 1
+                else:
+                    f.write("<td>&nbsp</td>\n")
+
                 for col in core.settings["columns"]:
                     if (col.lower() in chapter):
                         if (col == "Scenes"):

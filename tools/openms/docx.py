@@ -408,11 +408,7 @@ def create_scene_text(scenetext):
 def write_chapter(doc, chapter, chapnum):
     increment_chapter = False
 
-    chaptype = None
-    if "type" in chapter:
-        chaptype = chapter["type"].upper()
-    else:
-        chaptype = "CHAPTER"
+    chaptype = core.get_chapter_type(chapter)
 
     scenes = None
     if True:

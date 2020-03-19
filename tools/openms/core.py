@@ -88,6 +88,17 @@ def get_output_type():
     name, ext = os.path.splitext(settings["outputfile"])
     ext, numtimes = re.subn(r'^.', r'', ext)
     return ext
+
+def get_chapter_type(chapter):
+    chaptype = None
+    if "type" in chapter:
+        chaptype = chapter["type"].upper()
+    else:
+        chaptype = "CHAPTER"
+
+    return chaptype
+
+
 # ---------------------------------------------------------------------------
 # clean scene filename 
 #
