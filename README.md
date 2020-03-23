@@ -47,9 +47,15 @@ a final manuscript, share it as a specific document type (Word, PDF, etc.) or
 publish it as a final product (ebook, etc.), the writer uses another tool to
 create that product.
 
-This repository includes a specification document, simple tools, and an example of the file format.
+## This Repository
 
-Keep it simple.
+This repository includes: 
+
+- The OpenManuscript specification [document](spec/2.0.md), 
+- A command-line based [toolset](tools) for creating manuscripts, 
+- An [example](example) of an OpenManuscript database 
+
+OpenManuscript. Keep it simple.
 
 
 
