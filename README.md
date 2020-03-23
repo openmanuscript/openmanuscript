@@ -51,7 +51,7 @@ create that product.
 
 This repository includes: 
 
-- The OpenManuscript specification [document](spec/2.0.md), 
+- The OpenManuscript specification [document](spec/2-0.md), 
 - A command-line based [toolset](tools) for creating manuscripts, 
 - An [example](example) of an OpenManuscript database 
 
