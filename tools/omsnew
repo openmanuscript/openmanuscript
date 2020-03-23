@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cp scenes/template.md scenes/$1.md
-vi scenes/$1.md
