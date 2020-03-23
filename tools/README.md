@@ -1,6 +1,7 @@
 # OpenManuscript tools
 
-For more information about these tools, contact david *at* dhrogers *dot* com.
+For more information about these tools, contact **david *at* dhrogers *dot*
+com**.
 
 ## Introduction
 
