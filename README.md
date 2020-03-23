@@ -60,7 +60,8 @@ The best way to get started is to pull this repository, then explore the
 instructions in the [tools](tools) directory, where there are examples and
 instructions about a simple toolset.
 
-For more information about these tools, contact david *at* dhrogers *dot* com.
+For more information about these tools, contact **david *at* dhrogers *dot*
+com**.
 
 OpenManuscript. Keep it simple.
 
