@@ -7,7 +7,7 @@ This is OpenManuscript, a text-based data format specification for writing
 fiction in an organized, hassle-free way that frees you up to be your most
 creative!
 
-For more information about this specification, contact david@dhrogers.com.
+For more information about these tools, contact david *at* dhrogers *dot* com.
 
 Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 

@@ -1,3 +1,10 @@
 #!/bin/bash
 
-vi scenes/$1.md
+SCENE="scenes/$1.md"
+TEMPLATE="scenes/template.md"
+if [ ! -f "$SCENE" ]; then
+    cp $TEMPLATE $SCENE
+fi
+ 
+vi $SCENE
+
