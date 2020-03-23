@@ -47,13 +47,19 @@ a final manuscript, share it as a specific document type (Word, PDF, etc.) or
 publish it as a final product (ebook, etc.), the writer uses another tool to
 create that product.
 
-## This Repository
+## Getting Started 
 
 This repository includes: 
 
 - The OpenManuscript specification [document](spec/2-0.md), 
 - A command-line based [toolset](tools) for creating manuscripts, 
 - An [example](example) of an OpenManuscript database 
+
+The best way to get started is to pull this repository, then explore the
+instructions in the [tools](tools) directory, where there are examples and
+instructions about a simple toolset.
+
+For more information about these tools, contact david *at* dhrogers *dot* com.
 
 OpenManuscript. Keep it simple.
 
