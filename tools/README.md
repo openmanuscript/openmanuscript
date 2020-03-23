@@ -129,6 +129,7 @@ edits, and not part of a finished manuscript, so this is not a show stopper.
     - *Solution* Use footnotes as internal notes for edits and ideas, and not as
       part of a final manuscript.
 
+---
 ## oms2outline
 
 This tool creates an ``html``-based table outline, using information in the project's manuscript ``json`` file. Scene files are linked in the **Scenes** column. See the example below.
@@ -144,3 +145,14 @@ The command has the same options as ``oms`` (shown above), with the addition of 
       OpenManuscript specification. If a scene does not have a value for a 
       column, a blank is shown. Check the output of the tool's help for a 
       list of default values.
+---
+## omsedit
+
+This is a convenience script that, when run in a valid OpenManuscript database
+directory, will create a new script from a template scene file and run the `vi`
+editor. In particular, it will perform the following operations:
+
+```
+    cp scenes/template.md scenes/(filename).md
+    vi scenes/(filename).md
+```
