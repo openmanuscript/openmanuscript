@@ -456,9 +456,9 @@ def write_chapters(doc, manuscript):
 def write(outputfile):
 
     # create the renderer, and get started
-    success = False 
+    result = False 
     with open( outputfile, "w") as f:
-        success = True
+        result = True
 
         # create the one document
         theDocument  = Document()
@@ -475,7 +475,7 @@ def write(outputfile):
 
         theDocument.save(outputfile)
 
-    return success
+    return result
 
 
 
