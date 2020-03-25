@@ -18,7 +18,9 @@ Requirements for this toolset:
 
 ## Installation 
 
-These tools installs in the normal python way. From the `tools/` directory, run:
+These tools installs in the normal python way. This will install the `openms`
+python module, and the set of tools described below. To install, `cd` to the 
+`tools/` directory and run:
 
 ```
 pip3 install .
