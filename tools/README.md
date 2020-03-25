@@ -153,10 +153,7 @@ The command has the same options as ``oms`` (shown above), with the addition of 
 ## omsedit
 
 This is a convenience script that, when run in a valid OpenManuscript database
-directory, will create a new script from a template scene file and run the `vi`
-editor. In particular, it will perform the following operations:
-
-```
-    cp scenes/template.md scenes/(filename).md
-    vi scenes/(filename).md
-```
+directory, will open `vi` on a scene file. If the scene file does not exist, one
+is created by copying a template scene file called `scenes/template.md`. This
+allows you to create a project-specific scene template, and use it every time
+you create a new scene.
