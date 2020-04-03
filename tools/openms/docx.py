@@ -302,11 +302,12 @@ def handle_include( data ):
 def handle_tag( data, tag, state ):
     if state:
         # include the text surrounded by the tag
+        # data  = data.replace("<{}[^>]*>".format(tag), "") 
         data  = data.replace("<{}>".format(tag), "") 
         data  = data.replace("</{}>".format(tag), "") 
     else:
         # remove the text surrounded by the tag
-        s = re.compile("<{}>.*</{}>".format(tag, tag), re.DOTALL)
+        s = re.compile("<{}[^>]*>.+?</{}>".format(tag, tag))
         data = re.sub(s, "", data)
 
     return data
