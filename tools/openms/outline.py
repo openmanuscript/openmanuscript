@@ -30,14 +30,15 @@ FONT = {
 }
 
 OUTLINE_COL_WIDTHS = {
-    'title': '5', 
-    'arc' : '5',
-    'tod': '5', 
-    'pov': '5', 
-    'setting': '5', 
-    'scenes': '5', 
-    'desc': '30', 
-    'story': '40'
+    'default'   : '2',
+    'title'     : '5', 
+    'arc'       : '5',
+    'tod'       : '2', 
+    'pov'       : '2', 
+    'setting'   : '5', 
+    'scenes'    : '5', 
+    'desc'      : '30', 
+    'story'     : '40'
 }
 
 OUTLINE_CSS = """
@@ -111,6 +112,19 @@ def sub_italics( data ):
 
 # -----------------------------------------------------------------------------
 #
+# get the width for a column
+#
+# -----------------------------------------------------------------------------
+def get_column_width(column):
+    width = OUTLINE_COL_WIDTHS['default'] 
+
+    if column in OUTLINE_COL_WIDTHS:
+        width = OUTLINE_COL_WIDTHS[column]
+
+    return width
+
+# -----------------------------------------------------------------------------
+#
 # write this object's data into an html file 
 #
 # -----------------------------------------------------------------------------
@@ -129,7 +143,7 @@ def write_outline():
         f.write("<th style=\"width:1%\">Chapter</th>\n")
         for col in core.settings["columns"]:
             f.write("<th style=\"width:{0}%\">{1}</th>".
-                format(OUTLINE_COL_WIDTHS[col.lower()], col))
+                format(get_column_width(col.lower()), col))
         f.write("</tr>\n")
         tags = None
         for chapter in core.manuscript["chapters"]:
