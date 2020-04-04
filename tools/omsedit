@@ -1,6 +1,13 @@
 #!/bin/bash
 
 SCENE="scenes/$1.md"
+
+if [ $# -eq 0 ]
+then
+    NEXTSCENE=`omsnext scenes` 
+    SCENE="scenes/$NEXTSCENE"
+fi
+
 TEMPLATE="scenes/template.md"
 if [ ! -f "$SCENE" ]; then
     cp $TEMPLATE $SCENE
