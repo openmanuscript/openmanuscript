@@ -2,6 +2,7 @@ import os
 import json
 import csv
 import re
+import glob
 
 __oms = {
     "name"        : "OpenManuscript",
@@ -30,6 +31,22 @@ author = {
 
 manuscript = {
 }
+
+def get_next_scene(dir):
+    next_scene = "000"
+
+    globstring = '{}/[0-9]*.md'.format( os.path.join(dir) )
+    scenes = glob.glob( globstring )
+    if len(scenes) != 0:
+        scenes.sort()
+        next_scene = os.path.basename(scenes[-1])
+        next_scene = os.path.splitext(next_scene)[0] 
+        next_scene = int(next_scene)
+        next_scene += 1
+        next_scene = "{:03}.md".format(next_scene)
+
+    return next_scene
+    
 
 def set(attribute, value):
     global settings

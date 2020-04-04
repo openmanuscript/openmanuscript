@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+# ---------------------------------------------------------------------------
+#
+# oms, a tiny manuscript tool based on the OpenManuscript specification 
+#
+# ---------------------------------------------------------------------------
+
+import openms
+import sys
+
+if len(sys.argv) == 2:
+    print(openms.core.get_next_scene(sys.argv[1]))
+else:
+    print("ERROR: need one argument")
