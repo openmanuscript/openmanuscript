@@ -14,7 +14,9 @@ Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
 
 ## Introduction
 
-This is a specification for OpenManuscript, an ASCII text-based workflow for writing fiction, managing drafts, and creating [fiction manuscripts](https://www.shunn.net/format/story.html).
+This is a specification for OpenManuscript, an ASCII text-based workflow for 
+writing fiction, managing drafts, and creating 
+[fiction manuscripts](https://www.shunn.net/format/story.html).
 
 The OpenManuscript format separates data from the applications that edit,
 display or print it, which is a very powerful mechanism for invention.
