@@ -300,15 +300,15 @@ def handle_include( data ):
 # handle arbitrary html syntax tag 
 # -----------------------------------------------------------------------------
 def handle_tag( data, tag, state ):
+    subflags = flags=re.MULTILINE|re.DOTALL
     if state:
         # include the text surrounded by the tag
         # data  = data.replace("<{}[^>]*>".format(tag), "") 
-        data  = data.replace("<{}>".format(tag), "") 
-        data  = data.replace("</{}>".format(tag), "") 
+        data  = re.sub(rf'<{tag}>', "", data, flags=subflags)
+        data  = re.sub(rf'</{tag}>', "", data, flags=subflags) 
     else:
         # remove the text surrounded by the tag
-        s = re.compile("<{}[^>]*>.+?</{}>".format(tag, tag))
-        data = re.sub(s, "", data)
+        data = re.sub(rf'<{tag}>.*?</{tag}>', "", data, flags=subflags) 
 
     return data
 
