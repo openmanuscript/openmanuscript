@@ -380,9 +380,14 @@ def write_scenetext(doc, scenetext):
 def create_scene_text(scenetext):
     scenetext = scenetext.strip()
     scenetext = remove_comments(scenetext)
+
     if (core.settings["excludesections"] != None):
         for section in core.settings["excludesections"]:
             scenetext = handle_tag(scenetext, section, False) 
+
+    if (core.settings["includesections"] != None):
+        for section in core.settings["includesections"]:
+            scenetext = handle_tag(scenetext, section, True) 
 
     scenetext = handle_include(scenetext)
     scenetext = handle_notes(scenetext, core.settings["notes"])

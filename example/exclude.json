@@ -1,0 +1,16 @@
+{
+"version" : "2.0",
+"manuscript" : {
+    "title" : "OpenManuscript Exclude Section Example",
+    "runningtitle" : "exclude",
+    "chapters" : [
+        {
+            "title"   : "Exclude Sections",
+            "pov"     : "Io",
+            "setting" : "Io's front yard.",
+            "desc"    : "This scene is an example of excluding sections",
+            "scenes"  : ["exclude", "exclude"]
+        }
+    ]
+}
+}

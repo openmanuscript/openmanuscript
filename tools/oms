@@ -72,6 +72,8 @@ parser.add_argument( "--font", default="Courier", choices=["Courier", "Times"],
     help="Use this font for the manuscript")
 parser.add_argument( "--fontsize", default="12", 
     help="Use this font size for the manuscript")
+parser.add_argument( "--includesections", nargs='+', type=str,
+    help="add scene sections that are considered 'on'") 
 parser.add_argument( "--include_tags", nargs='+', type=str,
     help="add chapter tags that are considered 'on'")
 parser.add_argument( "--manuscriptdir", default=".", 
@@ -110,6 +112,7 @@ openms.core.set("exclude_tags", args.exclude_tags)
 openms.core.set("filescenesep", args.filescenesep)
 openms.core.set("font", args.font)
 openms.core.set("fontsize", args.fontsize)
+openms.core.set("includesections", args.includesections)
 openms.core.set("excludesections", args.excludesections)
 openms.core.set("include_tags", args.include_tags)
 openms.core.set_manuscriptdir(args.manuscriptdir)

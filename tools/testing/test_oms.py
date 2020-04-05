@@ -11,35 +11,63 @@ class TestCIS(unittest.TestCase):
 
     def tearDown(self):
         # clean up 
-        shutil.rmtree( self.scratchdir )
+        clean = True
+        if clean:
+            shutil.rmtree( self.scratchdir )
+        else:
+            print("Not cleaning up from test ...")
 
     def test_oms(self):
         msdir  = "../example"
         msfile = "manuscript.json"
         afile  = "author.json"
+        extest = ["summary endnotes", "excludetext"]
 
         # make a testing area
         os.mkdir(self.scratchdir)
         
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript.docx")
-        print("Running oms")
+        print("Running oms for base test")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
 
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_noquote-nosynopsis.docx")
-        print("Running oms")
+        print("Running oms for no quote no synopsis")
         os.system("./oms --exclude_tags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
         
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_simple.docx")
-        print("Running oms")
+        print("Running oms for simple test")
         os.system("./oms --include_tags simple --exclude_tags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
         
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_notes.docx")
-        print("Running oms")
+        print("Running oms for notes")
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
+
+        # export docx
+            # don't exclude
+        basefile = "omstest_manuscript_dont-exclude.docx"
+        ofile = os.path.join(self.scratchdir, basefile) 
+        ofile_gold = os.path.join(self.golddir, basefile) 
+        emsfile = "exclude.json"
+        print("Running oms for exclude check (don't exclude)")
+        os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
+                        --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
+                         msdir, emsfile, afile, ofile, extest[1], extest[0]))
+            # exclude
+        ofile = os.path.join(self.scratchdir, "omstest_manuscript_exclude.docx")
+        print("Running oms for exclude check (exclude)")
+        os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
+                        --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
+                         msdir, emsfile, afile, ofile, extest[0], extest[1]))
+        # can't perform test: files with equivalent content show as different
+        # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'exclude files differ')
         
         # export outline
         basefile = "omstest_manuscript_outline.html"
