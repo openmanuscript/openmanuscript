@@ -62,8 +62,9 @@ for `filename` with the directive formatted this way:
 	- ``--chapterdesc`` print a chapter description, if there is one, instead of the chapter.
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
 	- ``--excludesections`` if there are sections in scenes surrounded by arbitrary html tags, exclude those 
-                            whose tags are listed in this arg. Otherwise, they
-                            are included. See example below.
+                            whose tags are listed in this arg. Note that sections must either by included or excluded, to prevent errors.
+	- ``--includesections`` if there are sections in scenes surrounded by arbitrary html tags, include those 
+                            whose tags are listed in this arg. Note that sections must either by included or excluded, to prevent errors.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--notes`` print **notes** content in each scene, if present.
 - Formatting
