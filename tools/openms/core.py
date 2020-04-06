@@ -6,7 +6,7 @@ import glob
 
 __oms = {
     "name"        : "OpenManuscript",
-    "toolversion" : "2.1",
+    "toolversion" : "2.2",
     "specversion" : "2.0"
 }
 
