@@ -242,11 +242,15 @@ def read_data():
         author = json.load( author_file )
         if (check_version(author)):
             author = author["author"]
+        else:
+            exit(0)
 
     with open( get_manuscriptfile() ) as manuscript_file:
         manuscript = json.load( manuscript_file )
         if (check_version(manuscript)):
             manuscript = manuscript["manuscript"]
+        else:
+            exit(0)
         
 
 def csv_to_manuscript( csvfile, ms ):
