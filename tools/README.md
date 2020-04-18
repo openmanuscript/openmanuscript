@@ -1,11 +1,10 @@
 # OpenManuscript tools
 
+This is a set of tools that support **OpenManuscript** workflows.
+
 For more information about these tools, contact **david *at* dhrogers *dot*
 com**.
 
-## Introduction
-
-This is a set of tools that support **OpenManuscript** workflows.
 
 ## Requirements
 
