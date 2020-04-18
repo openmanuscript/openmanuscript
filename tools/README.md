@@ -126,8 +126,8 @@ managing different kinds of output in the same project.
 oms --settingsfile draft.json
 ```
 
+Contents of draft.json:
 ```
-Contents of draft.json
 {
     "manuscriptdir"  : "../example",
     "authorfile"     : "a.json",
