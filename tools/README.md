@@ -110,12 +110,30 @@ be written in the `tools` directory.
 oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json
 ```
 
-Finally, this command will create the `manuscript.docx` file at a specific
+This command will create the `manuscript.docx` file at a specific
 location, per the `--outputfile` argument. In this case, it will create the file
 in the user's home directory.
 
 ```
 oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
+```
+
+Finally, this command is equivalent to the one above, when the following file
+named `draft.json` is created. This can be useful for simplicity and for
+managing different kinds of output in the same project.
+
+```
+oms --settingsfile draft.json
+```
+
+```
+Contents of draft.json
+{
+    "manuscriptdir"  : "../example",
+    "authorfile"     : "a.json",
+    "manuscriptfile" : "m.json",
+    "outputfile"     : "~/example_manuscript.docx"
+}
 ```
 
 ### Known issues
