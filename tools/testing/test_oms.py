@@ -35,13 +35,13 @@ class TestCIS(unittest.TestCase):
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_noquote-nosynopsis.docx")
         print("Running oms for no quote no synopsis")
-        os.system("./oms --exclude_tags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        os.system("./oms --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         # can't perform test: files with equivalent content show as different
         
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_simple.docx")
         print("Running oms for simple test")
-        os.system("./oms --include_tags simple --exclude_tags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        os.system("./oms --includetags simple --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         # can't perform test: files with equivalent content show as different
         
         # export docx

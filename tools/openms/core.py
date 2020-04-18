@@ -12,18 +12,20 @@ __oms = {
 
 settings = {
     "authorfile"      : "author.json",
+    "chapterdesc"     : False,
     "chaptersummary"  : False,
     "columns"         : None,
-    "exclude_tags"    : None, 
+    "excludesections" : None, 
+    "excludetags"     : None, 
     "filescenesep"    : False,
     "font"            : "Courier",
     "fontsize"        : "12",
-    "include_tags"    : None, 
-    "includesettings" : None, 
-    "notes"           : False,
+    "includesections" : None, 
+    "includetags"     : None, 
     "manuscriptdir"   : ".",
     "manuscriptfile"  : "manuscript.json",
-    "outputfile"      : "manuscript.rtf"
+    "notes"           : False,
+    "outputfile"      : "manuscript.docx"
 }
 
 author = {
@@ -47,22 +49,17 @@ def get_next_scene(dir):
 
     return next_scene
     
+def get_setting(key):
+    result = None
+    if key in settings:
+        result = settings[key]
+
+    return result
 
 def set(attribute, value):
     global settings
+    # print("Setting: {}, {}".format( attribute, value))
     settings[attribute] = value
-
-def set_manuscriptdir( msdir ):
-    global settings
-    settings["manuscriptdir"] = msdir
-
-def set_manuscriptfile( mfile ):
-    global settings
-    settings["manuscriptfile"] = mfile 
-
-def set_authorfile( afile ):
-    global settings
-    settings["authorfile"] = afile 
 
 def get_name():
     global __oms
@@ -136,20 +133,20 @@ def check_chapter_tags( chapter ):
     exclude = False
 
     if (not ("tags" in chapter)):
-        if (settings["include_tags"] != None):
+        if (settings["includetags"] != None):
             include = False 
         else:
             include = True
 
         exclude = False
     else:
-        if (settings["include_tags"] != None):
-            include = any( i in chapter["tags"] for i in settings["include_tags"])
+        if (settings["includetags"] != None):
+            include = any( i in chapter["tags"] for i in settings["includetags"])
         else:
             include = True
 
-        if (settings["exclude_tags"] != None):
-            exclude = any( i in chapter["tags"] for i in settings["exclude_tags"])
+        if (settings["excludetags"] != None):
+            exclude = any( i in chapter["tags"] for i in settings["excludetags"])
         else:
             exclude = False
 
@@ -298,9 +295,9 @@ def csv_to_manuscript( csvfile, ms ):
 def manuscript_to_csv( mdir, mfile, afile, ofile ):
     global manuscript
 
-    set_manuscriptdir(mdir)
-    set_manuscriptfile(mfile)
-    set_authorfile(afile)
+    set("manuscriptdir", mdir)
+    set("manuscriptfile", mfile)
+    set("authorfile", afile)
     read_data()
 
     names = ["title", "pov", "tod", "setting", "desc"]
@@ -334,9 +331,9 @@ def manuscript_to_csv( mdir, mfile, afile, ofile ):
 def manuscript_to_html( mdir, mfile, afile, ofile ):
     global manuscript
 
-    set_manuscriptdir(mdir)
-    set_manuscriptfile(mfile)
-    set_authorfile(afile)
+    set("manuscriptdir", mdir)
+    set("manuscriptfile", mfile)
+    set("authorfile", afile)
     read_data()
 
     with open( get_authorfile() ) as author_file:

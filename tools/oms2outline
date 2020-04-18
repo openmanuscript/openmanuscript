@@ -41,9 +41,9 @@ parser = argparse.ArgumentParser(
 # parser.set_defaults(**defaults)
 parser.add_argument( "--authorfile", default="author.json",
     help="read author data from this file. Must be located in MANUSCRIPTDIR")
-parser.add_argument( "--exclude_tags", nargs='+', type=str,
+parser.add_argument( "--excludetags", nargs='+', type=str,
     help="add chapter tags that are considered 'off'")
-parser.add_argument( "--include_tags", nargs='+', type=str,
+parser.add_argument( "--includetags", nargs='+', type=str,
     help="add chapter tags that are considered 'on'")
 parser.add_argument( "--manuscriptdir", default=".", 
     help="directory that contains the manuscript data")
@@ -67,11 +67,11 @@ args = parser.parse_args(remaining_argv)
 # -----------------------------------------------------------------------------
 
 # settings
-openms.core.set_authorfile(args.authorfile)
-openms.core.set("exclude_tags", args.exclude_tags)
-openms.core.set("include_tags", args.include_tags)
-openms.core.set_manuscriptdir(args.manuscriptdir)
-openms.core.set_manuscriptfile(args.manuscriptfile)
+openms.core.set("authorfile", args.authorfile)
+openms.core.set("excludetags", args.excludetags)
+openms.core.set("includetags", args.includetags)
+openms.core.set("manuscriptdir", args.manuscriptdir)
+openms.core.set("manuscriptfile", args.manuscriptfile)
 openms.core.set("outputfile", args.outputfile)
 openms.core.set("columns", args.columns)
 

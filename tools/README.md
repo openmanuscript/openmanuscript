@@ -56,8 +56,8 @@ for `filename` with the directive formatted this way:
 	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
-	- ``--include_tags`` define a list of tags that are 'on', and are included in any operation. Default is empty list, and all tags are included. 
-	- ``--exclude_tags`` define a list of tags that are 'off', and are not included in any operation. Default is empty listy, and no tags are excluded.
+	- ``--includetags`` define a list of tags that are 'on', and are included in any operation. Default is empty list, and all tags are included. 
+	- ``--excludetags`` define a list of tags that are 'off', and are not included in any operation. Default is empty listy, and no tags are excluded.
 - Switches
 	- ``--chapterdesc`` print a chapter description, if there is one, instead of the chapter.
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
