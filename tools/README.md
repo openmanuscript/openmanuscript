@@ -118,8 +118,8 @@ in the user's home directory.
 oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
 ```
 
-Finally, this command is equivalent to the one above, when the following file
-named `draft.json` is created. This can be useful for simplicity and for
+Using the `settings` command line argument, this command is equivalent to the one above, 
+when a properly formatted file named `draft.json` is created. This can be useful for simplicity and for
 managing different kinds of output in the same project.
 
 ```
@@ -135,6 +135,15 @@ Contents of draft.json:
     "outputfile"     : "~/example_manuscript.docx"
 }
 ```
+
+Finally, the command line can be used to override or add arguments in addition
+to those included in a settings file. The following command adds `--font`, and
+overwrites the value of `--authorfile`, using the above `draft.json` file.
+
+```
+oms --settingsfile draft.json --font Courier --authorfile updated.json
+```
+
 
 ### Known issues
 
