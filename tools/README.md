@@ -136,7 +136,7 @@ Contents of draft.json:
 }
 ```
 
-Finally, the command line can be used to override or add arguments in addition
+Finally, the command line can be used to override or add arguments 
 to those included in a settings file. The following command adds `--font`, and
 overwrites the value of `--authorfile`, using the above `draft.json` file.
 
