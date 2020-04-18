@@ -153,6 +153,7 @@ The command has the same options as ``oms`` (shown above), with the addition of 
       column, a blank is shown. Check the output of the tool's help for a 
       list of default values.
 ---
+
 ## omsedit
 
 This is a convenience script that, when run in a valid OpenManuscript database
