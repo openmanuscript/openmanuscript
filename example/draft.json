@@ -1,0 +1,5 @@
+{
+    "manuscriptdir"  : "this/is/overridden/in/test",
+    "authorfile"     : "a.json",
+    "manuscriptfile" : "m.json"
+}

@@ -32,6 +32,13 @@ class TestCIS(unittest.TestCase):
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         # can't perform test: files with equivalent content show as different
 
+        # export docx with settings file, additional command line argument and 
+        # command line argument override
+        ofile  = os.path.join(self.scratchdir, "omstest_settings.docx")
+        print("Running oms for settings file test")
+        os.system("./oms --settingsfile {}/draft.json --manuscriptdir {} --outputfile {}".format(msdir, msdir, ofile))
+        # can't perform test: files with equivalent content show as different
+
         # export docx
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_noquote-nosynopsis.docx")
         print("Running oms for no quote no synopsis")
@@ -68,7 +75,7 @@ class TestCIS(unittest.TestCase):
                          msdir, emsfile, afile, ofile, extest[0], extest[1]))
         # can't perform test: files with equivalent content show as different
         # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'exclude files differ')
-        
+
         # export outline
         basefile = "omstest_manuscript_outline.html"
         ofile = os.path.join(self.scratchdir, basefile) 
