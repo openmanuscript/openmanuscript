@@ -14,7 +14,7 @@ settings = {
     "authorfile"      : "author.json",
     "chapterdesc"     : False,
     "chaptersummary"  : False,
-    "columns"         : None,
+    "columns"         : ["Title", "Arc", "POV", "TOD", "Setting", "Scenes", "Desc"], 
     "excludesections" : None, 
     "excludetags"     : None, 
     "filescenesep"    : False,

@@ -21,6 +21,7 @@ class TestCIS(unittest.TestCase):
         msdir  = "../example"
         msfile = "manuscript.json"
         afile  = "author.json"
+        sfile  = "draft.json"
         extest = ["summary endnotes", "excludetext"]
 
         # make a testing area
@@ -36,7 +37,7 @@ class TestCIS(unittest.TestCase):
         # command line argument override
         ofile  = os.path.join(self.scratchdir, "omstest_settings.docx")
         print("Running oms for settings file test")
-        os.system("./oms --settingsfile {}/draft.json --manuscriptdir {} --outputfile {}".format(msdir, msdir, ofile))
+        os.system("./oms --settingsfile {}/{} --manuscriptdir {} --outputfile {}".format(msdir, sfile, msdir, ofile))
         # can't perform test: files with equivalent content show as different
 
         # export docx
@@ -82,5 +83,13 @@ class TestCIS(unittest.TestCase):
         ofile_gold = os.path.join(self.golddir, basefile) 
         print("Running oms2outline")
         os.system("./oms2outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
+
+        # export outline
+        basefile = "omstest_manuscript_outline_settings.html"
+        ofile = os.path.join(self.scratchdir, basefile) 
+        # ofile_gold is the same as the one for the test above
+        print("Running oms2outline with settings file")
+        os.system("./oms2outline --settingsfile {}/{} --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, sfile, msdir, msfile, ofile))
         self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
 
