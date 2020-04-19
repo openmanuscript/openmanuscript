@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# assume that a valid scene was passed in
 SCENE="scenes/$1.md"
 
+# if no arg passed in, generate a new one
 if [ $# -eq 0 ]
 then
     NEXTSCENE=`omsnext scenes` 
     SCENE="scenes/$NEXTSCENE"
+    echo "New scene: $NEXTSCENE"
 fi
 
 TEMPLATE="scenes/template.md"
