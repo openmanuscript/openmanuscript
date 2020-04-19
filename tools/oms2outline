@@ -42,8 +42,7 @@ parser = argparse.ArgumentParser(
 # parser.set_defaults(**defaults)
 parser.add_argument( "--authorfile", default=None,
     help="read author data from this file. Must be located in MANUSCRIPTDIR")
-parser.add_argument( "--columns", nargs="+", default = ["Title", "Arc",
-    "POV", "TOD", "Setting", "Scenes", "Desc"], 
+parser.add_argument( "--columns", nargs="+", default=None,
     help="set which columns of the outline to print when creating outline")
 parser.add_argument( "--excludetags", nargs='+', type=str, default=None,
     help="add chapter tags that are considered 'off'")
