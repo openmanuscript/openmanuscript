@@ -47,6 +47,21 @@ def create_element(name):
 def create_attribute(element, name, value):
     element.set(qn(name), value)
 
+# set the starting page number of a section
+def set_start_page_number(section, number):
+    # sectPrBegin = create_element('w:sectPr')
+    # create_attribute(sectPrBegin, 'w:fldCharType', 'begin')
+
+    pagenum = create_element('w:pgNumType')
+    create_attribute(pagenum, 'w:start', str(number).encode("utf-8"))
+
+    # sectPrEnd = create_element('w:sectPr')
+    # create_attribute(sectPrEnd, 'w:fldCharType', 'end')
+
+    # section._r.append(sectPrBegin)
+    section._sectPr.append(pagenum)
+    # section._r.append(sectPrEnd)
+
 def add_page_number(run):
     fldChar1 = create_element('w:fldChar')
     create_attribute(fldChar1, 'w:fldCharType', 'begin')
@@ -110,6 +125,7 @@ def add_section(document, s_type):
     header = new_section.header
     header.is_linked_to_previous = False
 
+    set_start_page_number(new_section, 0)
     add_page_slug_header(new_section)
 
 def write_title(document):
