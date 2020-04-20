@@ -140,7 +140,7 @@ to those included in a settings file. The following command adds `--font`, and
 overwrites the value of `--authorfile`, using the above `draft.json` file.
 
 ```
-oms --settingsfile draft.json --font Courier --authorfile updated.json
+oms --settingsfile draft.json --font Courier --authorfile author.json
 ```
 
 
