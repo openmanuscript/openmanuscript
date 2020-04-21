@@ -152,8 +152,8 @@ files, and is limited by those tools. In particular, the current version of
 ``oms`` has the following limitations:
 
 1. **Issue** Numbered lists do not reset. If you have numbered lists across chapters,
-these chapters will share a single numbering system. A fix is in development,
-and will be released when it is available.
+these chapters will share a single numbering system. A fix is in development in
+the underling libraries, and we will utilize that fix when it is developed.
 
     - *Solution* Use bullet (unordered) lists whenever possible.
 
