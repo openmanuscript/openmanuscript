@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="openms",
-    version="2.2",
+    version="3.0",
     author="David H. Rogers",
     author_email="david@dhrogers.com",
     description="A minimal implementation of OpenManuscript capabilities.",
