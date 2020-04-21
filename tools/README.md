@@ -39,14 +39,6 @@ for sharing manuscripts.
 By default, the tool assumes it is being run in the manuscript directory. If
 this is not the case, an explicit path must set on the command line.
 
-### the \<include\> directive
-
-This tool will include files one level deep. It looks in the `scenes` directory
-for `filename` with the directive formatted this way:
-
-```
-<include>filename</include>
-```
 
 ### command line arguments
 
@@ -141,6 +133,15 @@ overwrites the value of `--authorfile`, using the above `draft.json` file.
 
 ```
 oms --settingsfile draft.json --font Courier --authorfile author.json
+```
+
+### the \<include\> directive
+
+This tool will include files one level deep. It looks in the `scenes` directory
+for `filename` with the directive formatted this way:
+
+```
+<include>filename</include>
 ```
 
 
