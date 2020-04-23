@@ -55,11 +55,11 @@ create that product.
 This repository includes: 
 
 - The OpenManuscript specification [document](spec/2-0.md), 
-- A command-line based [toolset](tools) for creating manuscripts, 
+- A command-line based [toolset](src) for creating manuscripts, 
 - An [example](example) of an OpenManuscript database 
 
 The best way to get started is to pull this repository, then explore the
-instructions in the [tools](tools) directory, where there are examples and
+instructions in the [src](src) directory, where there are examples and
 instructions about a simple toolset.
 
 For more information about these tools, contact **david *at* dhrogers *dot*
