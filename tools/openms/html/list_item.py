@@ -1,4 +1,5 @@
 from .tag import TagDispatcher, replace_whitespaces
+from docx.oxml.shared import OxmlElement, qn
 
 _list_style = {
     'ol': 'List Number',
@@ -14,6 +15,20 @@ class ListItemDispatcher(TagDispatcher):
     @classmethod
     def append_head(cls, element, container):
         paragraph = cls.get_new_paragraph(container)
+
+        # controlling the numbered list stuff
+        # https://stackoverflow.com/questions/23446268/python-docx-how-to-restart-list-lettering 
+        fmt = paragraph.paragraph_format
+        numPr_elem = OxmlElement('w:numPr')
+        ilvl_elem = OxmlElement('w:ilvl')
+        ilvl_elem.set(qn('w:val'), str(0).encode("utf-8"))
+        numId_elem = OxmlElement('w:numId')
+        numId_elem.set(qn('w:val'), str(1).encode("utf-8"))
+
+        fmt._element.pPr.append(numPr_elem)
+        numPr_elem.append(ilvl_elem)
+        numPr_elem.append(numId_elem)
+
         return cls._append_list_item(element, element.text, paragraph)
 
     @classmethod
