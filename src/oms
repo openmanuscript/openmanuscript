@@ -79,16 +79,18 @@ parser.add_argument( "--font", default=None, choices=["Courier", "Times"],
     help="Use this font for the manuscript")
 parser.add_argument( "--fontsize", default=None, 
     help="Use this font size for the manuscript")
+parser.add_argument( "--listscenes", action="store_true", default=None, 
+    help="list the scenes and exit")
 parser.add_argument( "--manuscriptdir", default=None, 
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default=None, 
     help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--newmanuscript", default=None,
+    help="create a new manuscript template in this directory")
 parser.add_argument( "--notes", action="store_true", default=None, 
     help="if there are notes, print them")
 parser.add_argument( "--outputfile", default=None,
     help="write output to this file")
-parser.add_argument( "--listscenes", action="store_true", default=None, 
-    help="list the scenes and exit")
 parser.add_argument( "--settingsfile", default=None,
     help="use settings from this file as command line args")
 parser.add_argument( "--specversion", action="store_true", default=None,
@@ -156,6 +158,18 @@ if args.specversion:
 
 if args.types:
     print("docx")
+    exit(0)
+
+if args.newmanuscript != None:
+    print("Creating new manuscript at {}".format(args.newmanuscript))
+    if os.path.isdir(args.newmanuscript):
+        print("ERROR: directory {} already exists".format(args.newmanuscript))
+    else:
+        os.mkdir(args.newmanuscript)
+        if not os.path.isdir(args.newmanuscript):
+            print("ERROR: can't create directory: {}".format(args.newmanuscript))
+        else:
+            openms.template.write_template(args.newmanuscript)
     exit(0)
 
 # check existence of the files we will need
