@@ -1,8 +1,8 @@
 import os
 
 def write_authorfile(path):
-    with open(path, "w") as afile:
-        afile.write("""
+    with open(os.path.join(path, "author.json"), "w") as afile:
+        contents = """
 {
 "version" : "2.0",
 "author" : {
@@ -19,10 +19,11 @@ def write_authorfile(path):
 }
 }
 """
+        afile.write(contents)
 
 def write_manuscriptfile(path):
-    with open(os.path.join(path, "manuscript.json") as mfile:
-        mfile.write("""
+    with open(os.path.join(path, "manuscript.json"), "w") as mfile:
+        contents = """
 {
 "version" : "2.0",
 "manuscript" : {
@@ -46,3 +47,4 @@ def write_manuscriptfile(path):
 }
 }
 """
+        mfile.write(contents)
