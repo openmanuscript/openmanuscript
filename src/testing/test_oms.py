@@ -2,16 +2,17 @@ import unittest
 import os
 import filecmp
 import shutil
+import openms
 
 class TestCIS(unittest.TestCase):
 
     def setUp(self):
-        self.scratchdir = os.path.join("testing", "scratch")
+        self.scratchdir = os.path.join("testing", "scratch") 
         self.golddir    = os.path.join("testing", "gold")
 
     def tearDown(self):
         # clean up 
-        clean = True
+        clean = False
         if clean:
             shutil.rmtree( self.scratchdir )
         else:
@@ -93,3 +94,7 @@ class TestCIS(unittest.TestCase):
         os.system("./oms2outline --settingsfile {}/{} --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, sfile, msdir, msfile, ofile))
         self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
 
+        # test template 
+        testdir = os.path.join(self.scratchdir, "template")
+        os.mkdir(testdir)
+        openms.template.write_template(testdir)
