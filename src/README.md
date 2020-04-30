@@ -59,7 +59,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--includesections`` if there are sections in scenes surrounded by arbitrary html tags, include those 
                             whose tags are listed in this arg. Note that sections must either by included or excluded, to prevent errors.
 	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
-	- ``--notes`` print **notes** content in each scene, if present.
+	- ``--notes`` include **notes** content in each scene, if present.
 - Formatting
 	- ``--font`` define the font for the manuscript. Both ``Times`` and ``Courier`` are valid values.
 	- ``--fontsize`` define the font size for the manuscript. Default is ``12``.
