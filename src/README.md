@@ -110,8 +110,8 @@ in the user's home directory.
 oms --manuscriptdir ../example --authorfile a.json --manuscriptfile m.json --outputfile ~/example_manuscript.docx
 ```
 
-Using the `settings` command line argument, this command is equivalent to the one above, 
-when a properly formatted file named `draft.json` is created. This can be useful for simplicity and for
+Using the `settings` command line argument, the following command is equivalent to the one above, 
+using a settings file named `draft.json`. Settings files can be useful for 
 managing different kinds of output in the same project.
 
 ```
