@@ -2,7 +2,7 @@
 
 # ---------------------------------------------------------------------------
 #
-# oms, a tiny manuscript tool based on the OpenManuscript specification 
+# omsnext, a tool to get the next available scene number in a directory
 #
 # ---------------------------------------------------------------------------
 
@@ -12,4 +12,4 @@ import sys
 if len(sys.argv) == 2:
     print(openms.core.get_next_scene(sys.argv[1]))
 else:
-    print("ERROR: need one argument")
+    print("ERROR: need dirctory as argument")
