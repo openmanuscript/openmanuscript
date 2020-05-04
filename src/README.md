@@ -48,6 +48,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--includetags`` define a list of tags that are 'on', and are included in any operation. Default is empty list, and all tags are included. 
 	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
+	- ``--manuscripttype`` type of manuscript to create. One of [novel, story]. Default: ``novel``
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
     - ``--settingsfile`` define a json file that defines values for command line arguments. This settings file is applied first, if present, and then 
       command line arguments can overwrite values.
