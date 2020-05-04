@@ -98,3 +98,9 @@ class TestCIS(unittest.TestCase):
         testdir = os.path.join(self.scratchdir, "template")
         os.mkdir(testdir)
         openms.template.write_template(testdir)
+
+        # test short story 
+        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_shortstory.docx")
+        print("Running oms for short story")
+        msfile = "short.json"
+        os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))

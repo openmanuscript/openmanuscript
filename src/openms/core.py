@@ -24,6 +24,7 @@ settings = {
     "includetags"     : None, 
     "manuscriptdir"   : ".",
     "manuscriptfile"  : "manuscript.json",
+    "manuscripttype"  : "novel",
     "notes"           : False,
     "outputfile"      : "manuscript.docx"
 }

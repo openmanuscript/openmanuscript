@@ -176,6 +176,12 @@ def write_title(document):
 
     add_section(document, WD_SECTION.CONTINUOUS)
 
+def write_paragraph_space(document):
+    p = document.add_paragraph()
+    pf = p.paragraph_format
+    pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+
 def write_chapter_heading(document, chapter, chapnum, chaptype):
     chapnum = "CHAPTER {0}".format(chapnum).upper()
     increment_chapter = True
@@ -426,7 +432,10 @@ def write_chapter(doc, chapter, chapnum):
 
     scenes = None
     if True:
-        increment_chapter = write_chapter_heading(doc, chapter, chapnum, chaptype)
+        if core.settings["manuscripttype"] == "novel":
+            increment_chapter = write_chapter_heading(doc, chapter, chapnum, chaptype)
+        elif core.settings["manuscripttype"] == "story":
+            write_paragraph_space(doc)
 
         # write content
         first = True

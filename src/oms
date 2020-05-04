@@ -60,7 +60,7 @@ parser = argparse.ArgumentParser(
                     )
 
 parser.add_argument( "--authorfile", default=None,
-    help="read author data from this file. Must be located in MANUSCRIPTDIR")
+    help="read author data from this file. Must be located in MANUSCRIPTDIR. Default is [{}]".format(openms.core.settings["authorfile"]))
 parser.add_argument( "--chapterdesc", action="store_true", default=None, 
     help="print a chapter desc, if there is one")
 parser.add_argument( "--chaptersummary", action="store_true", default=None, 
@@ -85,6 +85,8 @@ parser.add_argument( "--manuscriptdir", default=None,
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default=None, 
     help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--manuscripttype", default=None, 
+    help="type of manuscript to create. one of [novel, story]. Default is [{}]".format(openms.core.settings["manuscripttype"]))
 parser.add_argument( "--newmanuscript", default=None,
     help="create a new manuscript template in this directory")
 parser.add_argument( "--notes", action="store_true", default=None, 
@@ -141,6 +143,8 @@ if args.manuscriptdir != None:
     openms.core.set("manuscriptdir", args.manuscriptdir)
 if args.manuscriptfile != None:
     openms.core.set("manuscriptfile", args.manuscriptfile)
+if args.manuscripttype != None:
+    openms.core.set("manuscripttype", args.manuscripttype)
 if args.notes != None:
     openms.core.set("notes", args.notes)
 if args.outputfile != None:
