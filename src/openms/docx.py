@@ -193,7 +193,10 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
     if (chaptype == "CHAPTER"):
         allcaps_title = chapnum
     else:
-        allcaps_title = "" 
+        if (chaptype == "PROLOGUE"):
+            allcaps_title = chaptype 
+        else:
+            allcaps_title = "" 
         increment_chapter = False
 
     # add half a page of spacing
@@ -431,37 +434,36 @@ def write_chapter(doc, chapter, chapnum):
     chaptype = core.get_chapter_type(chapter)
 
     scenes = None
-    if True:
-        if core.settings["manuscripttype"] == "novel":
-            increment_chapter = write_chapter_heading(doc, chapter, chapnum, chaptype)
-        elif core.settings["manuscripttype"] == "story":
-            write_paragraph_space(doc)
+    if core.settings["manuscripttype"] == "novel":
+        increment_chapter = write_chapter_heading(doc, chapter, chapnum, chaptype)
+    elif core.settings["manuscripttype"] == "story":
+        write_paragraph_space(doc)
 
-        # write content
-        first = True
-        scenes = [] 
-        if core.settings["chaptersummary"]:
-            if "summary" in chapter:
-                scenes = [chapter["summary"]]
-        else:
-            scenes = chapter["scenes"]
+    # write content
+    first = True
+    scenes = [] 
+    if core.settings["chaptersummary"]:
+        if "summary" in chapter:
+            scenes = [chapter["summary"]]
+    else:
+        scenes = chapter["scenes"]
 
-        if core.settings["chapterdesc"]:
-            # just write the description of the chapter
-            if "desc" in chapter:
-                write_scenetext(doc, chapter["desc"])
-        else:
-            # write out all the scenes
-            for scene in scenes: 
-                if not first:
+    if core.settings["chapterdesc"]:
+        # just write the description of the chapter
+        if "desc" in chapter:
+            write_scenetext(doc, chapter["desc"])
+    else:
+        # write out all the scenes
+        for scene in scenes: 
+            if not first:
+                write_scene_separator(doc, scene)
+            else:
+                if core.settings["filescenesep"]:
                     write_scene_separator(doc, scene)
-                else:
-                    if core.settings["filescenesep"]:
-                        write_scene_separator(doc, scene)
-                    first = False
+                first = False
 
-                if not scene.endswith(".pdf"):
-                    write_scenefile(doc, scene)
+            if not scene.endswith(".pdf"):
+                write_scenefile(doc, scene)
 
     return increment_chapter
 
