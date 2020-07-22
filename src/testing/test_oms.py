@@ -100,7 +100,11 @@ class TestCIS(unittest.TestCase):
         openms.template.write_template(testdir)
 
         # test short story 
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_shortstory.docx")
+        basefile = "omstest_manuscript_shortstory.docx"
+        ofile  = os.path.join(self.scratchdir, basefile) 
+        ofile_gold = os.path.join(self.golddir, basefile) 
         print("Running oms for short story")
         msfile = "short.json"
         os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
+        # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'short story files differ')
