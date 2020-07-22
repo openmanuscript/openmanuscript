@@ -68,6 +68,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--listscenes`` print a sorted list of the scenes defined by the other command line options 
     - ``--newmanuscript <dir>`` create a new manuscript template at the directory provided
 	- ``--specversion`` report the version of ``OpenManuscript`` specification that this tool supports, then exit.
+	- ``--types`` report the types of output files supported, then exit. 
 	- ``--version`` report this application's version number, then exit.
 
 
