@@ -16,7 +16,8 @@ setuptools.setup(
     scripts=["oms", "oms2outline", "omsedit", "omsnext"],
     install_requires=[
         "markdown",
-        "python-docx"
+        "python-docx",
+        "pyyaml"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
