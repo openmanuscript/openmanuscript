@@ -3,6 +3,7 @@ import json
 import csv
 import re
 import glob
+import yaml
 
 __oms = {
     "name"        : "OpenManuscript",
@@ -215,41 +216,60 @@ def is_header( data ):
 
     return num 
 
-def check_version( json_data ):
+# -----------------------------------------------------------------------------
+# check the version attribute of a data file 
+# -----------------------------------------------------------------------------
+def check_version( in_data ):
     global __oms
 
-    result = 0
+    result = False
 
-    if "version" in json_data:
-        if json_data["version"] == __oms["specversion"]:
-            result = 1
+    if "version" in in_data:
+        if in_data["version"] == __oms["specversion"]:
+            result = True
         else:
             print("ERROR: unsupported openmanuscript version: {}"
-                    .format(json_data["version"]))
+                    .format(in_data["version"]))
     else:
-        print("ERROR: invalid json data (no version number)") 
+        print("ERROR: invalid data (no version number)") 
 
     return result
 
+# -----------------------------------------------------------------------------
+# load a data file, regardless of whether it is json or yaml
+# report non-standard file types
+# -----------------------------------------------------------------------------
+def load_data_file( f, dtype="manuscript" ):
+    data = None
+    with open( f ) as infile:
+        if f.endswith(".json"):
+            data = json.load( infile )
+        elif f.endswith(".yaml"):
+            data = yaml.load( infile, Loader=yaml.FullLoader )
+        else:
+            print("ERROR: invalid data file type: {}".format(f))
+
+    #
+    # all data files have a version attribute that must be checked
+    # if the attribute is valid, then the data is returned without
+    # the verison information, from the next leve of the hierarchy 
+    # this depends on the type of the data
+    #
+    if data is not None:
+        if check_version(data):
+            data = data[dtype]
+
+    return data
 
 def read_data():
     global author
     global manuscript
 
-    with open( get_authorfile() ) as author_file:
-        author = json.load( author_file )
-        if (check_version(author)):
-            author = author["author"]
-        else:
-            exit(0)
+    afile = get_authorfile()
+    author = load_data_file(afile, dtype="author")
 
-    with open( get_manuscriptfile() ) as manuscript_file:
-        manuscript = json.load( manuscript_file )
-        if (check_version(manuscript)):
-            manuscript = manuscript["manuscript"]
-        else:
-            exit(0)
-        
+    msfilename = get_manuscriptfile()
+    manuscript = load_data_file(msfilename)
 
 def csv_to_manuscript( csvfile, ms ):
     with open(csvfile, "r") as csvdata:
@@ -337,10 +357,8 @@ def manuscript_to_html( mdir, mfile, afile, ofile ):
     set("authorfile", afile)
     read_data()
 
-    with open( get_authorfile() ) as author_file:
-        author = json.load( author_file )
-        if (check_version(author)):
-            author = author["author"]
+    afile = get_authorfile()
+    author = load_data_file(afile, dtype="author")
 
     with open(ofile, "w") as ofile:
         ofile.write("<html>")

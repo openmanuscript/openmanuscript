@@ -1,0 +1,68 @@
+version : "2.0"
+manuscript :
+    title :        OpenManuscript Examples
+    runningtitle : examples
+    chapters : 
+        -
+            title   : Quote
+            type    : quote
+            tags    : [quote]
+            scenes  : [quotes]
+        -
+            title   : Synopsis
+            type    : synopsis
+            tags    : [synopsis]
+            scenes  : [synopsis]
+        -
+            title   : Simple Text
+            pov     : Mercury
+            tod     : morning
+            setting : Mr. Mercury's front yard.
+            desc    : An important scene.
+            tags    : [simple]
+            scenes  : ["003", "002", "001"]
+        -
+            title   : A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene
+            pov     : Venus
+            tod     : noon
+            setting : Ms. Venus's front yard.
+            desc    : An important scene.
+            tags    : [second]
+            scenes  : [This_name, look01, chapter_i_hate]
+        -
+            title   : Lists
+            pov     : Earth
+            tod     : afternoon
+            setting : Miss Earth's front yard.
+            desc    : Any of these can be missing ...
+            scenes  : [lists]
+        -
+            title   : Links
+            pov     : Mars
+            tod     : evening
+            setting : Mar's front yard.
+            scenes  : [links]
+        -
+            title   : Comments
+            pov     : Jupiter
+            setting : Jupiter's front yard.
+            desc    : See? The previous one was missing.
+            scenes  : [comments]
+        -
+            title   : Notes
+            pov     : Saturn
+            setting : Saturn's front yard.
+            desc    : See? The previous one was missing.
+            scenes  : [notes]
+        -
+            title   : Footnotes
+            pov     : Uranus
+            setting : Uranus's front yard.
+            desc    : See? The previous one was missing.
+            scenes  : [footnotes]
+        -
+            title   : End
+            pov     : Neptune
+            setting : Neptune's front yard.
+            desc    : This is the final scene
+            scenes  : [end]

@@ -21,7 +21,9 @@ class TestCIS(unittest.TestCase):
     def test_oms(self):
         msdir  = "../example"
         msfile = "manuscript.json"
+        msfile_yaml = "manuscript.yaml"
         afile  = "author.json"
+        afile_yaml  = "author.yaml"
         sfile  = "draft.json"
         extest = ["summary endnotes", "excludetext"]
 
@@ -32,6 +34,12 @@ class TestCIS(unittest.TestCase):
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript.docx")
         print("Running oms for base test")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
+
+        # export docx with yaml
+        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_yaml.docx")
+        print("Running oms for base test with yaml manuscript file")
+        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile_yaml, afile_yaml, ofile))
         # can't perform test: files with equivalent content show as different
 
         # export docx with settings file, additional command line argument and 
