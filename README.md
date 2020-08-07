@@ -21,6 +21,8 @@ writing fiction, managing drafts, and creating
 The OpenManuscript format separates data from the applications that edit,
 display or print it, which is a very powerful mechanism for invention.
 
+To dig in, just [get started with a simple example](getting_started.md).
+
 ## Advantages of OpenManuscript
 
 The advantages of the OpenManuscript format are many:
@@ -37,10 +39,6 @@ The advantages of the OpenManuscript format are many:
     can easily compare different chapter/scene orders, combinations and versions 
     with minimal effort. This is a huge advantage over writing workflows based on, 
     for example, Microsoft Word.
-
-## Getting Started
-
-If you've seen enough, just [get started with a simple example](getting_started.md).
 
 ## The Overall Workflow for OpenManuscript
 <p align="center">
