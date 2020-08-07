@@ -79,8 +79,7 @@ def write_toc( doc, ms ):
     add_toc_section(doc, WD_SECTION.CONTINUOUS)
 
     # spacing from top of page 
-    for i in range(2):
-        doc.add_paragraph()
+    doc.add_paragraph()
 
     # table of contents text 
     p = doc.add_paragraph()

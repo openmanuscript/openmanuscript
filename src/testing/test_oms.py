@@ -36,6 +36,12 @@ class TestCIS(unittest.TestCase):
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         # can't perform test: files with equivalent content show as different
 
+        # export docx
+        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_toc.docx")
+        print("Running oms for base test with toc")
+        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --toc".format(msdir, msfile, afile, ofile))
+        # can't perform test: files with equivalent content show as different
+
         # export docx with yaml
         ofile  = os.path.join(self.scratchdir, "omstest_manuscript_yaml.docx")
         print("Running oms for base test with yaml manuscript file")

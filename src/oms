@@ -151,6 +151,8 @@ if args.notes != None:
     openms.core.set("notes", args.notes)
 if args.outputfile != None:
     openms.core.set("outputfile", args.outputfile)
+if args.toc != None:
+    openms.core.set("toc", args.toc)
 
 # ----------------------------------------------------------------------
 #
