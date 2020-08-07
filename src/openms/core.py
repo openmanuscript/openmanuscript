@@ -7,7 +7,7 @@ import yaml
 
 __oms = {
     "name"        : "OpenManuscript",
-    "toolversion" : "3.3",
+    "toolversion" : "3.4",
     "specversion" : "2.0"
 }
 

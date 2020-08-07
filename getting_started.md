@@ -30,7 +30,7 @@ of settings can be saved to make things simpler. You can have several settings
 files lying around to make it easy to create different types of output.
 
 ```
-    oms --setingsfile settings.json
+    oms --settingsfile settings.json
 ```
 
 # Editing your manuscript
