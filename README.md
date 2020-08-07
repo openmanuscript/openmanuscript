@@ -38,6 +38,10 @@ The advantages of the OpenManuscript format are many:
     with minimal effort. This is a huge advantage over writing workflows based on, 
     for example, Microsoft Word.
 
+## Getting Started
+
+If you've seen enough, just [get started with a simple example](getting_started.md).
+
 ## The Overall Workflow for OpenManuscript
 <p align="center">
 <img src="img/workflow.png" width="65%">
