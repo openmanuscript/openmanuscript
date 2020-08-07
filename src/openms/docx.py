@@ -125,6 +125,7 @@ def write_toc( doc, ms ):
                 pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 pf.space_before = Inches(0)
                 pf.space_after = Inches(0)
+
             pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
             pf.left_indent = Inches(0.25)
             pf.first_line_indent = Inches(-0.25)
@@ -182,6 +183,7 @@ def add_toc_section(document, s_type):
 
 def add_main_section(document, s_type):
     new_section = document.add_section(s_type)
+
     # set margins 
     new_section.top_margin    = Inches(MARGIN["page"])
     new_section.bottom_margin = Inches(MARGIN["page"])
