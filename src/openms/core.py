@@ -27,7 +27,8 @@ settings = {
     "manuscriptfile"  : "manuscript.json",
     "manuscripttype"  : "novel",
     "notes"           : False,
-    "outputfile"      : "manuscript.docx"
+    "outputfile"      : "manuscript.docx",
+    "toc"             : False
 }
 
 author = {

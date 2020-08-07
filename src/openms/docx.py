@@ -565,7 +565,8 @@ def write(outputfile):
         write_docinfo(theDocument)
         # write_headers(theDocument)
         write_title(theDocument)
-        write_toc(theDocument, core.manuscript)
+        if core.settings["toc"]:
+            write_toc(theDocument, core.manuscript)
         # debug_sections(theDocument)
 
         write_chapters(theDocument, core.manuscript)
