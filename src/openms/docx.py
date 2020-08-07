@@ -16,6 +16,7 @@ from docx.shared import Inches, Pt
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.text import WD_LINE_SPACING
+from docx.enum.text import WD_TAB_ALIGNMENT
 from docx.enum.section import WD_SECTION
 from docx.oxml.shared import OxmlElement, qn
 
@@ -24,7 +25,8 @@ from docx.oxml.shared import OxmlElement, qn
 # -----------------------------------------------------------------------------
 
 MARGIN = {
-    "page" : 1
+    "page" : 1,
+    "toc"  : 1.5
 }
 
 SETTINGS = {
@@ -72,6 +74,67 @@ def add_page_number(run):
 # End of stackoverflow solution. Thanks!
 #
 
+def write_toc( doc, ms ):
+    doc.add_page_break()
+    add_toc_section(doc, WD_SECTION.CONTINUOUS)
+
+    # spacing from top of page 
+    for i in range(2):
+        doc.add_paragraph()
+
+    # table of contents text 
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    pf.left_indent = Pt(0)
+    run = p.add_run("Table of Contents")
+
+    # spacing to chapters
+    for i in range(2):
+        doc.add_paragraph()
+
+    # entries for chapters
+    cur_chapter = 1
+    for chapter in ms["chapters"]:
+        chaptype = core.get_chapter_type(chapter)
+        if core.check_chapter_tags(chapter) and (chaptype != "QUOTE"):
+            chapnum = "CHAPTER {}".format(cur_chapter).upper()
+            chaptername = ""
+            increment_chapter = True
+            if "title" in chapter:
+                chaptername = chapter["title"]
+
+            if (chaptype == "CHAPTER"):
+                allcaps_title = chapnum
+            else:
+                if (chaptype == "PROLOGUE"):
+                    allcaps_title = chaptype
+                else:
+                    allcaps_title = ""
+                increment_chapter = False
+
+            if increment_chapter:
+                cur_chapter += 1
+
+            p = doc.add_paragraph()
+            pf = p.paragraph_format
+            if (chaptype == "PART"):
+                pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                pf.space_before = Inches(0.25)
+            else:
+                pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                pf.space_before = Inches(0)
+                pf.space_after = Inches(0)
+            pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+            pf.left_indent = Inches(0.25)
+            pf.first_line_indent = Inches(-0.25)
+            add_tab_stop( p, Inches(1.25) )
+            if allcaps_title == "":
+                run = p.add_run(chaptername)
+            else:
+                run = p.add_run("{}: \t{}".format(allcaps_title, chaptername))
+
 def add_to_run(run, text):
     fldChar1 = create_element('w:fldChar')
     create_attribute(fldChar1, 'w:fldCharType', 'begin')
@@ -107,7 +170,18 @@ def debug_sections(document):
         print("{}".format(section.start_type))
         cur = cur + 1
 
-def add_section(document, s_type):
+def add_toc_section(document, s_type):
+    new_section = document.add_section(s_type)
+
+    # set margins 
+    new_section.top_margin    = Inches(MARGIN["page"])
+    new_section.bottom_margin = Inches(MARGIN["page"])
+    new_section.left_margin   = Inches(MARGIN["toc"])
+    new_section.right_margin  = Inches(MARGIN["toc"])
+    header = new_section.header
+    header.is_linked_to_previous = False
+
+def add_main_section(document, s_type):
     new_section = document.add_section(s_type)
     # set margins 
     new_section.top_margin    = Inches(MARGIN["page"])
@@ -166,15 +240,6 @@ def write_title(document):
     pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
     run = p.add_run("{}".format(core.author["name"]))
 
-    # set page margins
-    # for now, this should be the only section
-    for section in document.sections:
-        section.top_margin    = Inches(MARGIN["page"])
-        section.bottom_margin = Inches(MARGIN["page"])
-        section.left_margin   = Inches(MARGIN["page"])
-        section.right_margin  = Inches(MARGIN["page"])
-
-    add_section(document, WD_SECTION.CONTINUOUS)
 
 def write_paragraph_space(document):
     p = document.add_paragraph()
@@ -468,6 +533,9 @@ def write_chapter(doc, chapter, chapnum):
     return increment_chapter
 
 def write_chapters(doc, manuscript):
+    add_main_section(doc, WD_SECTION.CONTINUOUS)
+
+    # now add the sections
     chapnum = 1
 
     incr_chapter = True
@@ -477,6 +545,10 @@ def write_chapters(doc, manuscript):
 
             if (incr_chapter):
                 chapnum += 1
+
+def add_tab_stop( p, location ):
+    tab_stops = p.paragraph_format.tab_stops
+    tab_stop = tab_stops.add_tab_stop(location, WD_TAB_ALIGNMENT.LEFT)
 
 def write(outputfile):
 
@@ -493,6 +565,7 @@ def write(outputfile):
         write_docinfo(theDocument)
         # write_headers(theDocument)
         write_title(theDocument)
+        write_toc(theDocument, core.manuscript)
         # debug_sections(theDocument)
 
         write_chapters(theDocument, core.manuscript)
