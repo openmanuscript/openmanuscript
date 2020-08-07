@@ -25,6 +25,14 @@ The `oms` command will take all defaults and create a file called
 `manuscript.docx`. Open this with an appropriate tool, and you can see the
 result.
 
+You can try the `--settings` option with this example, to demonstrate how a set
+of settings can be saved to make things simpler. You can have several settings
+files lying around to make it easy to create different types of output.
+
+```
+    oms --setingsfile settings.json
+```
+
 # Editing your manuscript
 
 Editing your manuscript is now a matter of editing the text files in the

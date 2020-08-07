@@ -4,6 +4,17 @@ def write_template(path):
     write_authorfile(path)
     write_manuscriptfile(path)
     write_scenes(path)
+    write_settingsfile(path)
+
+def write_settingsfile(path):
+    with open(os.path.join(path, "settings.json"), "w") as sfile:
+        contents = """
+{
+    "manuscriptfile" : "manuscript.yaml",
+    "toc"            : true
+}
+"""
+        sfile.write(contents)
 
 def write_authorfile(path):
     with open(os.path.join(path, "author.json"), "w") as afile:
@@ -11,7 +22,7 @@ def write_authorfile(path):
 {
 "version" : "2.0",
 "author" : {
-    "name"      : "Ima Q. Writer",
+    "name"      : "Ima Q. Writer (json)",
     "surname"   : "Writer",
     "email"     : "imaqwriter@imawriter.com",
     "phone"     : "(000) 000-0000",
@@ -25,6 +36,22 @@ def write_authorfile(path):
 }
 """
         afile.write(contents)
+    with open(os.path.join(path, "author.yaml"), "w") as afile:
+        contents = """
+version : "2.0",
+author :
+    name      : Ima Q. Writer (yaml)
+    surname   : Writer
+    email     : imaqwriter@imawriter.com
+    phone     : (000) 000-0000
+    website   : www.imawriter.com
+    streetAddress     : 111 Writer's Way
+    addressLocality   : Writerville
+    addressRegion     : NM
+    addressCountry    : USA
+    postalCode        : "88888"
+"""
+        afile.write(contents)
 
 def write_manuscriptfile(path):
     with open(os.path.join(path, "manuscript.json"), "w") as mfile:
@@ -32,7 +59,7 @@ def write_manuscriptfile(path):
 {
 "version" : "2.0",
 "manuscript" : {
-    "title" : "OpenManuscript Template",
+    "title" : "OpenManuscript Template (json)",
     "runningtitle" : "template",
     "chapters" : [
         {
@@ -51,6 +78,27 @@ def write_manuscriptfile(path):
     ]
 }
 }
+"""
+        mfile.write(contents)
+    with open(os.path.join(path, "manuscript.yaml"), "w") as mfile:
+        contents = """
+version : "2.0"
+manuscript :
+    title : OpenManuscript Template (yaml)
+    runningtitle : template
+    chapters :
+        -
+            title   : The Big Beginning 
+            pov     : Bill 
+            scenes  : ["001", "002", "003"] 
+            setting : The cabin
+            story   : We are introduced to the main character
+            tags    : ["final"] 
+            tod     : night 
+            desc    : |+
+                The first chapter.
+        -
+            scenes  : [anything]
 """
         mfile.write(contents)
 
