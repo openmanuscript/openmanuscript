@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="openms",
-    version="3.4",
+    version="3.4.1",
     author="David H. Rogers",
     author_email="david@dhrogers.com",
     description="A minimal implementation of OpenManuscript capabilities.",
@@ -24,4 +24,5 @@ setuptools.setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
+    python_requires='>=3.6'
 )
