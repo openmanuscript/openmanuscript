@@ -4,15 +4,27 @@
 # OpenManuscript
 
 This is OpenManuscript, a text-based data format specification for writing
-fiction in an organized, hassle-free way that frees you up to be your most
-creative!
+fiction in an organized, hassle-free way.
 
-For more information about these tools, contact **david *at* dhrogers *dot*
-com**.
+I've been writing long enough to want to solve a few long-term problems:
 
-Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)
+- That awesome story idea that I had a while ago ... I was using an old Word
+  version, and I can't open the files anymore.
 
-## Introduction
+- Let's face it, lots of text editing software wasn't designed with writing 
+  fiction manuscripts in mind. It's tough to change things around (like the 
+  order of scenes or chapters), tough to compare versions of things, and 
+  tough to maintain multiple versions of things.
+
+- I write code for a living, and I'm used to writing with a very simple editor
+  (vim), and using anything else is a real pain.
+
+Isn't there a simple way to write manuscripts by just editing text files? Why do
+I have to tie myself to a specific word processor, workflow, or other tool?
+
+So that's where this project came from ...
+
+## This Project
 
 This is a specification for OpenManuscript, an ASCII text-based workflow for 
 writing fiction, managing drafts, and creating 
@@ -69,8 +81,9 @@ com**.
 
 OpenManuscript. Keep it simple.
 
+## Contact
 
+For more information about these tools, contact **david *at* dhrogers *dot*
+com**.
 
-
-
-
+Project tweets at [@OpenMSProject](https://twitter.com/openmsproject)

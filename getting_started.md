@@ -21,9 +21,10 @@ your first manuscript:
     oms 
 ```
 
-The `oms` command will take all defaults and create a file called
+The `oms` (open manuscriopt) command will create a file called
 `manuscript.docx`. Open this with an appropriate tool, and you can see the
-result.
+result. Used without any command line arguments, the tool uses defaults to
+create the manuscript.
 
 You can try the `--settings` option with this example, to demonstrate how a set
 of settings can be saved to make things simpler. You can have several settings
