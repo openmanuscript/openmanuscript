@@ -34,7 +34,8 @@ writing fiction, managing drafts, and creating
 The OpenManuscript format separates data from the applications that edit,
 display or print it, which is a very powerful mechanism for invention.
 
-To dig in, just [get started with a simple example](getting_started.md).
+To dig in, just [get started with a simple example](getting_started.md). Or,
+take a look a [this example workflow](workflow.md) if you're interested in that.
 
 ## Advantages of OpenManuscript
 
