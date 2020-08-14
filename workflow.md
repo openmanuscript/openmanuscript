@@ -19,9 +19,26 @@ directory, and those files will be ignored by any tools designed to work on the
 *OpenManuscript*. So, you can save notes and information in an organized way
 that makes sense to you.
 
+## File data types
+
+Everything you'll create is a text-based file, but there are a few data types
+you'll need to know about:
+
+1. [Markdown](https://daringfireball.net/projects/markdown/), which is a way of
+adding **bold** and *italics* to your files, among other simple things.
+2. [YAML](https://en.wikipedia.org/wiki/YAML) or [JSON](https://en.wikipedia.org/wiki/JSON) 
+files for manuscript and author files. **yaml** is probably a better choice if you're 
+just starting out, as it is a human-readable file format, but it's your choice.
+
 ## Content Creation/Editing
 
-Your main editing will consist of creating and editing scenes, and then creating
+To get started, you can create a manuscript directory like this:
+
+```
+    oms --newmanuscript my_novel
+```
+
+From then your main editing will consist of creating and editing scenes, and then creating
 a manuscript that includes those scenes. Here's how you might work:
 
 1. Create a new file in `scenes` directory, and just write. 
@@ -56,7 +73,13 @@ To create the manuscripts, you would run the following commands from within the
 This allows you to create and maintain different versions of the manuscript to
 just try out, using the same scenes as building blocks.
 
-If you're interested in keeping the *docx* files around, you can simple create
+## Submission
+
+When it's time to submit a *docx* or *pdf* file to an editor, agent, or
+magazine, you can create one with the `oms` tools in this repository. Then it's
+up to you to keep track of that manuscript.
+
+To do this, you can simple create
 a directory, name the file something meaningful, and keep it around. You can
 also edit a small file that contains notes (in this example, it's called
 `readme.me`) that remind you what each of the submission files was for. For
@@ -75,7 +98,6 @@ example:
             ...
 ```
 
-## Submission
 
 ## Version Control and Management
 
