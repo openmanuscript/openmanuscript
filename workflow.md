@@ -24,7 +24,7 @@ that makes sense to you.
 Everything you'll create is a text-based file, but there are a few data types
 you'll need to know about:
 
-1. [Markdown](https://daringfireball.net/projects/markdown/), which is a way of
+1. [Markdown](https://en.wikipedia.org/wiki/Markdown), which is a way of
 adding **bold** and *italics* to your files, among other simple things.
 2. [YAML](https://en.wikipedia.org/wiki/YAML) or [JSON](https://en.wikipedia.org/wiki/JSON) 
 files for manuscript and author files. **yaml** is probably a better choice if you're 
