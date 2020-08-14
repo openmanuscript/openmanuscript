@@ -68,6 +68,9 @@ create that product.
 
 ## Getting Started 
 
+As we said before, to dig in, just [get started with a simple example](getting_started.md). Or,
+take a look a [this example workflow](workflow.md) if you're interested in that.
+
 This repository includes: 
 
 - The OpenManuscript specification [document](spec/2-0.md), 
