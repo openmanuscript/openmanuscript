@@ -22,7 +22,8 @@ your first manuscript:
 ```
 
 The `oms` (open manuscriopt) command will create a file called
-`manuscript.docx`. Open this with an appropriate tool, and you can see the
+`manuscript.docx`. Open this with an appropriate tool  (Microsoft Word, Mac's
+Pages, or OpenOffice, for example), and you can see the
 result. Used without any command line arguments, the tool uses defaults to
 create the manuscript.
 
@@ -45,10 +46,16 @@ Editing your manuscript is now a matter of editing the text files in the
 - Edit the `author.json` or `author.yaml` file to change the author's
   information.
 
-# Creating a Microsoft docx file
+# Exporting to a Microsoft docx file for submission
 
-Any time you are ready, you can create a `docx` file with the `oms` command. At
+The **docx** format is the industry standard for submission, so any time you are 
+ready, you can create a `docx` file with the `oms` command. At
 first, you can use all the defaults, but as you get more advanced, you can use
 the command line to overwrite the options. In addition, you can use
 a `settings.json` file to save and execute a set of options. See the
 documentation [here](https://github.com/openmanuscript/openmanuscript/blob/master/src/README.md) for more detail.
+
+Those submissions can be kept in the manuscript directory in an organized way,
+and will not interfere with either the *OpenManuscript* format or the tools that
+operate on them. Look [here](https://github.com/openmanuscript/openmanuscript/blob/master/src/README.md)
+for an example workflow that takes this into account.

@@ -8,7 +8,7 @@ fiction in an organized, hassle-free way.
 
 I've been writing long enough to want to solve a few long-term problems:
 
-- That awesome story idea that I had a while ago ... I was using an old Word
+- That awesome story idea that I worked on a while ago ... I was using an old Word
   version, and I can't open the files anymore.
 
 - Let's face it, lots of text editing software wasn't designed with writing 
@@ -71,6 +71,9 @@ This repository includes:
 - The OpenManuscript specification [document](spec/2-0.md), 
 - A command-line based [toolset](src) for creating manuscripts, 
 - An [example](example) of an OpenManuscript database 
+- Instructions for [getting started](getting_started.md). 
+- An [example workflow](workflow.md) that shows how you can use these
+  tools and data specification in a real write-submit-edit workflow.
 
 The best way to get started is to pull this repository, then explore the
 instructions in the [src](src) directory, where there are examples and
