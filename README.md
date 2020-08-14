@@ -16,8 +16,9 @@ I've been writing long enough to want to solve a few long-term problems:
   order of scenes or chapters), tough to compare versions of things, and 
   tough to maintain multiple versions of things.
 
-- I write code for a living, and I'm used to writing with a very simple editor
-  (vim), and using anything else is a real pain.
+- If you're a writer, you have a favorite text editor, and you'd like to use
+  that one, even if you're ultimately going to create a *docx* file. And, hey - 
+  maybe you'd like to use different editors. It shouldn't matter ...
 
 Isn't there a simple way to write manuscripts by just editing text files? Why do
 I have to tie myself to a specific word processor, workflow, or other tool?
