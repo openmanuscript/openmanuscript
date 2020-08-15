@@ -3,6 +3,7 @@ import os
 import filecmp
 import shutil
 import openms
+from subprocess import PIPE, Popen
 
 class TestCIS(unittest.TestCase):
 
@@ -122,3 +123,25 @@ class TestCIS(unittest.TestCase):
         os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         # can't perform test: files with equivalent content show as different
         # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'short story files differ')
+
+        # test query
+        print("Running omsquery tests ...")
+        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.json --current")
+        self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
+
+        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.yaml --current")
+        self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
+
+        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.yaml --chapters")
+        self.assertEqual( output.decode("utf-8"), "Chapter: Quote\nChapter: Synopsis\nChapter: Simple Text\nChapter: A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\nChapter: Lists\nChapter: Links\nChapter: Comments\nChapter: Notes\nChapter: Footnotes\nChapter: End\n")
+
+        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\"")
+        self.assertEqual( output.decode("utf-8"), "Chapter: Simple Text\n         ['003', '002', '001']\n\nAn important scene.\n")
+
+    def cmdline(self, command):
+        process = Popen(
+            args=command,
+            stdout=PIPE,
+            shell=True
+        )
+        return process.communicate()[0]

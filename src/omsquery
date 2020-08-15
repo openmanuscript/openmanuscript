@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import yaml
+import json
 import sys
 import argparse
 import configparser
@@ -11,16 +12,16 @@ desc = """A tool that queries OpenManuscript databases
 """
 ep = """
 Examples:
-    pnimbus --chapters
+    omsquery --chapters
         Prints all chapter names in the default manuscript.
 
-    pnimbus --chapter <chapter name>
+    omsquery --chapter <chapter name>
         Prints the chapter information about the named chapter 
 
-    pnimbus --manuscriptfile name.yaml --chapters
+    omsquery --manuscriptfile name.yaml --chapters
         Prints all chapter names in the named manuscript.
 
-    pnimbus --manuscriptfile name.yaml --current
+    omsquery --manuscriptfile name.yaml --current
         Prints the chapter information about the current chapter (state) 
 
 """
@@ -31,11 +32,11 @@ parser = argparse.ArgumentParser(
                     )
 
 parser.add_argument( "--manuscriptfile", default=None,
-    help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+    help="Read manuscript definition from this file.")
 parser.add_argument( "--chapters", action="store_true", default=None,
-    help="Scene name for this operation")
+    help="Chapter name for this operation")
 parser.add_argument( "--chapter", default=None,
-    help="Scene name for this operation")
+    help="Chapter name for this operation")
 parser.add_argument( "--current", action="store_true", default=None,
     help="Find the current chapter for this operation")
 
@@ -46,18 +47,27 @@ args, remaining_argv = parser.parse_known_args()
 # execute
 #
 
-# load defaules
-defaults = {"manuscriptfile": "./.oms/query.yaml"}
-if os.path.isfile(defaults["manuscriptfile"]):
-    with open( defaults["manuscriptfile"] ) as minputs:
+# load defaults
+defaults = {
+    "settingsfile": "./.oms/query.yaml"
+}
+if os.path.isfile(defaults["settingsfile"]):
+    with open( defaults["settingsfile"] ) as minputs:
         defaults = yaml.load( minputs, Loader=yaml.FullLoader )
 
 if args.manuscriptfile == None:
-    args.manuscriptfile = defaults["manuscriptfile"] 
+    if "manuscriptfile" in defaults:
+        args.manuscriptfile = defaults["manuscriptfile"] 
+    else:
+        print("ERROR: must provide manuscriptfile")
+        exit(0)
 
 data = None
 with open( args.manuscriptfile ) as infile:
-    data = yaml.load( infile, Loader=yaml.FullLoader ) 
+    if args.manuscriptfile.endswith( "json" ):
+        data = json.load( infile )
+    elif args.manuscriptfile.endswith( "yaml" ):
+        data = yaml.load( infile, Loader=yaml.FullLoader ) 
 
 data = data["manuscript"]
 
@@ -75,13 +85,19 @@ elif args.chapter != None:
                 print(chapter["desc"])
 
 elif args.current != None:
+    found_current = False
     for chapter in data["chapters"]:
         if "state" in chapter:
             if chapter["state"] == "current":
+                found_current = True
                 print("Chapter: {}".format(chapter["title"]))
                 print("         {}".format(chapter["scenes"]))
                 print("")
                 if "desc" in chapter:
                     print(chapter["desc"])
+
+    if not found_current:
+        print("No current chapter found")
+
 
 
