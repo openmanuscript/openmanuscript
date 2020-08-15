@@ -19,13 +19,6 @@ ProgName = "oms"
 # ---------------------------------------------------------------------------
 # set up command line args
 # ---------------------------------------------------------------------------
-conf_parser = argparse.ArgumentParser(
-    # Turn off help, so we print all options in response to -h
-    add_help=False
-    )
-
-args, remaining_argv = conf_parser.parse_known_args()
-
 desc = """A tool that renders OpenManuscript data in Word (docx) format.
 """
 ep = """
@@ -54,7 +47,6 @@ Examples:
 """
 parser = argparse.ArgumentParser(  
                     formatter_class=argparse.RawDescriptionHelpFormatter,
-                    parents=[conf_parser],
                     description=textwrap.dedent(desc), 
                     epilog=textwrap.dedent(ep)
                     )
@@ -104,7 +96,7 @@ parser.add_argument( "--types", action="store_true", default=None,
 parser.add_argument( "--version", action="version", 
                         version=str(openms.core.get_version()) ) 
 
-args = parser.parse_args(remaining_argv)
+args, remaining_args = parser.parse_known_args()
 
 
 # -----------------------------------------------------------------------------

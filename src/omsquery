@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+
+import yaml
+import sys
+import argparse
+import configparser
+import textwrap
+import os
+
+desc = """A tool that queries OpenManuscript databases 
+"""
+ep = """
+Examples:
+    pnimbus --chapters
+        Prints all chapter names in the default manuscript.
+
+    pnimbus --chapter <chapter name>
+        Prints the chapter information about the named chapter 
+
+    pnimbus --manuscriptfile name.yaml --chapters
+        Prints all chapter names in the named manuscript.
+
+    pnimbus --manuscriptfile name.yaml --current
+        Prints the chapter information about the current chapter (state) 
+
+"""
+parser = argparse.ArgumentParser(
+                    formatter_class=argparse.RawDescriptionHelpFormatter,
+                    description=textwrap.dedent(desc),
+                    epilog=textwrap.dedent(ep)
+                    )
+
+parser.add_argument( "--manuscriptfile", default=None,
+    help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
+parser.add_argument( "--chapters", action="store_true", default=None,
+    help="Scene name for this operation")
+parser.add_argument( "--chapter", default=None,
+    help="Scene name for this operation")
+parser.add_argument( "--current", action="store_true", default=None,
+    help="Find the current chapter for this operation")
+
+args, remaining_argv = parser.parse_known_args()
+
+
+#
+# execute
+#
+
+# load defaules
+defaults = {"manuscriptfile": "./.oms/query.yaml"}
+if os.path.isfile(defaults["manuscriptfile"]):
+    with open( defaults["manuscriptfile"] ) as minputs:
+        defaults = yaml.load( minputs, Loader=yaml.FullLoader )
+
+if args.manuscriptfile == None:
+    args.manuscriptfile = defaults["manuscriptfile"] 
+
+data = None
+with open( args.manuscriptfile ) as infile:
+    data = yaml.load( infile, Loader=yaml.FullLoader ) 
+
+data = data["manuscript"]
+
+if args.chapters != None:
+    for chapter in data["chapters"]:
+        print("Chapter: {}".format(chapter["title"]))
+
+elif args.chapter != None:
+    for chapter in data["chapters"]:
+        if args.chapter == chapter["title"]:
+            print("Chapter: {}".format(chapter["title"]))
+            print("         {}".format(chapter["scenes"]))
+            print("")
+            if "desc" in chapter:
+                print(chapter["desc"])
+
+elif args.current != None:
+    for chapter in data["chapters"]:
+        if "state" in chapter:
+            if chapter["state"] == "current":
+                print("Chapter: {}".format(chapter["title"]))
+                print("         {}".format(chapter["scenes"]))
+                print("")
+                if "desc" in chapter:
+                    print(chapter["desc"])
+
+

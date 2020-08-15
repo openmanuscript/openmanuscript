@@ -19,24 +19,13 @@ import openms.outline
 # get initial settings from settings file, if there is one
 #
 # ---------------------------------------------------------------------------
-conf_parser = argparse.ArgumentParser(
-    # Turn off help, so we print all options in response to -h
-    add_help=False
-    )
-
-args, remaining_argv = conf_parser.parse_known_args()
-
 # ---------------------------------------------------------------------------
 #
 # command line options
 #
 # ---------------------------------------------------------------------------
-# Don't surpress add_help here so it will handle -h
 parser = argparse.ArgumentParser(
-    # Don't mess with format of description
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    # Inherit options from config_parser
-    parents=[conf_parser]
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter
 )
 
 # parser.set_defaults(**defaults)
@@ -61,7 +50,7 @@ parser.add_argument( "--specversion", action="store_true", default=None,
 parser.add_argument( "--version", action="version", 
                         version=str(openms.core.get_version()) ) 
 
-args = parser.parse_args(remaining_argv)
+args, remaining_args = parser.parse_known_args()
 
 
 # -----------------------------------------------------------------------------
