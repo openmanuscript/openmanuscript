@@ -29,6 +29,9 @@ def edit(args):
     os.system("vi scenes/{}".format(args.scene))
 
 def outline(args):
+    # overwrite, because the default is being used for the docx file
+    openms.core.set("outputfile", "outline.html")
+
     openms.core.set_settings_from_file(args.settingsfile)
 
     # override settings from command line, if provided
@@ -44,9 +47,7 @@ def outline(args):
         openms.core.set("manuscriptdir", args.manuscriptdir)
     if args.manuscriptfile != None:
         openms.core.set("manuscriptfile", args.manuscriptfile)
-    if args.outputfile == None:
-        openms.core.set("outputfile", "outline.html")
-    else:
+    if args.outputfile != None:
         openms.core.set("outputfile", args.outputfile)
 
     # check existence of the files we will need
