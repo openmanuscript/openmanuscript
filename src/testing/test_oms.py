@@ -97,16 +97,16 @@ class TestCIS(unittest.TestCase):
         basefile = "omstest_manuscript_outline.html"
         ofile = os.path.join(self.scratchdir, basefile) 
         ofile_gold = os.path.join(self.golddir, basefile) 
-        print("Running oms2outline")
-        os.system("./oms2outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        print("Running oms outline")
+        os.system("./oms outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
 
         # export outline
         basefile = "omstest_manuscript_outline_settings.html"
         ofile = os.path.join(self.scratchdir, basefile) 
         # ofile_gold is the same as the one for the test above
-        print("Running oms2outline with settings file")
-        os.system("./oms2outline --settingsfile {}/{} --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, sfile, msdir, msfile, ofile))
+        print("Running oms outline with settings file")
+        os.system("./oms outline --settingsfile {}/{} --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, sfile, msdir, msfile, ofile))
         self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
 
         # test template 
@@ -125,18 +125,18 @@ class TestCIS(unittest.TestCase):
         # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'short story files differ')
 
         # test query
-        print("Running omsquery tests ...")
-        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.json --current")
+        print("Running oms query tests ...")
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --current")
         self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
 
-        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.yaml --current")
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --current")
         self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
 
-        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.yaml --chapters")
-        self.assertEqual( output.decode("utf-8"), "Chapter: Quote\nChapter: Synopsis\nChapter: Simple Text\nChapter: A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\nChapter: Lists\nChapter: Links\nChapter: Comments\nChapter: Notes\nChapter: Footnotes\nChapter: End\n")
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapters")
+        self.assertEqual( output.decode("utf-8"), "Quote\nSynopsis\nSimple Text\nA Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\nLists\nLinks\nComments\nNotes\nFootnotes\nEnd\n")
 
-        output = self.cmdline("./omsquery --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\"")
-        self.assertEqual( output.decode("utf-8"), "Chapter: Simple Text\n         ['003', '002', '001']\n\nAn important scene.\n")
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\"")
+        self.assertEqual( output.decode("utf-8"), "\nSimple Text\n['003', '002', '001']\n\nAn important scene.\n")
 
     def cmdline(self, command):
         process = Popen(

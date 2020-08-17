@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="openms",
-    version="3.4.2",
+    version="3.5",
     author="David H. Rogers",
     author_email="david@dhrogers.com",
     description="A minimal implementation of OpenManuscript capabilities.",
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/openmanuscript/openmanuscript",
     packages=["openms", "openms.html"],
-    scripts=["oms", "omsedit", "omsnext", "oms2outline", "omsquery"],
+    scripts=["oms"],
     install_requires=[
         "markdown",
         "python-docx",
