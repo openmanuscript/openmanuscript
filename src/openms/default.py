@@ -8,11 +8,7 @@ import openms
 
 def execute(args):
     # set settings from a file, if provided 
-    if args.settingsfile:
-        with open( args.settingsfile ) as sfile:
-            settings = json.load( sfile )
-            for key in settings:
-                openms.core.set( key, settings[key] )
+    openms.core.set_settings_from_file(args.settingsfile)
 
     # override settings from command line, if provided
     if args.authorfile != None:
@@ -84,7 +80,6 @@ def execute(args):
         exit(1)
 
     # do everything
-    # At the moment, this tool only provides feedback on command line options
     if args.listscenes:
         scenes = openms.core.get_scenelist()
         for scene in scenes:

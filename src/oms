@@ -15,6 +15,8 @@ import openms
 
 ProgName = "oms"
 
+
+
 def edit(args):
     sdir = "scenes"
     if args.scene == None:
@@ -27,11 +29,7 @@ def edit(args):
     os.system("vi scenes/{}".format(args.scene))
 
 def outline(args):
-    if args.settingsfile:
-        with open( args.settingsfile ) as sfile:
-            settings = json.load( sfile )
-            for key in settings:
-                openms.core.set( key, settings[key] )
+    openms.core.set_settings_from_file(args.settingsfile)
 
     # override settings from command line, if provided
     if args.authorfile != None:
@@ -130,7 +128,7 @@ parser.add_argument( "--version", action="version",
 parser.set_defaults(func=openms.default.execute)
 subparsers = parser.add_subparsers(help='sub commands for OpenManuscript data')
 
-# create the parser for the "a" command
+# parser for the query subcommand 
 parser_q = subparsers.add_parser('query',   help='query things about a manuscript')
 parser_q.add_argument( "--manuscriptfile", default=None,
     help="Read manuscript definition from this file.")
@@ -144,11 +142,13 @@ parser_q.add_argument( "--scenes", action="store_true", default=None,
     help="Print the set of scenes in the manuscript file")
 parser_q.set_defaults(func=openms.query.execute)
 
+# parser for the edit subcommand
 parser_e = subparsers.add_parser('edit',    help='edit help (new or existing scenes)')
 parser_e.add_argument("scene", default=None, nargs="?",
     help="(optional) scene for this operation. If no scene provided, a new one is created")
 parser_e.set_defaults(func=edit)
 
+# parser for the outline subcommand
 parser_o = subparsers.add_parser('outline', help='create outlines for a manuscript')
 parser_o.add_argument( "--authorfile", default=None,
     help="read author data from this file. Must be located in MANUSCRIPTDIR")
@@ -175,24 +175,4 @@ args = parser.parse_args()
 args.func(args)
 
 
-
-# -----------------------------------------------------------------------------
-#
-# functions
-#
-# -----------------------------------------------------------------------------
-
-# set settings from a file, if provided 
-def set_from_settingsfile(sarg):
-    if sarg:
-        with open( sarg ) as sfile:
-            settings = json.load( sfile )
-            for key in settings:
-                openms.core.set( key, settings[key] )
-
-# ----------------------------------------------------------------------
-#
-# determine which command is being called 
-#
-# ----------------------------------------------------------------------
 

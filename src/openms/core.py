@@ -37,6 +37,13 @@ author = {
 manuscript = {
 }
 
+def set_settings_from_file(sarg):
+    if sarg:
+        with open( sarg ) as sfile:
+            settings = json.load( sfile )
+            for key in settings:
+                set( key, settings[key] )
+
 def get_next_scene(dir):
     next_scene = "000"
 
