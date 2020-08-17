@@ -104,9 +104,11 @@ class TestCIS(unittest.TestCase):
         # export outline
         basefile = "omstest_manuscript_outline_settings.html"
         ofile = os.path.join(self.scratchdir, basefile) 
+        ofile_gold = os.path.join(self.golddir, basefile) 
+        sfile = "outline.json"
         # ofile_gold is the same as the one for the test above
         print("Running oms outline with settings file")
-        os.system("./oms outline --settingsfile {}/{} --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, sfile, msdir, msfile, ofile))
+        os.system("./oms outline --settingsfile {}/{} --manuscriptdir {}".format(msdir, sfile, msdir))
         self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
 
         # test template 

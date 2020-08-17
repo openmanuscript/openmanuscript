@@ -1,0 +1,6 @@
+{
+    "manuscriptdir"  : "this/is/overridden/in/test",
+    "authorfile"     : "a.json",
+    "manuscriptfile" : "m.json",
+    "outputfile"     : "testing/scratch/omstest_manuscript_outline_settings.html"
+}
