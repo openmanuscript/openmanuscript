@@ -37,6 +37,13 @@ author = {
 manuscript = {
 }
 
+# ---------------------------------------------------------------------------
+#
+# given a json file, set core settings from key, value pairs 
+#
+# no error checking - can set any named setting, and unused will be ignored
+#
+# ---------------------------------------------------------------------------
 def set_settings_from_file(sarg):
     if sarg:
         with open( sarg ) as sfile:
@@ -44,6 +51,12 @@ def set_settings_from_file(sarg):
             for key in settings:
                 set( key, settings[key] )
 
+# ---------------------------------------------------------------------------
+#
+# get the numerically next scene in a directory. Expects that the number will
+# fall between 000 and 999
+#
+# ---------------------------------------------------------------------------
 def get_next_scene(dir):
     next_scene = "000"
 
@@ -59,6 +72,11 @@ def get_next_scene(dir):
 
     return next_scene
     
+# ---------------------------------------------------------------------------
+#
+# get the value of a core setting
+#
+# ---------------------------------------------------------------------------
 def get_setting(key):
     result = None
     if key in settings:
@@ -102,6 +120,11 @@ def get_manuscript():
     global manuscript
     return manuscript
 
+# ---------------------------------------------------------------------------
+#
+# given a file path, return a path with the '.md' extension
+#
+# ---------------------------------------------------------------------------
 def get_scenefile( scene ):
     global settings
     # make sure it has the correct ending
@@ -113,6 +136,12 @@ def get_output_type():
     ext, numtimes = re.subn(r'^.', r'', ext)
     return ext
 
+# ---------------------------------------------------------------------------
+#
+# get the type of chapter. 
+# If no chapter type is present, return default value
+#
+# ---------------------------------------------------------------------------
 def get_chapter_type(chapter):
     chaptype = None
     if "type" in chapter:
@@ -269,6 +298,9 @@ def load_data_file( f, dtype="manuscript" ):
 
     return data
 
+# ---------------------------------------------------------------------------
+# read the author and manuscript files into local data structures
+# ---------------------------------------------------------------------------
 def read_data():
     global author
     global manuscript
@@ -279,113 +311,9 @@ def read_data():
     msfilename = get_manuscriptfile()
     manuscript = load_data_file(msfilename)
 
-def csv_to_manuscript( csvfile, ms ):
-    with open(csvfile, "r") as csvdata:
-        csvreader = csv.reader(csvdata, delimiter=',')
-
-        with open(ms, "w") as mfile:
-
-            mfile.write("{\n")
-            mfile.write("\"version\" : \"{}\",\n".format(get_version()))
-            mfile.write("\"manuscript\" : {\n")
-            mfile.write("    \"title\" : \"Sample\",\n")
-            mfile.write("    \"runningtitle\" : \"sample\",\n")
-            mfile.write("    \"chapters\" : [\n")
-
-            count = 0
-            first = 1
-            for row in csvreader:
-                if (count > 1):
-                    mfile.write(",\n")
-
-                if (count == 0):
-                    names = row.copy()
-                else:
-                    values = row.copy()
-
-                    mfile.write("         {\n")
-                    for i in range(len(names)): 
-                        mfile.write("             \"{}\" : \"{}\"".format(names[i].strip(), values[i].strip()))
-                        if (i == (len(names)-1)):
-                            mfile.write("\n")
-                        else:
-                            mfile.write(",\n")
-                if (count != 0):
-                    mfile.write("         }")
-                count += 1 
-
-            mfile.write("\n")
-            mfile.write("    ]\n")
-            mfile.write("}\n")
-            mfile.write("}\n")
-
-
-
-def manuscript_to_csv( mdir, mfile, afile, ofile ):
-    global manuscript
-
-    set("manuscriptdir", mdir)
-    set("manuscriptfile", mfile)
-    set("authorfile", afile)
-    read_data()
-
-    names = ["title", "pov", "tod", "setting", "desc"]
-
-    with open(ofile, "w") as ofile:
-        first = True
-        for name in names:
-            if first:
-                first = False
-            else:
-                ofile.write(",")
-            ofile.write(name)
-
-        ofile.write("\n")
-
-        for chapter in manuscript["chapters"]:
-            first = True
-            for name in names:
-                if first:
-                    first = False
-                else:
-                    ofile.write(",")
-                if name in chapter:  
-                    value = chapter[name]
-                else:
-                    value = ""
-                ofile.write("\"{}\"".format(value))
-
-            ofile.write("\n")
-
-def manuscript_to_html( mdir, mfile, afile, ofile ):
-    global manuscript
-
-    set("manuscriptdir", mdir)
-    set("manuscriptfile", mfile)
-    set("authorfile", afile)
-    read_data()
-
-    afile = get_authorfile()
-    author = load_data_file(afile, dtype="author")
-
-    with open(ofile, "w") as ofile:
-        ofile.write("<html>")
-        ofile.write("<title>{}</title>\n".format(manuscript["title"]))
-        ofile.write("<head>")
-        ofile.write("</head>")
-        ofile.write("<body>")
-        ofile.write("<h2><strong>{}</strong></h2>\n".format(manuscript["title"]))
-        for chapter in manuscript["chapters"]:
-            ofile.write("<p>")
-            ofile.write("<strong>{}</strong>\n".format(chapter["title"]))
-            ofile.write("<ul>")
-            for scene in chapter["scenes"]:
-                ofile.write("<li>{}</li>".format(scene))
-            ofile.write("</ul>")
-            ofile.write("</p>")
-        ofile.write("</body>")
-        ofile.write("</html>")
-
+# ---------------------------------------------------------------------------
+# return a sorted list of the scenes in a manuscript
+# ---------------------------------------------------------------------------
 def get_scenelist():
     global manuscript
 
@@ -404,6 +332,9 @@ def get_scenelist():
 
     return newlist 
 
+# ---------------------------------------------------------------------------
+# return a list of the scenes that are 'valid' according to the settings 
+# ---------------------------------------------------------------------------
 def find_tagged_scenes():
     scenes = []
 
@@ -413,7 +344,10 @@ def find_tagged_scenes():
 
     return scenes
 
-def get_word_count( fname ):
+# ---------------------------------------------------------------------------
+# do an approximate word count on a scene file 
+# ---------------------------------------------------------------------------
+def get_scene_word_count( fname ):
     count = 0
 
     with open( fname ) as scenefile:
@@ -427,7 +361,7 @@ def get_approximate_word_count():
 
     count = 0
     for scene in scenes:
-        count = count + get_word_count(get_scenefile(scene))
+        count = count + get_scene_word_count(get_scenefile(scene))
 
     count -= count % -100 
     return count

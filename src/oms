@@ -13,10 +13,6 @@ import json
 import textwrap
 import openms
 
-ProgName = "oms"
-
-
-
 def edit(args):
     sdir = "scenes"
     if args.scene == None:
@@ -71,13 +67,10 @@ def outline(args):
 # ---------------------------------------------------------------------------
 desc = """A tool that renders OpenManuscript data in Word (docx) format.
 """
-ep = """
-"""
 
 parser = argparse.ArgumentParser(  
                     formatter_class=argparse.RawDescriptionHelpFormatter,
-                    description=textwrap.dedent(desc), 
-                    epilog=textwrap.dedent(ep)
+                    description=textwrap.dedent(desc)
                     )
 
 parser.add_argument( "--authorfile", default=None,
