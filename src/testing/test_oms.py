@@ -32,84 +32,100 @@ class TestCIS(unittest.TestCase):
         os.mkdir(self.scratchdir)
         
         # export docx
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript.docx")
+        bfile = "omstest_manuscript.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
 
         # export docx
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_toc.docx")
+        bfile = "omstest_manuscript_toc.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test with toc")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --toc".format(msdir, msfile, afile, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
 
         # export docx with yaml
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_yaml.docx")
+        bfile = "omstest_manuscript_yaml.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test with yaml manuscript file")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile_yaml, afile_yaml, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
 
         # export docx with settings file, additional command line argument and 
         # command line argument override
-        ofile  = os.path.join(self.scratchdir, "omstest_settings.docx")
+        bfile = "omstest_settings.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for settings file test")
         os.system("./oms --settingsfile {}/{} --manuscriptdir {} --outputfile {}".format(msdir, sfile, msdir, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
 
         # export docx
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_noquote-nosynopsis.docx")
+        bfile = "omstest_manuscript_noquote-nosynopsis.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for no quote no synopsis")
         os.system("./oms --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
         
         # export docx
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_simple.docx")
+        bfile = "omstest_manuscript_simple.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for simple test")
         os.system("./oms --includetags simple --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
         
         # export docx
-        ofile  = os.path.join(self.scratchdir, "omstest_manuscript_notes.docx")
+        bfile = "omstest_manuscript_notes.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for notes")
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        # can't perform test: files with equivalent content show as different
+        self.compare( ofile, gfile )
 
         # export docx
             # don't exclude
-        basefile = "omstest_manuscript_dont-exclude.docx"
-        ofile = os.path.join(self.scratchdir, basefile) 
-        ofile_gold = os.path.join(self.golddir, basefile) 
+        bfile = "omstest_manuscript_dont-exclude.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         emsfile = "exclude.json"
         print("Running oms for exclude check (don't exclude)")
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                         --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                          msdir, emsfile, afile, ofile, extest[1], extest[0]))
+        self.compare( ofile, gfile )
             # exclude
-        ofile = os.path.join(self.scratchdir, "omstest_manuscript_exclude.docx")
+        bfile = "omstest_manuscript_exclude.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for exclude check (exclude)")
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                         --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                          msdir, emsfile, afile, ofile, extest[0], extest[1]))
-        # can't perform test: files with equivalent content show as different
-        # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'exclude files differ')
+        self.compare( ofile, gfile )
 
         # export outline
-        basefile = "omstest_manuscript_outline.html"
-        ofile = os.path.join(self.scratchdir, basefile) 
-        ofile_gold = os.path.join(self.golddir, basefile) 
+        bfile = "omstest_manuscript_outline.html"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms outline")
         os.system("./oms outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
+        self.assertTrue( filecmp.cmp(ofile, gfile), 'outline files differ')
 
         # export outline
-        basefile = "omstest_manuscript_outline_settings.html"
-        ofile = os.path.join(self.scratchdir, basefile) 
-        ofile_gold = os.path.join(self.golddir, basefile) 
+        bfile = "omstest_manuscript_outline_settings.html"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         sfile = "outline.json"
-        # ofile_gold is the same as the one for the test above
+        # gfile is the same as the one for the test above
         print("Running oms outline with settings file")
         os.system("./oms outline --settingsfile {}/{} --manuscriptdir {}".format(msdir, sfile, msdir))
-        self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'outline files differ')
+        self.assertTrue( filecmp.cmp(ofile, gfile), 'outline files differ')
 
         # test template 
         testdir = os.path.join(self.scratchdir, "template")
@@ -117,14 +133,13 @@ class TestCIS(unittest.TestCase):
         openms.template.write_template(testdir)
 
         # test short story 
-        basefile = "omstest_manuscript_shortstory.docx"
-        ofile  = os.path.join(self.scratchdir, basefile) 
-        ofile_gold = os.path.join(self.golddir, basefile) 
+        bfile = "omstest_manuscript_shortstory.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for short story")
         msfile = "short.json"
         os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        # can't perform test: files with equivalent content show as different
-        # self.assertTrue( filecmp.cmp(ofile, ofile_gold), 'short story files differ')
+        self.compare( ofile, gfile )
 
         # test query
         print("Running oms query tests ...")
@@ -147,3 +162,18 @@ class TestCIS(unittest.TestCase):
             shell=True
         )
         return process.communicate()[0]
+
+    def compare( self, one, two ):
+        cdir = os.path.join( self.scratchdir, "diff" )
+        os.mkdir( cdir )
+
+        onezip = os.path.join(cdir, "01.zip")
+        twozip = os.path.join(cdir, "02.zip")
+        os.system("unzip {} -d {} 2>&1 > /dev/null".format( one, onezip ))
+        os.system("unzip {} -d {} 2>&1 > /dev/null".format( two, twozip ))
+
+        # print("compare: {} {}".format(onezip, twozip))
+        output = self.cmdline("diff -r {} {} --exclude=core.xml".format( onezip, twozip ))
+        self.assertEqual( output.decode("utf-8"), "", "docx files differ")
+
+        os.system("rm -rf {}".format( cdir ))
