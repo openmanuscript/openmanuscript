@@ -171,6 +171,7 @@ class TestCIS(unittest.TestCase):
         cdir = os.path.join( self.scratchdir, "docx_diff_test" )
         os.mkdir( cdir )
 
+        # unzip the docx files for comparison
         onezip = os.path.join(cdir, "01.zip")
         twozip = os.path.join(cdir, "02.zip")
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( one, onezip ))
