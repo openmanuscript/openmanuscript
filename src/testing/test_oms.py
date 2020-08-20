@@ -11,8 +11,8 @@ class TestCIS(unittest.TestCase):
         self.scratchdir = os.path.join("testing", "scratch") 
         self.golddir    = os.path.join("testing", "gold")
 
+    # clean up
     def tearDown(self):
-        # clean up 
         clean = True
         if clean:
             shutil.rmtree( self.scratchdir )
