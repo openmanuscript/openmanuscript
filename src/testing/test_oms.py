@@ -14,7 +14,7 @@ class TestCIS(unittest.TestCase):
 
     # clean up
     def tearDown(self):
-        clean = True
+        clean = False
         if clean:
             shutil.rmtree( self.scratchdir )
         else:
@@ -169,24 +169,20 @@ class TestCIS(unittest.TestCase):
     # to be different
     #
     def compare_docx_files( self, one, two ):
+        # print("compare: {} {}".format(one, two))
         cdir = os.path.join( self.scratchdir, "docx_diff_test" )
         os.mkdir( cdir )
 
         # unzip the docx files for comparison
         onezip = os.path.join(cdir, "01.zip")
         twozip = os.path.join(cdir, "02.zip")
+
+        # remove known data that can cause a difference
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( one, onezip ))
-        # remove the creation date
-        if sys.platform == "darwin":
-            os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(onezip))
-        else:
-            os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(onezip))
+        self.strip_known_conflics( onezip )
+
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( two, twozip ))
-        # remove the creation date
-        if sys.platform == "darwin":
-            os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(twozip))
-        else:
-            os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(twozip))
+        self.strip_known_conflics( twozip )
 
         # print("compare: {} {}".format(onezip, twozip))
         output = self.cmdline("diff -r {} {}".format( onezip, twozip ))
@@ -194,3 +190,16 @@ class TestCIS(unittest.TestCase):
 
         # remove the unzipped files
         os.system("rm -rf {}".format( cdir ))
+
+    def strip_known_conflics( self, zipdir ):
+        # determine platform, and use the appropriate syntax for sed
+        if sys.platform == "darwin":
+            # remove the creation date
+            os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(zipdir))
+            # remove the version string 
+            os.system("sed -i \'\' \'s/<dc:description>.*dc:description>//g\' {}/docProps/core.xml".format(zipdir))
+        else:
+            # remove the creation date
+            os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(zipdir))
+            # remove the version string 
+            os.system("sed -i \'\' \'s/<dc:description>.*dc:description>//g\' {}/docProps/core.xml".format(zipdir))
