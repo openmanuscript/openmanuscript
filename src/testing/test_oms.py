@@ -202,4 +202,4 @@ class TestCIS(unittest.TestCase):
             # remove the creation date
             os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(zipdir))
             # remove the version string 
-            os.system("sed -i \'\' \'s/<dc:description>.*dc:description>//g\' {}/docProps/core.xml".format(zipdir))
+            os.system("sed -i \'s/<dc:description>.*dc:description>//g\' {}/docProps/core.xml".format(zipdir))
