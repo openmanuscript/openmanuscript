@@ -3,6 +3,7 @@ import os
 import filecmp
 import shutil
 import openms
+import sys
 from subprocess import PIPE, Popen
 
 class TestCIS(unittest.TestCase):
@@ -176,10 +177,16 @@ class TestCIS(unittest.TestCase):
         twozip = os.path.join(cdir, "02.zip")
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( one, onezip ))
         # remove the creation date
-        os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(onezip))
+        if sys.platform == "darwin":
+            os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(onezip))
+        else:
+            os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(onezip))
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( two, twozip ))
         # remove the creation date
-        os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(twozip))
+        if sys.platform == "darwin":
+            os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(twozip))
+        else:
+            os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(twozip))
 
         # print("compare: {} {}".format(onezip, twozip))
         output = self.cmdline("diff -r {} {}".format( onezip, twozip ))
