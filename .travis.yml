@@ -2,11 +2,6 @@ language: python
 python:
     - "3.6"
 
-install:
-    - markdown
-    - python-docx
-    - pyyaml
-
 before_script:
     - cd src
 
