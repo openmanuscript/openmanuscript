@@ -1,0 +1,3 @@
+markdown
+python-docx
+pyyaml
