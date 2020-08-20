@@ -2,9 +2,6 @@ language: python
 python:
     - "3.6"
 
-install:
-    - pip install src/.
-
 script:
     - cd src
     - python -m unittest discover testing
