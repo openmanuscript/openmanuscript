@@ -37,7 +37,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # export docx
         bfile = "omstest_manuscript_toc.docx"
@@ -45,7 +45,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test with toc")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --toc".format(msdir, msfile, afile, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # export docx with yaml
         bfile = "omstest_manuscript_yaml.docx"
@@ -53,7 +53,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test with yaml manuscript file")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile_yaml, afile_yaml, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # export docx with settings file, additional command line argument and 
         # command line argument override
@@ -62,7 +62,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for settings file test")
         os.system("./oms --settingsfile {}/{} --manuscriptdir {} --outputfile {}".format(msdir, sfile, msdir, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # export docx
         bfile = "omstest_manuscript_noquote-nosynopsis.docx"
@@ -70,7 +70,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for no quote no synopsis")
         os.system("./oms --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
         
         # export docx
         bfile = "omstest_manuscript_simple.docx"
@@ -78,7 +78,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for simple test")
         os.system("./oms --includetags simple --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
         
         # export docx
         bfile = "omstest_manuscript_notes.docx"
@@ -86,7 +86,7 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for notes")
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # export docx
             # don't exclude
@@ -98,7 +98,7 @@ class TestCIS(unittest.TestCase):
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                         --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                          msdir, emsfile, afile, ofile, extest[1], extest[0]))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
             # exclude
         bfile = "omstest_manuscript_exclude.docx"
         ofile = os.path.join(self.scratchdir, bfile) 
@@ -107,7 +107,7 @@ class TestCIS(unittest.TestCase):
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                         --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                          msdir, emsfile, afile, ofile, extest[0], extest[1]))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # export outline
         bfile = "omstest_manuscript_outline.html"
@@ -139,7 +139,7 @@ class TestCIS(unittest.TestCase):
         print("Running oms for short story")
         msfile = "short.json"
         os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare( ofile, gfile )
+        self.compare_docx_files( ofile, gfile )
 
         # test query
         print("Running oms query tests ...")
@@ -163,17 +163,26 @@ class TestCIS(unittest.TestCase):
         )
         return process.communicate()[0]
 
-    def compare( self, one, two ):
-        cdir = os.path.join( self.scratchdir, "diff" )
+    #
+    # compare docx files, but first remove the creation date, which causes them
+    # to be different
+    #
+    def compare_docx_files( self, one, two ):
+        cdir = os.path.join( self.scratchdir, "docx_diff_test" )
         os.mkdir( cdir )
 
         onezip = os.path.join(cdir, "01.zip")
         twozip = os.path.join(cdir, "02.zip")
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( one, onezip ))
+        # remove the creation date
+        os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(onezip))
         os.system("unzip {} -d {} 2>&1 > /dev/null".format( two, twozip ))
+        # remove the creation date
+        os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(twozip))
 
         # print("compare: {} {}".format(onezip, twozip))
-        output = self.cmdline("diff -r {} {} --exclude=core.xml".format( onezip, twozip ))
+        output = self.cmdline("diff -r {} {}".format( onezip, twozip ))
         self.assertEqual( output.decode("utf-8"), "", "docx files differ")
 
+        # remove the unzipped files
         os.system("rm -rf {}".format( cdir ))
