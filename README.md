@@ -1,3 +1,4 @@
+<img src="https://travis-ci.com/openmanuscript/openmanuscript.svg?branch=master">
 
 <img src="img/logo.png" width="80" align="left">
 
