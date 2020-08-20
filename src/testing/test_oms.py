@@ -13,7 +13,7 @@ class TestCIS(unittest.TestCase):
 
     def tearDown(self):
         # clean up 
-        clean = False
+        clean = True
         if clean:
             shutil.rmtree( self.scratchdir )
         else:
