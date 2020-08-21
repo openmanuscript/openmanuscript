@@ -2,6 +2,9 @@
 #
 # rtf.py, an rtf conversion module for the OpenManuscript toolset 
 #
+# This module is depricated, and is no longer supported
+# Use at your own risk
+#
 # ---------------------------------------------------------------------------
 
 from . import core
