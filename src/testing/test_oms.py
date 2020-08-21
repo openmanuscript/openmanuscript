@@ -144,11 +144,11 @@ class TestCIS(unittest.TestCase):
 
         # test query
         print("Running oms query tests ...")
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --current")
-        self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --state current")
+        self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
 
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --current")
-        self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --state current")
+        self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
 
         output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapters")
         self.assertEqual( output.decode("utf-8"), "Quote\nSynopsis\nSimple Text\nA Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\nLists\nLinks\nComments\nNotes\nFootnotes\nEnd\n")

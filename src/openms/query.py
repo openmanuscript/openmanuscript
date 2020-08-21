@@ -57,14 +57,25 @@ def execute(args):
             if args.chapter == chapter["title"]:
                 print_chapter(chapter)
 
-    elif args.current != None:
-        found_current = False
+    elif args.state != None:
+        found_state = False
         for chapter in data["chapters"]:
             if "state" in chapter:
-                if chapter["state"] == "current":
-                    found_current = True
+                if chapter["state"] == args.state: 
                     print_chapter(chapter)
+                    found_state = True
 
-        if not found_current:
-            print("No current chapter found")
+        if not found_state:
+            print("No chapter with state {} found".format(args.state))
+
+    elif args.tag != None:
+        found_tag = False
+        for chapter in data["chapters"]:
+            if "tags" in chapter:
+                if args.tag in chapter["tags"]:
+                    print_chapter(chapter)
+                    found_state = True
+
+        if not found_tag:
+            print("No chapter with tag {} found".format(args.tag))
 
