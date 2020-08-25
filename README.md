@@ -10,7 +10,7 @@ creative and efficient in getting words on the page.
 
 I've been writing long enough to want to solve a few long-term problems:
 
-- That awesome story idea that I worked on a while ago ... I was using an old Word
+- Years ago I worked on an awesome story idea, but I was using an old Word
   version, and I can't open the files anymore.
 
 - Let's face it, lots of text editing software wasn't designed with writing 
