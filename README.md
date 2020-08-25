@@ -4,8 +4,9 @@
 
 # OpenManuscript
 
-This is OpenManuscript, a text-based data format specification for writing
-fiction in an organized, hassle-free way.
+Welcome to the *OpenManuscript* project, a data format and a set of command line
+tools that help you write fiction in a way that works with you to be your most
+creative and efficient in getting words on the page.
 
 I've been writing long enough to want to solve a few long-term problems:
 
