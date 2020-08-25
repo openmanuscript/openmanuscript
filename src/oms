@@ -130,8 +130,10 @@ parser_q.add_argument( "--chapters", action="store_true", default=None,
     help="Print the chapter names in the manuscript file")
 parser_q.add_argument( "--chapter", default=None,
     help="Chapter name for this operation")
-parser_q.add_argument( "--current", action="store_true", default=None,
-    help="Find the current chapter for this operation")
+parser_q.add_argument( "--state", default=None,
+    help="Find the current chapter for this operation, using state")
+parser_q.add_argument( "--tag", default=None,
+    help="Find the current chapter for this operation, using tags")
 parser_q.add_argument( "--scenes", action="store_true", default=None,
     help="Print the set of scenes in the manuscript file")
 parser_q.set_defaults(func=openms.query.execute)

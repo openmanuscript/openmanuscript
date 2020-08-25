@@ -144,15 +144,22 @@ class TestCIS(unittest.TestCase):
 
         # test query
         print("Running oms query tests ...")
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --current")
-        self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
-
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --current")
-        self.assertEqual( output.decode("utf-8"), "No current chapter found\n")
-
+            # state current, json
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --state current")
+        self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
+            # state current, yaml
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --state current")
+        self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
+            # tag nothing, json
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --tag nothing")
+        self.assertEqual( output.decode("utf-8"), "No chapter with tag nothing found\n")
+            # tag nothing, yaml
+        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --tag nothing")
+        self.assertEqual( output.decode("utf-8"), "No chapter with tag nothing found\n")
+            # chapters
         output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapters")
         self.assertEqual( output.decode("utf-8"), "Quote\nSynopsis\nSimple Text\nA Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\nLists\nLinks\nComments\nNotes\nFootnotes\nEnd\n")
-
+            # single chapter
         output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\"")
         self.assertEqual( output.decode("utf-8"), "\nSimple Text\n['003', '002', '001']\n\nAn important scene.\n")
 

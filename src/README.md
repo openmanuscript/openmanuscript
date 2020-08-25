@@ -148,7 +148,7 @@ oms --settingsfile draft.json --font Courier --authorfile author.json
 The subcommands are accessed in the normal way, from the command line. For example, to write the summary of the current (working) scene from a manuscript:
 
 ```
-oms query --current --manuscriptfile manuscript.json
+oms query --state current --manuscriptfile manuscript.json
 ```
 
 To get the help for a specific subcommand:
