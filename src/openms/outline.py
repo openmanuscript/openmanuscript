@@ -33,6 +33,7 @@ OUTLINE_COL_WIDTHS = {
     'default'   : '2',
     'title'     : '5', 
     'arc'       : '5',
+    'beats'     : '5',
     'tod'       : '2', 
     'pov'       : '2', 
     'setting'   : '5', 
