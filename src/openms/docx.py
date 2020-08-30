@@ -511,7 +511,8 @@ def write_chapter(doc, chapter, chapnum):
         if "summary" in chapter:
             scenes = [chapter["summary"]]
     else:
-        scenes = chapter["scenes"]
+        if "scenes" in chapter:
+            scenes = chapter["scenes"]
 
     if core.settings["chapterdesc"]:
         # just write the description of the chapter
