@@ -31,15 +31,13 @@ FONT = {
 
 OUTLINE_COL_WIDTHS = {
     'default'   : '2',
-    'title'     : '5', 
-    'arc'       : '5',
-    'beats'     : '5',
-    'tod'       : '2', 
-    'pov'       : '2', 
-    'setting'   : '5', 
-    'scenes'    : '5', 
     'desc'      : '30', 
-    'story'     : '40'
+    'pov'       : '2', 
+    'scenes'    : '8', 
+    'setting'   : '5', 
+    'story'     : '40',
+    'title'     : '8', 
+    'tod'       : '2'
 }
 
 OUTLINE_CSS = """
@@ -64,6 +62,33 @@ td {
 """
 
 # -----------------------------------------------------------------------------
+# write css
+# -----------------------------------------------------------------------------
+def get_css_filenames( path ):
+    components = path.split(".")
+    fullpath = components[0] + ".css"
+    fname = os.path.basename(fullpath)
+    return [fullpath, fname]
+
+def get_css_override_filenames( path ):
+    components = path.split(".")
+    fullpath = components[0] + "_override.css"
+    fname = os.path.basename(fullpath)
+    return [fullpath, fname]
+
+
+# -----------------------------------------------------------------------------
+# write css
+# -----------------------------------------------------------------------------
+def write_css( name, manuscript ):
+    # write css that can be overridden locally
+    with open( name, 'w' ) as f:
+        f.write(OUTLINE_CSS)
+        f.write("th.chapter { width: 1% }\n")
+        for col in core.settings["columns"]:
+            f.write("th.{} {{ width: {}% }}\n".format(col.lower(), get_column_width(col.lower())))
+
+# -----------------------------------------------------------------------------
 # write document preamble
 # -----------------------------------------------------------------------------
 def write_preamble( f, manuscript ):
@@ -71,7 +96,11 @@ def write_preamble( f, manuscript ):
     f.write("<html>\n")
     f.write("<head>\n")
     f.write("<title>{}</title>\n".format(manuscript["title"]))
-    f.write("<style>{}</style>\n".format(OUTLINE_CSS))
+    css_names = get_css_filenames( core.settings["outputfile"] )
+    cssoverride_names = get_css_override_filenames( core.settings["outputfile"] )
+    f.write("<link rel=\"stylesheet\"\n    type=\"text/css\"\n    href=\"{}\" />\n".format(css_names[1]))
+    f.write("<link rel=\"stylesheet\"\n    type=\"text/css\"\n    href=\"{}\" />\n".format(cssoverride_names[1]))
+    write_css( css_names[0], manuscript )
     f.write("</head>\n")
     f.write("<body>\n")
 
@@ -141,10 +170,9 @@ def write_outline():
         # table of chapters
         f.write("<table>\n")
         f.write("<tr>\n")
-        f.write("<th style=\"width:1%\">Chapter</th>\n")
+        f.write("<th class=\"chapter\">Chapter</th>\n")
         for col in core.settings["columns"]:
-            f.write("<th style=\"width:{0}%\">{1}</th>".
-                format(get_column_width(col.lower()), col))
+            f.write("<th class=\"{}\">{}</th>\n".format(col.lower(), col))
         f.write("</tr>\n")
         tags = None
         for chapter in core.manuscript["chapters"]:
