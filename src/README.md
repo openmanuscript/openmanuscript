@@ -157,7 +157,40 @@ To get the help for a specific subcommand:
 oms query --help
 ```
 
-### the \<include\> directive
+### CSS files and the `oms outline` subcommand
+
+The `oms outline` command creates an outline in a table in `html` format. The specifics of
+the table can be controlled by a local `css` file, in the following way:
+
+* Run the `oms outline` command
+
+```
+    oms outline --outputfile foo.html
+```
+
+* The command creates a `foo.html` file with the following `css` files linked
+in:
+
+```
+<link rel="stylesheet"
+    type="text/css"
+    href="foo.css" />
+<link rel="stylesheet"
+    type="text/css"
+    href="foo_override.css" />
+```
+
+* Default settings are contained in the `foo.css` written out by the command,
+but the user may override those by creating a `foo_override.css` in the same
+directory as the `foo.html`. Each column in the table can be selected through
+the class selction method as in this example, which sets the width of the `TOD`
+(time of day) column to 10%::
+
+```
+    th.tod { width: 10% }
+```
+
+### The \<include\> directive
 
 This tool will include files one level deep. It looks in the `scenes` directory
 for `filename` with the directive formatted this way:
