@@ -340,7 +340,8 @@ def find_tagged_scenes():
 
     for chapter in manuscript["chapters"]:
         if check_chapter_tags( chapter ):
-            scenes.extend(chapter["scenes"])
+            if "scenes" in chapter:
+                scenes.extend(chapter["scenes"])
 
     return scenes
 
