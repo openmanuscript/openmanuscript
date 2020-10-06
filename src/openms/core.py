@@ -321,8 +321,9 @@ def get_scenelist():
 
     scenelist = []
     for chapter in manuscript["chapters"]:
-        for scene in chapter["scenes"]:
-            scenelist.append(scene)
+        if "scenes" in chapter:
+            for scene in chapter["scenes"]:
+                scenelist.append(scene)
 
     newlist = []
     for i in scenelist:

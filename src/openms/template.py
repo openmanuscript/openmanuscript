@@ -38,7 +38,7 @@ def write_authorfile(path):
         afile.write(contents)
     with open(os.path.join(path, "author.yaml"), "w") as afile:
         contents = """
-version : "2.0",
+version : "2.0"
 author :
     name      : Ima Q. Writer (yaml)
     surname   : Writer
