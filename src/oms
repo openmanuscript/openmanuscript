@@ -130,6 +130,10 @@ parser_q.add_argument( "--chapters", action="store_true", default=None,
     help="Print the chapter names in the manuscript file")
 parser_q.add_argument( "--chapter", default=None,
     help="Chapter name for this operation")
+parser_q.add_argument( "--excludetags", nargs='+', type=str, default=None,
+    help="add chapter tags that are considered 'off'")
+parser_q.add_argument( "--includetags", nargs='+', type=str, default=None,
+    help="add chapter tags that are considered 'on'")
 parser_q.add_argument( "--state", default=None,
     help="Find the current chapter for this operation, using state")
 parser_q.add_argument( "--tag", default=None,
