@@ -1,3 +1,5 @@
+from . import core
+
 import yaml
 import json
 import sys
@@ -8,7 +10,8 @@ import os
 def print_chapter(c):
     print("")
     print(c["title"])
-    print(c["scenes"])
+    if "scenes" in c:
+        print(c["scenes"])
     print("")
     if "desc" in c:
         print(c["desc"])
@@ -16,12 +19,21 @@ def print_chapter(c):
 def execute(args):
 
     # load defaults
+    # NOTE: this is not the same way it's done other places. 
+    #       should standardize this
     defaults = {
         "settingsfile": "./.oms/query.yaml"
     }
     if os.path.isfile(defaults["settingsfile"]):
         with open( defaults["settingsfile"] ) as minputs:
             defaults = yaml.load( minputs, Loader=yaml.FullLoader )
+
+    # override settings from command line, if provided
+    if args.excludetags != None:
+        core.set("excludetags", args.excludetags)
+    if args.includetags != None:
+        core.set("includetags", args.includetags)
+
 
     if args.manuscriptfile == None:
         if "manuscriptfile" in defaults:
@@ -41,12 +53,16 @@ def execute(args):
 
     if args.chapters != None:
         for chapter in data["chapters"]:
-            print(chapter["title"])
+            if core.check_chapter_tags(chapter):
+                print(chapter["title"])
+                if "scenes" in chapter:
+                    print("  {}".format(chapter["scenes"]))
 
     elif args.scenes != None:
         all_scenes = []
         for chapter in data["chapters"]:
-            all_scenes = all_scenes + chapter["scenes"]
+            if "scenes" in chapter:
+                all_scenes = all_scenes + chapter["scenes"]
         all_scenes.sort()        
         all_scenes = list(dict.fromkeys(all_scenes))
         print("{} scenes:".format(len(all_scenes)))

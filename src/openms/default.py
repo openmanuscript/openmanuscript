@@ -41,6 +41,8 @@ def execute(args):
         openms.core.set("notes", args.notes)
     if args.outputfile != None:
         openms.core.set("outputfile", args.outputfile)
+    if args.slug != None:
+        openms.core.set("slug", args.slug)
     if args.toc != None:
         openms.core.set("toc", args.toc)
 

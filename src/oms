@@ -111,6 +111,8 @@ parser.add_argument( "--outputfile", default=None,
     help="write output to this file")
 parser.add_argument( "--settingsfile", default=None,
     help="use settings from this file as command line args")
+parser.add_argument( "--slug", default=None,
+    help="use this value as a slug for the current operation")
 parser.add_argument( "--specversion", action="store_true", default=None,
     help="report the version of OpenManuscript specification this tool supports")
 parser.add_argument( "--toc", action="store_true", default=None, 
@@ -130,6 +132,10 @@ parser_q.add_argument( "--chapters", action="store_true", default=None,
     help="Print the chapter names in the manuscript file")
 parser_q.add_argument( "--chapter", default=None,
     help="Chapter name for this operation")
+parser_q.add_argument( "--excludetags", nargs='+', type=str, default=None,
+    help="add chapter tags that are considered 'off'")
+parser_q.add_argument( "--includetags", nargs='+', type=str, default=None,
+    help="add chapter tags that are considered 'on'")
 parser_q.add_argument( "--state", default=None,
     help="Find the current chapter for this operation, using state")
 parser_q.add_argument( "--tag", default=None,

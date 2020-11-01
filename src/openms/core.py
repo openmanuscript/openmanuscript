@@ -28,6 +28,7 @@ settings = {
     "manuscripttype"  : "novel",
     "notes"           : False,
     "outputfile"      : "manuscript.docx",
+    "slug"            : None,
     "toc"             : False
 }
 

@@ -241,6 +241,14 @@ def write_title(document):
     pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
     run = p.add_run("{}".format(core.author["name"]))
 
+    # slug 
+    if (core.settings["slug"] != None) and (core.settings["slug"] != "None"):
+        p = document.add_paragraph()
+        pf = p.paragraph_format
+        pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+        run = p.add_run("({})".format(core.settings["slug"]))
+
 
 def write_paragraph_space(document):
     p = document.add_paragraph()
