@@ -58,6 +58,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
     - ``--settingsfile`` define a json file that defines values for command line arguments. This settings file is applied first, if present, and then 
       command line arguments can overwrite values.
+    - ``--slug`` define a slug string that can be used by the current operation 
 - Switches
 	- ``--chapterdesc`` print a chapter description, if there is one, instead of the chapter.
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
