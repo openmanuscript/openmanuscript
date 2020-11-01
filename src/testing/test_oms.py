@@ -8,6 +8,9 @@ from subprocess import PIPE, Popen
 
 class TestCIS(unittest.TestCase):
 
+    # setting for better output for CIS
+    maxDiff = None
+
     def setUp(self):
         self.scratchdir = os.path.join("testing", "scratch") 
         self.golddir    = os.path.join("testing", "gold")
@@ -21,9 +24,6 @@ class TestCIS(unittest.TestCase):
             print("Not cleaning up from test ...")
 
     def test_oms(self):
-        # local setting for better output for CIS
-        assert_equal.__self__.maxDiff = None
-
         # settings for tests
         msdir  = "../example"
         msfile = "manuscript.json"
