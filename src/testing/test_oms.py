@@ -21,6 +21,10 @@ class TestCIS(unittest.TestCase):
             print("Not cleaning up from test ...")
 
     def test_oms(self):
+        # local setting for better output for CIS
+        assert_equal.__self__.maxDiff = None
+
+        # settings for tests
         msdir  = "../example"
         msfile = "manuscript.json"
         msfile_yaml = "manuscript.yaml"
