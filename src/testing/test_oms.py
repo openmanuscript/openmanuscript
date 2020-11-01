@@ -24,6 +24,7 @@ class TestCIS(unittest.TestCase):
         msdir  = "../example"
         msfile = "manuscript.json"
         msfile_yaml = "manuscript.yaml"
+        msfile_minimal = "manuscript_minimal_data.yaml"
         afile  = "author.json"
         afile_yaml  = "author.yaml"
         sfile  = "draft.json"
@@ -46,6 +47,23 @@ class TestCIS(unittest.TestCase):
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for base test with toc")
         os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --toc".format(msdir, msfile, afile, ofile))
+        self.compare_docx_files( ofile, gfile )
+
+        # export with slug
+        bfile = "omstest_manuscript_slug.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
+        print("Running oms for base test with slug")
+        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} \
+                        --outputfile {} --slug \"test: this is the slug\"".format(msdir, msfile, afile, ofile))
+        self.compare_docx_files( ofile, gfile )
+
+        # export with slug
+        bfile = "omstest_minimal_data.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
+        print("Running oms for base test with minimal data")
+        os.system("./oms --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, msfile_minimal, ofile))
         self.compare_docx_files( ofile, gfile )
 
         # export docx with yaml
@@ -143,7 +161,28 @@ class TestCIS(unittest.TestCase):
         self.compare_docx_files( ofile, gfile )
 
         # test query
-        print("Running oms query tests ...")
+        chapter_string = '''Quote
+  ['quotes']
+Synopsis
+  ['synopsis']
+Simple Text
+  ['003', '002', '001']
+A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene
+  ['This_name', 'look01', 'chapter_i_hate']
+Lists
+  ['lists']
+Links
+  ['links']
+Comments
+  ['comments']
+Notes
+  ['notes']
+Footnotes
+  ['footnotes']
+End
+  ['end']
+'''
+        print("Running oms query tests")
             # state current, json
         output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --state current")
         self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
@@ -158,7 +197,7 @@ class TestCIS(unittest.TestCase):
         self.assertEqual( output.decode("utf-8"), "No chapter with tag nothing found\n")
             # chapters
         output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapters")
-        self.assertEqual( output.decode("utf-8"), "Quote\nSynopsis\nSimple Text\nA Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\nLists\nLinks\nComments\nNotes\nFootnotes\nEnd\n")
+        self.assertEqual( output.decode("utf-8"), chapter_string ) 
             # single chapter
         output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\"")
         self.assertEqual( output.decode("utf-8"), "\nSimple Text\n['003', '002', '001']\n\nAn important scene.\n")

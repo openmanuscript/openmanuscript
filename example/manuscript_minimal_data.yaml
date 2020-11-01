@@ -1,0 +1,10 @@
+version : "2.0"
+manuscript :
+    title :        OpenManuscript Examples
+    runningtitle : examples
+    chapters : 
+        -
+            title   : Minimal data test (no scene attribute)
+        -
+            title   : Minimal data test (scenes empty)
+            scenes  : []
