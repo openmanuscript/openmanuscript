@@ -112,7 +112,7 @@ class TestCIS(unittest.TestCase):
         self.compare_docx_files( ofile, gfile )
 
         # does not run correctly in Travis CI
-        if False:        
+        if True:        
             # export docx
                 # don't exclude
             bfile = "omstest_manuscript_dont-exclude.docx"
