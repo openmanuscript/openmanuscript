@@ -131,6 +131,7 @@ class TestCIS(unittest.TestCase):
             ofile = os.path.join(self.scratchdir, bfile) 
             gfile = os.path.join(self.golddir, bfile) 
             print("Running oms for exclude check (exclude)")
+            emsfile = "exclude.json"
             os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                             --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                              msdir, emsfile, afile, ofile, extest[0], extest[1]))
