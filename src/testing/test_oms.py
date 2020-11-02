@@ -111,8 +111,13 @@ class TestCIS(unittest.TestCase):
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         self.compare_docx_files( ofile, gfile )
 
-        # does not run correctly in Travis CI
         if False:        
+            # this test runs locally, but does not pass in Travis CI
+            # the problem appears to be the w:t object, which in Travis,
+            # includes the 'preserve' attribute:
+            #     <w:r><w:t xml:space="preserve">NOTE: The html tag can be anything you want it to be. </w:t></w:r>
+            # unable to fix this, so this test can be ignored (redundant with
+            # the next test, which reverses the order of the exclude/include)
             # export docx
                 # don't exclude
             bfile = "omstest_manuscript_dont-exclude.docx"
@@ -124,18 +129,18 @@ class TestCIS(unittest.TestCase):
                             --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                              msdir, emsfile, afile, ofile, extest[1], extest[0]))
             self.compare_docx_files( ofile, gfile )
-
-        if True:        
-                # exclude
-            bfile = "omstest_manuscript_exclude.docx"
-            ofile = os.path.join(self.scratchdir, bfile) 
-            gfile = os.path.join(self.golddir, bfile) 
-            print("Running oms for exclude check (exclude)")
-            emsfile = "exclude.json"
-            os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
-                            --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
-                             msdir, emsfile, afile, ofile, extest[0], extest[1]))
-            self.compare_docx_files( ofile, gfile )
+    
+        # this test works both locally and on travis CI
+            # excludesection/includesection test
+        bfile = "omstest_manuscript_exclude.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
+        print("Running oms for excludesection/includesection check")
+        emsfile = "exclude.json"
+        os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
+                        --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
+                         msdir, emsfile, afile, ofile, extest[0], extest[1]))
+        self.compare_docx_files( ofile, gfile )
 
         # export outline
         bfile = "omstest_manuscript_outline.html"
