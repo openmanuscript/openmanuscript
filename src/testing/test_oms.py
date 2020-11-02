@@ -135,11 +135,20 @@ class TestCIS(unittest.TestCase):
         bfile = "omstest_manuscript_exclude.docx"
         ofile = os.path.join(self.scratchdir, bfile) 
         gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for excludesection/includesection check")
+        print("Running oms for excludesection/includesection")
         emsfile = "exclude.json"
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                         --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
                          msdir, emsfile, afile, ofile, extest[0], extest[1]))
+        self.compare_docx_files( ofile, gfile )
+
+        # test short story 
+        bfile = "omstest_manuscript_shortstory.docx"
+        ofile = os.path.join(self.scratchdir, bfile) 
+        gfile = os.path.join(self.golddir, bfile) 
+        print("Running oms for short story")
+        msfile = "short.json"
+        os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
         self.compare_docx_files( ofile, gfile )
 
         # export outline
@@ -165,14 +174,6 @@ class TestCIS(unittest.TestCase):
         os.mkdir(testdir)
         openms.template.write_template(testdir)
 
-        # test short story 
-        bfile = "omstest_manuscript_shortstory.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for short story")
-        msfile = "short.json"
-        os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
 
         # test query
         chapter_string = '''Quote
