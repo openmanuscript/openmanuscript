@@ -27,8 +27,10 @@ class TestCIS(unittest.TestCase):
         # settings for tests
         msdir  = "../example"
         msfile = "manuscript.json"
-        msfile_yaml = "manuscript.yaml"
+        msfile_exclude = "exclude.json"
         msfile_minimal = "manuscript_minimal_data.yaml"
+        msfile_short = "short.json"
+        msfile_yaml = "manuscript.yaml"
         afile  = "author.json"
         afile_yaml  = "author.yaml"
         sfile  = "draft.json"
@@ -123,11 +125,10 @@ class TestCIS(unittest.TestCase):
             bfile = "omstest_manuscript_dont-exclude.docx"
             ofile = os.path.join(self.scratchdir, bfile) 
             gfile = os.path.join(self.golddir, bfile) 
-            emsfile = "exclude.json"
             print("Running oms for exclude check (don't exclude)")
             os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                             --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
-                             msdir, emsfile, afile, ofile, extest[1], extest[0]))
+                             msdir, msfile_exclude, afile, ofile, extest[1], extest[0]))
             self.compare_docx_files( ofile, gfile )
     
         # this test works both locally and on travis CI
@@ -136,10 +137,9 @@ class TestCIS(unittest.TestCase):
         ofile = os.path.join(self.scratchdir, bfile) 
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for excludesection/includesection")
-        emsfile = "exclude.json"
         os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
                         --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
-                         msdir, emsfile, afile, ofile, extest[0], extest[1]))
+                         msdir, msfile_exclude, afile, ofile, extest[0], extest[1]))
         self.compare_docx_files( ofile, gfile )
 
         # test short story 
@@ -147,8 +147,7 @@ class TestCIS(unittest.TestCase):
         ofile = os.path.join(self.scratchdir, bfile) 
         gfile = os.path.join(self.golddir, bfile) 
         print("Running oms for short story")
-        msfile = "short.json"
-        os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
+        os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile_short, afile, ofile))
         self.compare_docx_files( ofile, gfile )
 
         # export outline
