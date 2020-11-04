@@ -7,7 +7,7 @@
 </summary>
 
 <excludetext>
-**NOTE** This is the second test of *excluding tags*.  Using the *--excludetags* command line argument, we've added this bit of text.
+**NOTE** This is the second test of *excluding tags*.  Using the *excludetags* command line argument, we've added this bit of text.
 </excludetext>
 
 This is just some text to make a scene out of. This scene is included twice, to show how the exclude tags work on a multi-scene chapter.
