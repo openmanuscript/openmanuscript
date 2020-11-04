@@ -386,6 +386,15 @@ def handle_include( data ):
 
     return data
 
+# -----------------------------------------------------------------------------
+# substitute emdash 
+# -----------------------------------------------------------------------------
+def handle_emdash( data ):
+    subflags = flags=re.MULTILINE|re.DOTALL
+    data  = re.sub(rf'--', u'\u2014', data, flags=subflags)
+
+    return data
+
 
 # -----------------------------------------------------------------------------
 # handle arbitrary html syntax tag 
@@ -481,6 +490,7 @@ def create_scene_text(scenetext):
 
     scenetext = handle_include(scenetext)
     scenetext = handle_notes(scenetext, core.settings["notes"])
+    scenetext = handle_emdash(scenetext)
 
     html_tree = None
     if scenetext:
