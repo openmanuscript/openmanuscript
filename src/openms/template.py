@@ -20,7 +20,7 @@ def write_authorfile(path):
     with open(os.path.join(path, "author.json"), "w") as afile:
         contents = """
 {
-"version" : "2.0",
+"version" : "2.1",
 "author" : {
     "name"      : "Ima Q. Writer (json)",
     "surname"   : "Writer",
@@ -38,7 +38,7 @@ def write_authorfile(path):
         afile.write(contents)
     with open(os.path.join(path, "author.yaml"), "w") as afile:
         contents = """
-version : "2.0"
+version : "2.1"
 author :
     name      : Ima Q. Writer (yaml)
     surname   : Writer
@@ -57,7 +57,7 @@ def write_manuscriptfile(path):
     with open(os.path.join(path, "manuscript.json"), "w") as mfile:
         contents = """
 {
-"version" : "2.0",
+"version" : "2.1",
 "manuscript" : {
     "title" : "OpenManuscript Template (json)",
     "runningtitle" : "template",
@@ -82,7 +82,7 @@ def write_manuscriptfile(path):
         mfile.write(contents)
     with open(os.path.join(path, "manuscript.yaml"), "w") as mfile:
         contents = """
-version : "2.0"
+version : "2.1"
 manuscript :
     title : OpenManuscript Template (yaml)
     runningtitle : template
