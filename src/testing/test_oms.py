@@ -34,7 +34,7 @@ class TestCIS(unittest.TestCase):
         afile  = "author.json"
         afile_yaml  = "author.yaml"
         sfile  = "draft.json"
-        extest = ["summary endnotes", "excludetext"]
+        extest = ["endnotes", "excludetext"]
 
         # make a testing area
         os.mkdir(self.scratchdir)
