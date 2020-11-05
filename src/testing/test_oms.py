@@ -131,16 +131,16 @@ class TestCIS(unittest.TestCase):
                              msdir, msfile_exclude, afile, ofile, extest[1], extest[0]))
             self.compare_docx_files( ofile, gfile )
     
-        # this test works both locally and on travis CI
-            # excludesection/includesection test
-        bfile = "omstest_manuscript_exclude.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for excludesection/includesection")
-        os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
-                        --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
-                         msdir, msfile_exclude, afile, ofile, extest[0], extest[1]))
-        self.compare_docx_files( ofile, gfile )
+            # this test works both locally and on travis CI
+                # excludesection/includesection test
+            bfile = "omstest_manuscript_exclude.docx"
+            ofile = os.path.join(self.scratchdir, bfile) 
+            gfile = os.path.join(self.golddir, bfile) 
+            print("Running oms for excludesection/includesection")
+            os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
+                            --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
+                             msdir, msfile_exclude, afile, ofile, extest[0], extest[1]))
+            self.compare_docx_files( ofile, gfile )
 
         # test short story 
         bfile = "omstest_manuscript_shortstory.docx"
