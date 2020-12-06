@@ -75,7 +75,7 @@ def add_page_number(run):
 #
 
 def write_toc( doc, ms ):
-    doc.add_page_break()
+    # doc.add_page_break()
     add_toc_section(doc, WD_SECTION.CONTINUOUS)
 
     # spacing from top of page 
@@ -134,6 +134,10 @@ def write_toc( doc, ms ):
                 run = p.add_run(chaptername)
             else:
                 run = p.add_run("{}: \t{}".format(allcaps_title, chaptername))
+
+    # end the TOC
+    doc.add_page_break()
+    
 
 def add_to_run(run, text):
     fldChar1 = create_element('w:fldChar')
@@ -249,6 +253,9 @@ def write_title(document):
         pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
         run = p.add_run("({})".format(core.settings["slug"]))
 
+    # end the page
+    document.add_page_break()
+
 
 def write_paragraph_space(document):
     p = document.add_paragraph()
@@ -274,7 +281,7 @@ def write_chapter_heading(document, chapter, chapnum, chaptype):
         increment_chapter = False
 
     # add half a page of spacing
-    document.add_page_break()
+    # document.add_page_break()
     for i in range(0, 10):
         p = document.add_paragraph()
         pf = p.paragraph_format
@@ -348,7 +355,17 @@ def write_preamble(doc):
     style.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
 
 def write_postamble(doc):
-    # print("WORD: write_postamble (no-op)")
+    # spacing to title
+    for i in range(15):
+        doc.add_paragraph()
+
+    # add text
+    p = doc.add_paragraph()
+    pf = p.paragraph_format
+    pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    run = p.add_run("{}".format(core.postamble))
+
     return
 
 def write_docinfo(doc):
@@ -549,6 +566,9 @@ def write_chapter(doc, chapter, chapnum):
             if not scene.endswith(".pdf"):
                 write_scenefile(doc, scene)
 
+    # end the chapter
+    doc.add_page_break()
+
     return increment_chapter
 
 def write_chapters(doc, manuscript):
@@ -583,7 +603,8 @@ def write(outputfile):
         write_preamble(theDocument)
         write_docinfo(theDocument)
         # write_headers(theDocument)
-        write_title(theDocument)
+        if not core.settings["notitlepage"]:
+            write_title(theDocument)
         if core.settings["toc"]:
             write_toc(theDocument, core.manuscript)
         # debug_sections(theDocument)

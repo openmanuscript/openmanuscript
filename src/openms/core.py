@@ -29,6 +29,7 @@ settings = {
     "notes"           : False,
     "outputfile"      : "manuscript.docx",
     "slug"            : None,
+    "notitlepage"     : False,
     "toc"             : False
 }
 
@@ -37,6 +38,8 @@ author = {
 
 manuscript = {
 }
+
+postamble = "Fin."
 
 # ---------------------------------------------------------------------------
 #

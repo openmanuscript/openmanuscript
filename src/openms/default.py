@@ -43,6 +43,8 @@ def execute(args):
         openms.core.set("outputfile", args.outputfile)
     if args.slug != None:
         openms.core.set("slug", args.slug)
+    if args.notitlepage != None:
+        openms.core.set("notitlepage", args.notitlepage)
     if args.toc != None:
         openms.core.set("toc", args.toc)
 

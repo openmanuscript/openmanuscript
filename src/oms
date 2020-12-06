@@ -115,6 +115,8 @@ parser.add_argument( "--slug", default=None,
     help="use this value as a slug for the current operation")
 parser.add_argument( "--specversion", action="store_true", default=None,
     help="report the version of OpenManuscript specification this tool supports")
+parser.add_argument( "--notitlepage", action="store_true", default=None, 
+    help="include a Table of Contents")
 parser.add_argument( "--toc", action="store_true", default=None, 
     help="include a Table of Contents")
 parser.add_argument( "--types", action="store_true", default=None,
