@@ -142,6 +142,8 @@ parser_q.add_argument( "--state", default=None,
     help="Find the current chapter for this operation, using state")
 parser_q.add_argument( "--tag", default=None,
     help="Find the current chapter for this operation, using tags")
+parser_q.add_argument( "--todo", action="store_true", default=None, 
+    help="print a chapter's todo list, if there is one")
 parser_q.add_argument( "--scenes", action="store_true", default=None,
     help="Print the set of scenes in the manuscript file")
 parser_q.set_defaults(func=openms.query.execute)

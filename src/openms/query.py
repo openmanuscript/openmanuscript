@@ -33,6 +33,8 @@ def execute(args):
         core.set("excludetags", args.excludetags)
     if args.includetags != None:
         core.set("includetags", args.includetags)
+    if args.todo != None:
+        core.set("todo", args.todo)
 
 
     if args.manuscriptfile == None:
@@ -94,4 +96,17 @@ def execute(args):
 
         if not found_tag:
             print("No chapter with tag {} found".format(args.tag))
+
+    if args.todo != None:
+        print("")
+        print("{}".format(data["title"]))
+        print("")
+        for chapter in data["chapters"]:
+            if core.check_chapter_tags(chapter):
+                print("{}".format(chapter["title"]))
+                if "todo" in chapter:
+                    for item in chapter["todo"]:
+                        print("  - {}".format(item))
+
+
 

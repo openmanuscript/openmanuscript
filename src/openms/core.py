@@ -29,6 +29,7 @@ settings = {
     "notes"           : False,
     "outputfile"      : "manuscript.docx",
     "slug"            : None,
+    "todo"            : None,
     "notitlepage"     : False,
     "toc"             : False
 }
