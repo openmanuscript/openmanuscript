@@ -50,7 +50,7 @@ def create_attribute(element, name, value):
     element.set(qn(name), value)
 
 # set the starting page number of a section
-def set_start_page_number(section, number=0, fmt='decimal'):
+def set_start_page_number(section, number=1, fmt='decimal'):
     pagenum  = create_element('w:pgNumType')
     create_attribute(pagenum, 'w:start', str(number).encode("utf-8"))
     create_attribute(pagenum, 'w:fmt', fmt) 
