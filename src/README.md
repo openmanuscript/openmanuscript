@@ -55,6 +55,7 @@ this is not the case, an explicit path must set on the command line.
 	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
 	- ``--manuscripttype`` type of manuscript to create. One of [novel, story]. Default: ``novel``
+	- ``--words`` use this value as the number of words on the manuscript first page.
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
     - ``--settingsfile`` define a json file that defines values for command line arguments. This settings file is applied first, if present, and then 
       command line arguments can overwrite values.
