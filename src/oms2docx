@@ -1,0 +1,171 @@
+#!/usr/bin/env python3
+
+# ---------------------------------------------------------------------------
+#
+# oms2docx, a tiny manuscript tool based on the OpenManuscript specification 
+#
+# ---------------------------------------------------------------------------
+
+import argparse
+import configparser
+import os
+import json
+import textwrap
+import yaml
+import tempfile
+import datetime
+
+PANDOC_DIR  = os.environ['HOME'] + "/bin/pandoc-templates"
+PANDOC_EXEC = PANDOC_DIR + "/bin/" + "md2long.sh"
+
+# ---------------------------------------------------------------------------
+# convert OpenManuscript data to files needed by pandoc-template
+# ---------------------------------------------------------------------------
+def write_metadata_file(ajson, mjson, date, output) :
+    with open(output, "w") as mdf, open(ajson, "r") as afile, open(mjson, "r") as mfile :
+        adata = json.load(afile)
+        if mjson.endswith(".json"):
+            mdata = json.load( mfile )
+        elif mjson.endswith(".yaml"):
+            mdata = yaml.load( mfile, Loader=yaml.FullLoader )
+
+        a = adata["author"]
+        m = mdata["manuscript"]
+
+        mdf.write("---\n")
+        mdf.write("title: \"{}\"\n".format(m["title"]))
+        mdf.write("short_title: \"{}\"\n".format(m["runningtitle"]))
+        mdf.write("author: \"{}\"\n".format(a["name"]))
+        mdf.write("author_lastname: \"{}\"\n".format(a["surname"]))
+        mdf.write("contact_name: \"{}\"\n".format(a["name"]))
+        mdf.write("contact_address: \"{}\"\n".format(a["streetAddress"]))
+        mdf.write("contact_city_state_zip: \"{}, {} {}\"\n".format(
+            a["addressLocality"],
+            a["addressRegion"],
+            a["addressRegion"]
+        ))
+        mdf.write("contact_phone: \"{}\"\n".format(a["phone"]))
+        mdf.write("contact_email: \"{}\"\n".format(a["email"]))
+        mdf.write("date: \"{}\"\n".format(date))
+        mdf.write("---\n")
+
+# ---------------------------------------------------------------------------
+# set up command line args
+# ---------------------------------------------------------------------------
+desc = """A script that renders OpenManuscript data in Word (docx) format, using pandoc.
+"""
+
+parser = argparse.ArgumentParser(  
+                    formatter_class=argparse.RawDescriptionHelpFormatter,
+                    description=textwrap.dedent(desc)
+                    )
+
+parser.add_argument( "--authorfile", default="author.json", 
+    help="read author information from this file. Default is [{}]".format("author.json"))
+
+parser.add_argument( "--chaptersummary", action="store_true", default=False, 
+    help="write a document of chapter summaries")
+
+parser.add_argument( "--date", const="now", nargs='?',
+    help="Print date on manuscript. Default is now, if not provided.")
+
+parser.add_argument( "--font", default="courier", choices=["courier", "times"],
+    help="font to use for final manuscript. Default is [{}]".format("courier"))
+
+parser.add_argument( "--manuscriptfile", default="manuscript.yaml",
+    help="read manuscript from this file. Must be located in MANUSCRIPTDIR. Default is [{}]".format("manuscript.yaml"))
+
+parser.add_argument("--output", default="manuscript.docx", 
+                    help="file for output. Default is [{}]".format("manuscript.docx"))
+
+parser.add_argument( "--toc", action="store_true", default=False, 
+    help="include a Table of Contents")
+
+parser.add_argument( "--verbose", action="store_true", default=False, 
+    help="control verbosity of output")
+
+args = parser.parse_args()
+
+# ---------------------------------------------------------------------------
+# check for all files
+# ---------------------------------------------------------------------------
+required = [args.authorfile, args.manuscriptfile]
+for f in required:
+    if not os.path.isfile(f):
+        print("ERROR: file {} does not exist".format(f))
+        exit(1)
+
+if not os.path.isdir(PANDOC_DIR) :
+    print("ERROR: pandoc-template install does not exist: {}".format(PANDOC_DIR))
+    exit(1)
+
+# ---------------------------------------------------------------------------
+# prepare the correct template
+# ---------------------------------------------------------------------------
+command = "cp {}/shunn/long/template.{}.docx {}/shunn/long/template.docx ".format(PANDOC_DIR, args.font, PANDOC_DIR)  
+os.system(command)
+
+# ---------------------------------------------------------------------------
+# handle args
+# ---------------------------------------------------------------------------
+if (args.date) :
+    # get the current date/time, if requested
+    if (args.date == "now") :
+        args.date = "{dt:%b} {dt.day}, {dt.year} {dt:%l}:{dt:%M}{dt:%p}".format(dt = datetime.datetime.now())
+else :
+    args.date = ""
+
+toc = ""
+if (args.toc) :
+    toc = "--toc"
+
+verbose = " > /dev/null"
+if (args.verbose) :
+    verbose = ""
+
+
+# ---------------------------------------------------------------------------
+# run in the current directory
+# ---------------------------------------------------------------------------
+tmpmarkdownfile = ""
+tmpmetadatafile = ""
+with tempfile.TemporaryDirectory() as tempdirname:
+    with open(args.manuscriptfile, "r") as mfile:
+        ms = yaml.load( mfile, Loader=yaml.FullLoader )
+        tmpmarkdownfile = os.path.join(tempdirname, "temp.md")
+        tmpmetadatafile = os.path.join(tempdirname, "metadata.md")
+
+        # construct the manuscript markdown file
+        with open(tmpmarkdownfile, "w") as ofile:
+            for chapter in ms["manuscript"]["chapters"]:
+                ofile.write("\n");
+                ofile.write("# {}\n".format(chapter["title"]))
+                ofile.write("\n");
+                first = True
+
+                if not args.chaptersummary:
+                    for scene in chapter["scenes"]:
+                        with open(os.path.join("scenes", scene + ".md")) as sfile:
+                            if not first:
+                                # print the scene separator
+                                ofile.write("\n")
+                                ofile.write("---\n")
+                                ofile.write("\n")
+                            else:
+                                ofile.write("\n")
+                                first = False
+                            data = sfile.read()
+                            ofile.write(data)
+                else:
+                    for desc in chapter["desc"]:
+                        with open(os.path.join("scenes", desc + ".md")) as sfile:
+                            ofile.write("\n")
+                            data = sfile.read()
+                            ofile.write(data)
+
+        # create the metadata file
+        write_metadata_file(args.authorfile, args.manuscriptfile, args.date, tmpmetadatafile)
+    
+    # run the pandoc-template script to create the docx file
+    command = "{} {} --output {} --overwrite --from=markdown {} {} {}".format(PANDOC_EXEC, toc, args.output, tmpmetadatafile, tmpmarkdownfile, verbose)
+    os.system(command)

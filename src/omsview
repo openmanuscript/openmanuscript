@@ -1,0 +1,239 @@
+#!/usr/bin/env python3
+
+import os
+import shutil
+from poppler import load_from_file, PageRenderer, Rectangle
+from PIL import Image
+import yaml
+import sys
+import glob
+import re
+import argparse
+import textwrap
+
+# ---------------------------------------------------------------------------
+# set up command line args
+# ---------------------------------------------------------------------------
+desc = """A script that creates a thumbnail-page view of a pdf document 
+"""
+
+parser = argparse.ArgumentParser(  
+                    formatter_class=argparse.RawDescriptionHelpFormatter,
+                    description=textwrap.dedent(desc)
+                    )
+
+parser.add_argument( "--manuscriptfile", default="manuscript.yaml",
+    help="read manuscript data from this file. Default is [{}]".format("manuscript.yaml"))
+parser.add_argument( "--pdffile", default="manuscript.pdf",
+    help="pdf file to use as input. Default is [{}]".format("manuscript.pdf"))
+parser.add_argument( "--workdir", default="scratchf",
+    help="Work directory. Default is [{}]".format("scratchf"))
+parser.add_argument( "--fill", nargs=4, metavar=('r', 'g', 'b', 'a'), type=int, default=[100,100,100,50],
+    help="Color and alpha to use as fill (0-255 int). Default is [{}]".format("100, 100, 100, 50"))
+parser.add_argument( "--matrix", nargs=2, metavar=('w', 'h'), type=int, default=[7,7],
+    help="Dimensions of the page matrix (numpages by numpages). Default is [{}]".format("7,7"))
+
+args = parser.parse_args()
+
+# load the manuscript file
+ms_title     = "None"
+with open(args.manuscriptfile, "r") as mfile :
+    mdata = yaml.load( mfile, Loader=yaml.FullLoader )
+    ms_title = mdata["manuscript"]["title"]
+
+# operational controls
+cleanup     = True
+extract     = True 
+toc         = True
+composite   = True
+montage     = True
+
+# global variables
+numpages     = 0
+page_height  = 0
+page_width   = 0
+clr_grey     = "grey98"
+clr_white    = "white"
+
+# parameters
+dpi          = 300.0
+im_width     = 850
+im_height    = 1100 
+workdir      = args.workdir 
+pagedir      = "pages"
+montagedir   = "montagetmp"
+
+# derived values
+manuscript   = args.pdffile 
+
+print("Overview script ...")
+print("    processing {}".format(manuscript))
+
+# globals
+chapters = ["000"]
+chapter_lengths = []
+chapter_names = []
+cur_chapter_start = 0
+
+#
+# create a list of page numbers for the table of contents
+#
+# TOC is expected to be a series of pages, the first of which
+# begins with the text 'Table of Contents', and the rest of 
+# which only contain entries of the form 'This is a Title....<page>
+#
+def find_table_of_contents_pages(pdfdoc):
+    NOT_FOUND = -1
+    FOUND = 1
+    toc_begin = NOT_FOUND 
+
+    pages = []
+    for p in range(pdfdoc.pages):
+        cur_page = pdfdoc.create_page(p)
+        cur_text = cur_page.text()
+
+        # is this the first page of the table of contents
+        if toc_begin == NOT_FOUND:
+            toc_matches = re.findall( r'^Table of Contents', cur_text, re.MULTILINE )
+            if len(toc_matches) != 0:
+                pages.append(p)
+                toc_begin = FOUND
+        else:
+            toc_matches = re.findall( r'^(.+)\s\.+\s([0-9]+)$', cur_text, re.MULTILINE )
+            # if we've found a TOC entry, record it, otherwise we're done
+            if len(toc_matches) > 0:
+                pages.append(p)
+            else:
+                break
+
+    return pages
+
+#
+# do the work 
+#
+pdf_document  = load_from_file(manuscript)
+os.chdir(workdir)
+if not os.path.isdir("overview"):
+    os.mkdir("overview")
+os.chdir("overview")
+numpages      = pdf_document.pages
+temp_page     = pdf_document.create_page(0)
+temp_renderer = PageRenderer()
+temp_image    = temp_renderer.render_page(temp_page, dpi, dpi) 
+page_width    = temp_image.width
+page_height   = temp_image.height
+pnum_string   = ""
+
+#
+# clean out the build area
+#
+if cleanup:
+    print("    cleaning up ...")
+    if os.path.isdir(pagedir):
+        shutil.rmtree(pagedir)
+    os.mkdir(pagedir)
+
+    if os.path.isfile(manuscript):
+        os.remove(manuscript)
+
+#
+# extract table of contents data
+#
+toc_data = {} 
+toc_pages = find_table_of_contents_pages(pdf_document)
+
+if len(toc_pages) > 0:
+    print("    extracting table of contents ...")
+    cur_chapter  = 0
+    num_chapters = 0
+    for p in toc_pages:
+        print("        page {}".format(p))
+        toc_page = pdf_document.create_page(p)
+        toc_text = toc_page.text()
+        toc_matches = re.findall( r'^(.+)\s\.+\s([0-9]+)$', toc_text, re.MULTILINE )
+
+        num_chapters += len(toc_matches)
+        for entry in toc_matches:
+            cur_chapter += 1
+            # debug
+            toc_data[cur_chapter] = {
+                                        "number"   : cur_chapter, 
+                                        "title"    : entry[0],
+                                        "png_name" : str(int(entry[1])-1).zfill(3),
+                                        "start"    : int(entry[1])
+                                    }
+            if cur_chapter > 1:
+                toc_data[cur_chapter-1]["end"] = int(entry[1]) - 1
+                toc_data[cur_chapter-1]["length"] = int(entry[1]) - toc_data[cur_chapter-1]["start"]
+
+    # last chapter
+    toc_data[num_chapters]["end"] = numpages 
+    toc_data[num_chapters]["length"] = numpages - toc_data[num_chapters]["start"]
+else:
+    print("    NO table of contents ...")
+
+#
+# extract pages from the pdf
+#
+if extract:
+    print("    extracting pages ...")
+    renderer = PageRenderer()
+    for p in range(0, numpages): 
+        page = pdf_document.create_page(p)
+        image = renderer.render_page(page, dpi, dpi) 
+        rect = Rectangle(0.0, 0.0, image.height, image.width) 
+        pnum_string = str(p).zfill(3)
+        # convert to PIL image
+        pil_image = Image.frombytes(
+            "RGBA",
+            (image.width, image.height),
+            image.data,
+            "raw",
+            str(image.format),
+        )
+        pil_image = pil_image.resize((im_width, im_height))
+        pil_image.save(os.path.join(pagedir, "{}.png".format(pnum_string)))
+    #
+    # composite a gray tone over the first page of each chapter
+    # and save an image of that
+    #
+    if len(toc_data) > 0:
+        print("    compositing pages ...")
+        # title page 
+        alpha = float(args.fill[3]/255)
+        for p in ["000"]:
+            os.system("convert {}/{}.png -fill \"rgba( {}, {}, {}, {})\" -draw \"rectangle 0, 0, {}, {}\" {}/{}_grey.png".format(
+                        pagedir, p, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, pagedir, p))
+
+        # if there's table of contents data, composite over those
+        for c in toc_data:
+            png_name = toc_data[c]["png_name"]
+            os.system("convert {}/{}.png -fill \"rgba( {}, {}, {}, {})\" -draw \"rectangle 0, 0, {}, {}\" {}/{}_grey.png".format(
+                        pagedir, png_name, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, pagedir, png_name))
+
+    # overwrite title and table of contents images with grey images
+    # overwrite the chapter images with the grey images
+    for f in glob.glob("{}/*_grey.png".format(montagedir)):
+        os.system("cp {} {}".format(f, f.replace("_grey", "")))
+
+#
+# create the overall montage images
+#
+if montage:
+    print("    creating montages ...")
+    # overall montages
+        # create a temp directory with all pages, and overwrite the first page of
+        # each chapter with the greyscaled image of that chapter. This is for
+        # simplicity when using the montage command, as all image will then be named
+        # something like 000.png, and the montage command can slurp them up in order
+    os.mkdir("{}".format(montagedir))
+    os.system("cp {}/*.png {}".format(pagedir, montagedir))
+    for f in glob.glob("{}/*_grey.png".format(montagedir)):
+        os.system("cp {} {}".format(f, f.replace("_grey", "")))
+    os.system("montage -border 1 -geometry x150+4+4 -bordercolor black -tile {}x{} {}/[0-9][0-9][0-9].png overview.png".format(
+                args.matrix[0], args.matrix[1], montagedir))
+
+# post clean up 
+os.system("rm -rf {}".format(montagedir))
+os.system("rm -f labels.png chapters.png labels.txt montage.txt")
+
