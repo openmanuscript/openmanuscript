@@ -91,7 +91,7 @@ parser.add_argument( "--includetags", nargs='+', type=str, default=None,
     help="add chapter tags that are considered 'on'")
 parser.add_argument( "--filescenesep", action="store_true", default=None, 
     help="print file name as scene separator, instead of ###")
-parser.add_argument( "--font", default=None, choices=["Courier", "Times"],
+parser.add_argument( "--font", default=None, choices=["Arial", "Courier", "Times"],
     help="Use this font for the manuscript")
 parser.add_argument( "--fontsize", default=None, 
     help="Use this font size for the manuscript")
@@ -107,6 +107,8 @@ parser.add_argument( "--newmanuscript", default=None,
     help="create a new manuscript template in this directory")
 parser.add_argument( "--notes", action="store_true", default=None, 
     help="if there are notes, print them")
+parser.add_argument( "--numwords", type=int, default=None,
+    help="use this value as the number of words shown on the manuscript")
 parser.add_argument( "--outputfile", default=None,
     help="write output to this file")
 parser.add_argument( "--settingsfile", default=None,
@@ -121,6 +123,8 @@ parser.add_argument( "--toc", action="store_true", default=None,
     help="include a Table of Contents")
 parser.add_argument( "--types", action="store_true", default=None,
     help="report the output data types supported")
+parser.add_argument( "--verbose", action="store_true", default=None,
+    help="be verbose in output")
 parser.add_argument( "--version", action="version", 
                         version=str(openms.core.get_version()) ) 
 parser.set_defaults(func=openms.default.execute)

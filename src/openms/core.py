@@ -7,7 +7,7 @@ import yaml
 
 __oms = {
     "name"        : "OpenManuscript",
-    "toolversion" : "3.6.1",
+    "toolversion" : "3.6.2",
     "specversion" : "2.1"
 }
 
@@ -27,11 +27,14 @@ settings = {
     "manuscriptfile"  : "manuscript.json",
     "manuscripttype"  : "novel",
     "notes"           : False,
+    "numwords"        : None,
     "outputfile"      : "manuscript.docx",
+    "outputdir"       : ".",
     "slug"            : None,
     "todo"            : None,
     "notitlepage"     : False,
-    "toc"             : False
+    "toc"             : False,
+    "verbose"         : False
 }
 
 author = {
@@ -92,6 +95,8 @@ def get_setting(key):
 def set(attribute, value):
     global settings
     # print("Setting: {}, {}".format( attribute, value))
+    if (attribute == "outputfile"):
+        settings["outputdir"] = os.path.dirname(value)
     settings[attribute] = value
 
 def get_name():

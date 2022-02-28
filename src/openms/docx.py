@@ -75,6 +75,7 @@ def add_page_number(run):
 #
 
 def write_toc( doc, ms ):
+
     # doc.add_page_break()
     add_toc_section(doc, WD_SECTION.CONTINUOUS)
 
@@ -94,15 +95,18 @@ def write_toc( doc, ms ):
         doc.add_paragraph()
 
     # entries for chapters
+    chapnames = [core.manuscript["title"]]
     cur_chapter = 1
     for chapter in ms["chapters"]:
         chaptype = core.get_chapter_type(chapter)
         if core.check_chapter_tags(chapter) and (chaptype != "QUOTE"):
-            chapnum = "CHAPTER {}".format(cur_chapter).upper()
+            chapnum = "{}".format(cur_chapter).upper()
             chaptername = ""
             increment_chapter = True
             if "title" in chapter:
                 chaptername = chapter["title"]
+                if (chaptype != "PART"):
+                    chapnames.append(chaptername)
 
             if (chaptype == "CHAPTER"):
                 allcaps_title = chapnum
@@ -119,7 +123,7 @@ def write_toc( doc, ms ):
             p = doc.add_paragraph()
             pf = p.paragraph_format
             if (chaptype == "PART"):
-                pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 pf.space_before = Inches(0.25)
             else:
                 pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -127,17 +131,20 @@ def write_toc( doc, ms ):
                 pf.space_after = Inches(0)
 
             pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
-            pf.left_indent = Inches(0.25)
-            pf.first_line_indent = Inches(-0.25)
-            add_tab_stop( p, Inches(1.25) )
+            clear_tab_stops( p )
+            add_tab_stop( p, Inches(0.5) )
             if allcaps_title == "":
                 run = p.add_run(chaptername)
             else:
-                run = p.add_run("{}: \t{}".format(allcaps_title, chaptername))
+                run = p.add_run("{}. \t{}".format(allcaps_title, chaptername))
 
     # end the TOC
     doc.add_page_break()
-    
+
+    # write data 
+    if core.settings["verbose"]:
+        with open(os.path.join(core.settings["outputdir"], "oms_chapters.yaml"), "w") as toc_yaml:
+            toc_yaml.write("chapternames: [{}]".format(str(chapnames)[1:-1]))
 
 def add_to_run(run, text):
     fldChar1 = create_element('w:fldChar')
@@ -201,7 +208,12 @@ def add_main_section(document, s_type):
 
 def write_title(document):
     # word count
-    count = core.get_approximate_word_count() 
+
+    count = 0
+    if (core.settings["numwords"] != None) and (core.settings["numwords"] != "None"):
+        count = core.settings["numwords"]
+    else:
+        count = core.get_approximate_word_count() 
     p = document.add_paragraph("Approx. words: {:,}".format(count))
     pf = p.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -588,6 +600,11 @@ def write_chapters(doc, manuscript):
 def add_tab_stop( p, location ):
     tab_stops = p.paragraph_format.tab_stops
     tab_stop = tab_stops.add_tab_stop(location, WD_TAB_ALIGNMENT.LEFT)
+
+def clear_tab_stops( p ):
+    tab_stops = p.paragraph_format.tab_stops
+    for t in range(0, len(tab_stops)):
+        del tab_stops[i]
 
 def write(outputfile):
 
