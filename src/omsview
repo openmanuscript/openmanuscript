@@ -33,6 +33,12 @@ parser.add_argument( "--fill", nargs=4, metavar=('r', 'g', 'b', 'a'), type=int, 
 parser.add_argument( "--matrix", nargs=2, metavar=('w', 'h'), type=int, default=[7,7],
     help="Dimensions of the page matrix (numpages by numpages). Default is [{}]".format("7,7"))
 
+# switch
+parser.add_argument( "--no-cleanup", action="store_true", default=False,
+    help="Do not clean up from any previous operations")
+parser.add_argument( "--no-extract-pages", action="store_true", default=False,
+    help="Do not extract pages from the pdf")
+
 args = parser.parse_args()
 
 # load the manuscript file
@@ -42,8 +48,8 @@ with open(args.manuscriptfile, "r") as mfile :
     ms_title = mdata["manuscript"]["title"]
 
 # operational controls
-cleanup     = True
-extract     = True 
+# cleanup     = True
+# extract     = True 
 toc         = True
 composite   = True
 montage     = True
@@ -56,11 +62,11 @@ clr_grey     = "grey98"
 clr_white    = "white"
 
 # parameters
-dpi          = 300.0
-im_width     = 850
-im_height    = 1100 
+DPI          = 300.0
+Im_width     = 850
+Im_height    = 1100 
 workdir      = args.workdir 
-pagedir      = "pages"
+Pagedir      = "pages"
 montagedir   = "montagetmp"
 
 # derived values
@@ -109,6 +115,28 @@ def find_table_of_contents_pages(pdfdoc):
     return pages
 
 #
+# extract the pages from a pdf
+#
+def extract_pdf_pages(pdfdoc, pagedir, im_width, im_height, dpi):
+    print("    extracting pages ...")
+    renderer = PageRenderer()
+    for p in range(0, numpages): 
+        page = pdfdoc.create_page(p)
+        image = renderer.render_page(page, dpi, dpi) 
+        rect = Rectangle(0.0, 0.0, image.height, image.width) 
+        pnum_string = str(p).zfill(3)
+        # convert to PIL image
+        pil_image = Image.frombytes(
+            "RGBA",
+            (image.width, image.height),
+            image.data,
+            "raw",
+            str(image.format),
+        )
+        pil_image = pil_image.resize((im_width, im_height))
+        pil_image.save(os.path.join(pagedir, "{}.png".format(pnum_string)))
+
+#
 # do the work 
 #
 pdf_document  = load_from_file(manuscript)
@@ -119,7 +147,7 @@ os.chdir("overview")
 numpages      = pdf_document.pages
 temp_page     = pdf_document.create_page(0)
 temp_renderer = PageRenderer()
-temp_image    = temp_renderer.render_page(temp_page, dpi, dpi) 
+temp_image    = temp_renderer.render_page(temp_page, DPI, DPI) 
 page_width    = temp_image.width
 page_height   = temp_image.height
 pnum_string   = ""
@@ -127,11 +155,11 @@ pnum_string   = ""
 #
 # clean out the build area
 #
-if cleanup:
+if not args.no_cleanup:
     print("    cleaning up ...")
-    if os.path.isdir(pagedir):
-        shutil.rmtree(pagedir)
-    os.mkdir(pagedir)
+    if os.path.isdir(Pagedir):
+        shutil.rmtree(Pagedir)
+    os.mkdir(Pagedir)
 
     if os.path.isfile(manuscript):
         os.remove(manuscript)
@@ -175,24 +203,9 @@ else:
 #
 # extract pages from the pdf
 #
-if extract:
-    print("    extracting pages ...")
-    renderer = PageRenderer()
-    for p in range(0, numpages): 
-        page = pdf_document.create_page(p)
-        image = renderer.render_page(page, dpi, dpi) 
-        rect = Rectangle(0.0, 0.0, image.height, image.width) 
-        pnum_string = str(p).zfill(3)
-        # convert to PIL image
-        pil_image = Image.frombytes(
-            "RGBA",
-            (image.width, image.height),
-            image.data,
-            "raw",
-            str(image.format),
-        )
-        pil_image = pil_image.resize((im_width, im_height))
-        pil_image.save(os.path.join(pagedir, "{}.png".format(pnum_string)))
+if not args.no_extract_pages:
+    extract_pdf_pages(pdf_document, Pagedir, Im_width, Im_height, DPI)
+
     #
     # composite a gray tone over the first page of each chapter
     # and save an image of that
@@ -203,13 +216,13 @@ if extract:
         alpha = float(args.fill[3]/255)
         for p in ["000"]:
             os.system("convert {}/{}.png -fill \"rgba( {}, {}, {}, {})\" -draw \"rectangle 0, 0, {}, {}\" {}/{}_grey.png".format(
-                        pagedir, p, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, pagedir, p))
+                        Pagedir, p, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, Pagedir, p))
 
         # if there's table of contents data, composite over those
         for c in toc_data:
             png_name = toc_data[c]["png_name"]
             os.system("convert {}/{}.png -fill \"rgba( {}, {}, {}, {})\" -draw \"rectangle 0, 0, {}, {}\" {}/{}_grey.png".format(
-                        pagedir, png_name, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, pagedir, png_name))
+                        Pagedir, png_name, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, Pagedir, png_name))
 
     # overwrite title and table of contents images with grey images
     # overwrite the chapter images with the grey images
@@ -227,7 +240,7 @@ if montage:
         # simplicity when using the montage command, as all image will then be named
         # something like 000.png, and the montage command can slurp them up in order
     os.mkdir("{}".format(montagedir))
-    os.system("cp {}/*.png {}".format(pagedir, montagedir))
+    os.system("cp {}/*.png {}".format(Pagedir, montagedir))
     for f in glob.glob("{}/*_grey.png".format(montagedir)):
         os.system("cp {} {}".format(f, f.replace("_grey", "")))
     os.system("montage -border 1 -geometry x150+4+4 -bordercolor black -tile {}x{} {}/[0-9][0-9][0-9].png overview.png".format(

@@ -23,7 +23,11 @@ PANDOC_EXEC = PANDOC_DIR + "/bin/" + "md2long.sh"
 # ---------------------------------------------------------------------------
 def write_metadata_file(ajson, mjson, date, output) :
     with open(output, "w") as mdf, open(ajson, "r") as afile, open(mjson, "r") as mfile :
-        adata = json.load(afile)
+        if ajson.endswith(".json"):
+            adata = json.load( afile )
+        elif ajson.endswith(".yaml"):
+            adata = yaml.load( afile, Loader=yaml.FullLoader )
+
         if mjson.endswith(".json"):
             mdata = json.load( mfile )
         elif mjson.endswith(".yaml"):
