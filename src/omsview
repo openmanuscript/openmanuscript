@@ -3,6 +3,7 @@
 import os
 import shutil
 from poppler import load_from_file, PageRenderer, Rectangle
+import fitz
 from PIL import Image
 import yaml
 import sys
@@ -114,11 +115,37 @@ def find_table_of_contents_pages(pdfdoc):
 
     return pages
 
+def get_table_of_contents_pages(document):
+    toc = document.get_toc(False)
+    toc_data = {} 
+    cur_chapter = 1
+    num_chapters = len(toc)
+    for i, item in enumerate(toc):
+        lvl, title, pno, ddict = item
+        toc_data[cur_chapter] = {
+                                    "number"   : cur_chapter, 
+                                    "title"    : title,
+                                    "png_name" : str(int(pno)-1).zfill(3),
+                                    "start"    : pno 
+                                }
+        if cur_chapter > 1:
+            toc_data[cur_chapter-1]["end"]    = pno - 1
+            toc_data[cur_chapter-1]["length"] = pno - toc_data[cur_chapter-1]["start"]
+
+        # increment the chapter
+        cur_chapter += 1
+
+    # final entry
+    toc_data[num_chapters]["end"] = numpages 
+    toc_data[num_chapters]["length"] = numpages - toc_data[num_chapters]["start"]
+
+    return toc_data 
+
 #
 # extract the pages from a pdf
 #
 # Images extracted are extracted at 'dpi' from the pdf, and created
-# at [im_width, im_height]. The resulting images are placed in the 
+# at [im_width, im_height]. The resulting images are placed in the
 # 'pagedir' directory
 #
 def extract_pdf_pages(pdfdoc, pagedir, im_width, im_height, dpi):
@@ -144,6 +171,7 @@ def extract_pdf_pages(pdfdoc, pagedir, im_width, im_height, dpi):
 # do the work 
 #
 pdf_document  = load_from_file(manuscript)
+# fitz_document = fitz.open(manuscript)
 os.chdir(workdir)
 if not os.path.isdir("overview"):
     os.mkdir("overview")
@@ -172,8 +200,12 @@ if not args.no_cleanup:
 # extract table of contents data
 #
 toc_data = {} 
-toc_pages = find_table_of_contents_pages(pdf_document)
+toc_pages_poppler = find_table_of_contents_pages(pdf_document)
+toc_pages = toc_pages_poppler
+# toc_pages_fitz = get_table_of_contents_pages(fitz_document)
+# toc_pages = toc_pages_fitz
 
+# using poppler
 if len(toc_pages) > 0:
     print("    extracting table of contents ...")
     cur_chapter  = 0
