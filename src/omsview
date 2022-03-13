@@ -56,8 +56,8 @@ montage     = True
 
 # global variables
 numpages     = 0
-page_height  = 0
-page_width   = 0
+Page_height  = 0
+Page_width   = 0
 clr_grey     = "grey98"
 clr_white    = "white"
 
@@ -117,6 +117,10 @@ def find_table_of_contents_pages(pdfdoc):
 #
 # extract the pages from a pdf
 #
+# Images extracted are extracted at 'dpi' from the pdf, and created
+# at [im_width, im_height]. The resulting images are placed in the 
+# 'pagedir' directory
+#
 def extract_pdf_pages(pdfdoc, pagedir, im_width, im_height, dpi):
     print("    extracting pages ...")
     renderer = PageRenderer()
@@ -148,8 +152,8 @@ numpages      = pdf_document.pages
 temp_page     = pdf_document.create_page(0)
 temp_renderer = PageRenderer()
 temp_image    = temp_renderer.render_page(temp_page, DPI, DPI) 
-page_width    = temp_image.width
-page_height   = temp_image.height
+Page_width    = temp_image.width
+Page_height   = temp_image.height
 pnum_string   = ""
 
 #
@@ -216,13 +220,13 @@ if not args.no_extract_pages:
         alpha = float(args.fill[3]/255)
         for p in ["000"]:
             os.system("convert {}/{}.png -fill \"rgba( {}, {}, {}, {})\" -draw \"rectangle 0, 0, {}, {}\" {}/{}_grey.png".format(
-                        Pagedir, p, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, Pagedir, p))
+                        Pagedir, p, args.fill[0], args.fill[1], args.fill[2], alpha, Page_width, Page_height, Pagedir, p))
 
         # if there's table of contents data, composite over those
         for c in toc_data:
             png_name = toc_data[c]["png_name"]
             os.system("convert {}/{}.png -fill \"rgba( {}, {}, {}, {})\" -draw \"rectangle 0, 0, {}, {}\" {}/{}_grey.png".format(
-                        Pagedir, png_name, args.fill[0], args.fill[1], args.fill[2], alpha, page_width, page_height, Pagedir, png_name))
+                        Pagedir, png_name, args.fill[0], args.fill[1], args.fill[2], alpha, Page_width, Page_height, Pagedir, png_name))
 
     # overwrite title and table of contents images with grey images
     # overwrite the chapter images with the grey images
