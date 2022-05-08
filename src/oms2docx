@@ -53,6 +53,20 @@ def write_metadata_file(ajson, mjson, date, output) :
         mdf.write("date: \"{}\"\n".format(date))
         mdf.write("---\n")
 
+def get_chapter_state(c):
+    state = ""
+
+    if "state" in c:
+        state = c["state"]
+
+    return state
+
+def include_chapter(c):
+    state = get_chapter_state(c)
+
+    return state in ["", "on"]
+
+    
 # ---------------------------------------------------------------------------
 # set up command line args
 # ---------------------------------------------------------------------------
@@ -141,31 +155,36 @@ with tempfile.TemporaryDirectory() as tempdirname:
 
         # construct the manuscript markdown file
         with open(tmpmarkdownfile, "w") as ofile:
+            cur = 1
             for chapter in ms["manuscript"]["chapters"]:
-                ofile.write("\n");
-                ofile.write("# {}\n".format(chapter["title"]))
-                ofile.write("\n");
-                first = True
+                if include_chapter(chapter):
+                    ofile.write("\n");
+                    ofile.write("# {}. {}\n".format(cur, chapter["title"]))
+                    ofile.write("\n");
+                    first = True
 
-                if not args.chaptersummary:
-                    for scene in chapter["scenes"]:
-                        with open(os.path.join("scenes", scene + ".md")) as sfile:
-                            if not first:
-                                # print the scene separator
+                    if not args.chaptersummary:
+                        for scene in chapter["scenes"]:
+                            with open(os.path.join("scenes", scene + ".md")) as sfile:
+                                if not first:
+                                    # print the scene separator
+                                    ofile.write("\n")
+                                    ofile.write("---\n")
+                                    ofile.write("\n")
+                                else:
+                                    ofile.write("\n")
+                                    first = False
+                                data = sfile.read()
+                                ofile.write(data)
+                    else:
+                        for desc in chapter["desc"]:
+                            with open(os.path.join("scenes", desc + ".md")) as sfile:
                                 ofile.write("\n")
-                                ofile.write("---\n")
-                                ofile.write("\n")
-                            else:
-                                ofile.write("\n")
-                                first = False
-                            data = sfile.read()
-                            ofile.write(data)
-                else:
-                    for desc in chapter["desc"]:
-                        with open(os.path.join("scenes", desc + ".md")) as sfile:
-                            ofile.write("\n")
-                            data = sfile.read()
-                            ofile.write(data)
+                                data = sfile.read()
+                                ofile.write(data)
+
+                    # increment chapter
+                    cur +=1
 
         # create the metadata file
         write_metadata_file(args.authorfile, args.manuscriptfile, args.date, tmpmetadatafile)
