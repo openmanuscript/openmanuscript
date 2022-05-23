@@ -3,7 +3,7 @@
 import os
 import shutil
 from poppler import load_from_file, PageRenderer, Rectangle
-import fitz
+# import fitz
 from PIL import Image
 import yaml
 import sys
