@@ -21,7 +21,7 @@ PANDOC_EXEC = PANDOC_DIR + "/bin/" + "md2long.sh"
 # ---------------------------------------------------------------------------
 # convert OpenManuscript data to files needed by pandoc-template
 # ---------------------------------------------------------------------------
-def write_metadata_file(ajson, mjson, date, output) :
+def write_metadata_file(ajson, mjson, date, commit, output) :
     with open(output, "w") as mdf, open(ajson, "r") as afile, open(mjson, "r") as mfile :
         if ajson.endswith(".json"):
             adata = json.load( afile )
@@ -51,6 +51,9 @@ def write_metadata_file(ajson, mjson, date, output) :
         mdf.write("contact_phone: \"{}\"\n".format(a["phone"]))
         mdf.write("contact_email: \"{}\"\n".format(a["email"]))
         mdf.write("date: \"{}\"\n".format(date))
+        mdf.write("oms_commit: \"{}\"\n".format(commit))
+        mdf.write("oms_manuscript_file: \"{}\"\n".format(mjson))
+        mdf.write("oms_compile_date: \"Tues, March 25\"\n".format(date))
         mdf.write("---\n")
 
 def get_chapter_state(c):
@@ -83,6 +86,9 @@ parser.add_argument( "--authorfile", default="author.json",
 
 parser.add_argument( "--chaptersummary", action="store_true", default=False, 
     help="write a document of chapter summaries")
+
+parser.add_argument( "--commit", default="", 
+    help="the git commit of the current manuscript")
 
 parser.add_argument( "--date", const="now", nargs='?',
     help="Print date on manuscript. Default is now, if not provided.")
@@ -187,7 +193,7 @@ with tempfile.TemporaryDirectory() as tempdirname:
                     cur +=1
 
         # create the metadata file
-        write_metadata_file(args.authorfile, args.manuscriptfile, args.date, tmpmetadatafile)
+        write_metadata_file(args.authorfile, args.manuscriptfile, args.date, args.commit, tmpmetadatafile)
     
     # run the pandoc-template script to create the docx file
     command = "{} {} --output {} --overwrite --from=markdown {} {} {}".format(PANDOC_EXEC, toc, args.output, tmpmetadatafile, tmpmarkdownfile, verbose)
