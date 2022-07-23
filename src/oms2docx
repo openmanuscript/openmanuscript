@@ -51,8 +51,8 @@ def write_metadata_file(ajson, mjson, date, commit, output) :
         mdf.write("contact_phone: \"{}\"\n".format(a["phone"]))
         mdf.write("contact_email: \"{}\"\n".format(a["email"]))
         mdf.write("date: \"{}\"\n".format(date))
-        mdf.write("oms_commit: \"{}\"\n".format(commit))
-        mdf.write("oms_manuscript_file: \"{}\"\n".format(mjson))
+        mdf.write("footer_right: \"{}\"\n".format(commit))
+        mdf.write("footer_left: \"{}\"\n".format(mjson))
         mdf.write("oms_compile_date: \"Tues, March 25\"\n".format(date))
         mdf.write("---\n")
 
