@@ -53,7 +53,6 @@ def write_metadata_file(ajson, mjson, date, commit, output) :
         mdf.write("date: \"{}\"\n".format(date))
         mdf.write("footer_right: \"{}\"\n".format(commit))
         mdf.write("footer_left: \"{}\"\n".format(mjson))
-        mdf.write("oms_compile_date: \"Tues, March 25\"\n".format(date))
         mdf.write("---\n")
 
 def get_chapter_state(c):
