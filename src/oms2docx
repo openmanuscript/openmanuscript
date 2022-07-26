@@ -123,12 +123,6 @@ if not os.path.isdir(PANDOC_DIR) :
     exit(1)
 
 # ---------------------------------------------------------------------------
-# prepare the correct template
-# ---------------------------------------------------------------------------
-command = "cp {}/shunn/long/template.{}.docx {}/shunn/long/template.docx ".format(PANDOC_DIR, args.font, PANDOC_DIR)  
-os.system(command)
-
-# ---------------------------------------------------------------------------
 # handle args
 # ---------------------------------------------------------------------------
 if (args.date) :
@@ -194,6 +188,13 @@ with tempfile.TemporaryDirectory() as tempdirname:
         # create the metadata file
         write_metadata_file(args.authorfile, args.manuscriptfile, args.date, args.commit, tmpmetadatafile)
     
+    # Updated scripts include a times and courier template.
+    # The normal template is courier, while the '--modern' 
+    # command line argument gives you a times font
+    modern = "" 
+    if (args.font == "times") :
+        modern = "--modern"
+
     # run the pandoc-template script to create the docx file
-    command = "{} {} --output {} --overwrite --from=markdown {} {} {}".format(PANDOC_EXEC, toc, args.output, tmpmetadatafile, tmpmarkdownfile, verbose)
+    command = "{} {} {} --output {} --overwrite --from=markdown {} {} {}".format(PANDOC_EXEC, toc, modern, args.output, tmpmetadatafile, tmpmarkdownfile, verbose)
     os.system(command)
