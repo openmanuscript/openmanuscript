@@ -68,6 +68,14 @@ def include_chapter(c):
 
     return state in ["", "on"]
 
+def filter_chapter(c):
+
+    filter = False
+    if 'tags' in chapter:
+        filter = any(check in chapter['tags'] for check in args.include_tags)
+
+    return filter
+
     
 # ---------------------------------------------------------------------------
 # set up command line args
@@ -91,6 +99,9 @@ parser.add_argument( "--commit", default="",
 
 parser.add_argument( "--date", const="now", nargs='?',
     help="Print date on manuscript. Default is now, if not provided.")
+
+parser.add_argument( "--include-tags", nargs="+", action="store", default=[], 
+    help="tags of scenes to show")
 
 parser.add_argument( "--font", default="courier", choices=["courier", "times"],
     help="font to use for final manuscript. Default is [{}]".format("courier"))
@@ -156,7 +167,7 @@ with tempfile.TemporaryDirectory() as tempdirname:
         with open(tmpmarkdownfile, "w") as ofile:
             cur = 1
             for chapter in ms["manuscript"]["chapters"]:
-                if include_chapter(chapter):
+                if filter_chapter(chapter):
                     ofile.write("\n");
                     ofile.write("# {}. {}\n".format(cur, chapter["title"]))
                     ofile.write("\n");
