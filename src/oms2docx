@@ -68,9 +68,12 @@ def include_chapter(c):
 
     return state in ["", "on"]
 
+#
+# by default, a chapter is NOT filtered
+#
 def filter_chapter(c):
 
-    filter = False
+    filter = True
     if 'tags' in chapter:
         filter = any(check in chapter['tags'] for check in args.include_tags)
 
