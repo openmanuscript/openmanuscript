@@ -56,7 +56,7 @@ def write_metadata_file(ajson, mjson, date, commit, output) :
         mdf.write("---\n")
 
 def get_chapter_state(c):
-    state = ""
+    state = "" 
 
     if "state" in c:
         state = c["state"]
@@ -68,22 +68,6 @@ def include_chapter(c):
 
     return state in ["", "on"]
 
-#
-# by default, a chapter is NOT filtered
-#
-def filter_chapter(c):
-
-    filter = include_chapter(c)
-    if filter:
-        if args.include_tags:
-            if 'tags' in chapter:
-                filter = any(check in chapter['tags'] for check in args.include_tags)
-            else:
-                filter = False
-
-    return filter
-
-    
 # ---------------------------------------------------------------------------
 # set up command line args
 # ---------------------------------------------------------------------------
@@ -106,9 +90,6 @@ parser.add_argument( "--commit", default="",
 
 parser.add_argument( "--date", const="now", nargs='?',
     help="Print date on manuscript. Default is now, if not provided.")
-
-parser.add_argument( "--include-tags", nargs="+", action="store", default=[], 
-    help="tags of scenes to show")
 
 parser.add_argument( "--font", default="courier", choices=["courier", "times"],
     help="font to use for final manuscript. Default is [{}]".format("courier"))
@@ -174,7 +155,7 @@ with tempfile.TemporaryDirectory() as tempdirname:
         with open(tmpmarkdownfile, "w") as ofile:
             cur = 1
             for chapter in ms["manuscript"]["chapters"]:
-                if filter_chapter(chapter):
+                if include_chapter(chapter):
                     ofile.write("\n");
                     ofile.write("# {}. {}\n".format(cur, chapter["title"]))
                     ofile.write("\n");
