@@ -73,9 +73,13 @@ def include_chapter(c):
 #
 def filter_chapter(c):
 
-    filter = True
-    if 'tags' in chapter:
-        filter = any(check in chapter['tags'] for check in args.include_tags)
+    filter = include_chapter(c)
+    if filter:
+        if args.include_tags:
+            if 'tags' in chapter:
+                filter = any(check in chapter['tags'] for check in args.include_tags)
+            else:
+                filter = False
 
     return filter
 
