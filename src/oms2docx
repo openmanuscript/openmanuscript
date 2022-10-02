@@ -55,16 +55,16 @@ def write_metadata_file(ajson, mjson, date, commit, output) :
         mdf.write("footer_left: \"{}\"\n".format(mjson))
         mdf.write("---\n")
 
-def get_chapter_state(c):
-    state = "" 
+def get_chapter_attribute(chapter, attribute):
+    attr = "" 
 
-    if "state" in c:
-        state = c["state"]
+    if attribute in chapter:
+        attr = chapter[attribute]
 
-    return state
+    return attr
 
 def include_chapter(c):
-    state = get_chapter_state(c)
+    state = get_chapter_attribute(c, "state")
 
     return state in ["", "on"]
 
