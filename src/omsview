@@ -223,7 +223,7 @@ if len(toc_pages) > 0:
             toc_data[cur_chapter] = {
                                         "number"   : cur_chapter, 
                                         "title"    : entry[0],
-                                        "png_name" : str(int(entry[1])-1).zfill(3),
+                                        "png_name" : str(int(entry[1])).zfill(3),
                                         "start"    : int(entry[1])
                                     }
             if cur_chapter > 1:
@@ -233,6 +233,8 @@ if len(toc_pages) > 0:
     # last chapter
     toc_data[num_chapters]["end"] = numpages 
     toc_data[num_chapters]["length"] = numpages - toc_data[num_chapters]["start"]
+
+    # print(toc_data)
 else:
     print("    NO table of contents ...")
 
