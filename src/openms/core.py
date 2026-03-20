@@ -16,6 +16,8 @@ settings = {
     "chapterdesc"     : False,
     "chaptersummary"  : False,
     "columns"         : ["Title", "Arc", "POV", "TOD", "Setting", "Scenes", "Desc"], 
+    "commit"          : "",
+    "date"            : None,
     "excludesections" : None, 
     "excludetags"     : None, 
     "filescenesep"    : False,

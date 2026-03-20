@@ -1,0 +1,10 @@
+[
+    // Navigate chapters and scenes
+    { "keys": ["ctrl+shift+m"], "command": "open_manuscript_navigator" },
+
+    // Open manuscript.yaml directly
+    { "keys": ["ctrl+shift+y"], "command": "open_manuscript_yaml" },
+
+    // Show word count stats panel
+    { "keys": ["ctrl+shift+w"], "command": "open_manuscript_stats" }
+]

@@ -12,6 +12,8 @@ import os
 import json
 import textwrap
 import openms
+import openms.pandoc
+import openms.sublime
 
 def edit(args):
     sdir = "scenes"
@@ -81,6 +83,10 @@ parser.add_argument( "--chapterdesc", action="store_true", default=None,
     help="print a chapter desc, if there is one")
 parser.add_argument( "--chaptersummary", action="store_true", default=None, 
     help="print a chapter summary, if there is one")
+parser.add_argument( "--commit", default=None,
+    help="git commit string to include in the manuscript footer")
+parser.add_argument( "--date", const="now", nargs="?",
+    help="print date on manuscript. Use 'now' for current date/time")
 parser.add_argument( "--excludesections", nargs='+', type=str, default=None,
     help="add scene sections that are considered 'off'") 
 parser.add_argument( "--includesections", nargs='+', type=str, default=None,
@@ -180,6 +186,20 @@ parser_o.add_argument( "--specversion", action="store_true", default=None,
     help="report the version of OpenManuscript specification this tool supports")
 parser_o.add_argument( "--version", action="version", version=str(openms.core.get_version()) ) 
 parser_o.set_defaults(func=outline)
+
+parser_s = subparsers.add_parser(
+    'sublime',
+    help='open a manuscript project in Sublime Text'
+)
+parser_s.add_argument(
+    "--manuscriptdir", default=None,
+    help=(
+        "directory containing manuscript.yaml. "
+        "Defaults to the current directory. "
+        "Will also search parent directories."
+    )
+)
+parser_s.set_defaults(func=openms.sublime.execute)
 
 args = parser.parse_args()
 args.func(args)

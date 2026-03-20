@@ -1,0 +1,29 @@
+[
+    {
+        "caption": "Tools",
+        "mnemonic": "T",
+        "id": "tools",
+        "children":
+        [
+            {
+                "caption": "OpenManuscript",
+                "id": "openmanuscript",
+                "children":
+                [
+                    {
+                        "caption": "Navigate Chapters & Scenes",
+                        "command": "open_manuscript_navigator"
+                    },
+                    {
+                        "caption": "Open manuscript.yaml",
+                        "command": "open_manuscript_yaml"
+                    },
+                    {
+                        "caption": "Show Word Count Stats",
+                        "command": "open_manuscript_stats"
+                    }
+                ]
+            }
+        ]
+    }
+]

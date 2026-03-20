@@ -1,0 +1,54 @@
+name: tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12" ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r src/requirements.txt
+
+      - name: Install pandoc (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc
+
+      - name: Install pandoc (macOS)
+        if: runner.os == 'macOS'
+        run: brew install pandoc
+
+      - name: Install pandoc-templates
+        run: |
+          mkdir -p ~/bin
+          git clone https://github.com/openmanuscript/pandoc-templates.git ~/bin/pandoc-templates
+
+      - name: Run tests
+        working-directory: src
+        env:
+          OMS_PANDOC_TEMPLATES: ${{ github.workspace }}/../bin/pandoc-templates
+        run: |
+          python -m unittest discover testing -v

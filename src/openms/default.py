@@ -17,6 +17,10 @@ def execute(args):
         openms.core.set("chapterdesc", args.chapterdesc)
     if args.chaptersummary != None:
         openms.core.set("chaptersummary", args.chaptersummary)
+    if args.commit != None:
+        openms.core.set("commit", args.commit)
+    if args.date != None:
+        openms.core.set("date", args.date)
     if args.excludesections != None:
         openms.core.set("excludesections", args.excludesections)
     if args.excludetags != None:
@@ -83,25 +87,16 @@ def execute(args):
         print("ERROR: cannot open file: " + openms.core.get_authorfile())
         exit(1)
 
-    if not os.path.isfile( openms.core.get_manuscriptfile() ):
+    if not os.path.isfile(openms.core.get_manuscriptfile()):
         print("ERROR: cannot open file: " + openms.core.get_manuscriptfile())
         exit(1)
 
-    # do everything
     if args.listscenes:
         scenes = openms.core.get_scenelist()
         for scene in scenes:
             print(scene)
         exit(0)
 
-    output_type = openms.core.get_output_type()
-
-    if (output_type == "docx"):
-        openms.core.read_data()
-        openms.docx.write( openms.core.get_setting("outputfile") )
-
-    else:
-        print("ERROR: cannot write output file of type \'{}\'".format(output_type))
-        exit(1)
-
-
+    # render via pandoc
+    openms.core.read_data()
+    openms.pandoc.render()

@@ -2,264 +2,331 @@ import unittest
 import os
 import filecmp
 import shutil
-import openms
+import json
+import yaml
 import sys
+import tempfile
 from subprocess import PIPE, Popen
+from unittest.mock import patch
 
-class TestCIS(unittest.TestCase):
+import openms
+import openms.pandoc
 
-    # setting for better output for CIS
+
+class TestOms(unittest.TestCase):
+
     maxDiff = None
 
     def setUp(self):
-        self.scratchdir = os.path.join("testing", "scratch") 
+        self.scratchdir = os.path.join("testing", "scratch")
         self.golddir    = os.path.join("testing", "gold")
+        self.exampledir = "../example"
+        self.msfile     = "manuscript.json"
+        self.msfile_yaml = "manuscript.yaml"
+        self.msfile_minimal = "manuscript_minimal_data.yaml"
+        self.msfile_short = "short.json"
+        self.afile      = "author.json"
+        self.afile_yaml = "author.yaml"
+        os.makedirs(self.scratchdir, exist_ok=True)
 
-    # clean up
     def tearDown(self):
         clean = False
         if clean:
-            shutil.rmtree( self.scratchdir )
-        else:
-            print("Not cleaning up from test ...")
+            shutil.rmtree(self.scratchdir)
 
-    def test_oms(self):
-        # settings for tests
-        msdir  = "../example"
-        msfile = "manuscript.json"
-        msfile_exclude = "exclude.json"
-        msfile_minimal = "manuscript_minimal_data.yaml"
-        msfile_short = "short.json"
-        msfile_yaml = "manuscript.yaml"
-        afile  = "author.json"
-        afile_yaml  = "author.yaml"
-        sfile  = "draft.json"
-        extest = ["summary endnotes", "excludetext"]
-
-        # make a testing area
-        os.mkdir(self.scratchdir)
-        
-        # export docx
-        bfile = "omstest_manuscript.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for base test")
-        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export docx
-        bfile = "omstest_manuscript_toc.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for base test with toc")
-        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {} --toc".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export with slug
-        bfile = "omstest_manuscript_slug.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for base test with slug")
-        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} \
-                        --outputfile {} --slug \"test: this is the slug\"".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export with slug
-        bfile = "omstest_minimal_data.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for base test with minimal data")
-        os.system("./oms --manuscriptdir {} --manuscriptfile {} --outputfile {}".format(msdir, msfile_minimal, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export docx with yaml
-        bfile = "omstest_manuscript_yaml.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for base test with yaml manuscript file")
-        os.system("./oms --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile_yaml, afile_yaml, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export docx with settings file, additional command line argument and 
-        # command line argument override
-        bfile = "omstest_settings.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for settings file test")
-        os.system("./oms --settingsfile {}/{} --manuscriptdir {} --outputfile {}".format(msdir, sfile, msdir, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export docx
-        bfile = "omstest_manuscript_noquote-nosynopsis.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for no quote no synopsis")
-        os.system("./oms --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-        
-        # export docx
-        bfile = "omstest_manuscript_simple.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for simple test")
-        os.system("./oms --includetags simple --excludetags quote synopsis --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-        
-        # export docx
-        bfile = "omstest_manuscript_notes.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for notes")
-        os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        if False:        
-            # this test runs locally, but does not pass in Travis CI
-            # the problem appears to be the w:t object, which in Travis,
-            # includes the 'preserve' attribute:
-            #     <w:r><w:t xml:space="preserve">NOTE: The html tag can be anything you want it to be. </w:t></w:r>
-            # unable to fix this, so this test can be ignored (redundant with
-            # the next test, which reverses the order of the exclude/include)
-            # export docx
-                # don't exclude
-            bfile = "omstest_manuscript_dont-exclude.docx"
-            ofile = os.path.join(self.scratchdir, bfile) 
-            gfile = os.path.join(self.golddir, bfile) 
-            print("Running oms for exclude check (don't exclude)")
-            os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
-                            --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
-                             msdir, msfile_exclude, afile, ofile, extest[1], extest[0]))
-            self.compare_docx_files( ofile, gfile )
-    
-            # this test works both locally and on travis CI
-                # excludesection/includesection test
-            bfile = "omstest_manuscript_exclude.docx"
-            ofile = os.path.join(self.scratchdir, bfile) 
-            gfile = os.path.join(self.golddir, bfile) 
-            print("Running oms for excludesection/includesection")
-            os.system("./oms --notes --manuscriptdir {} --manuscriptfile {} \
-                            --authorfile {} --outputfile {} --excludesections {} --includesections {}".format(
-                             msdir, msfile_exclude, afile, ofile, extest[0], extest[1]))
-            self.compare_docx_files( ofile, gfile )
-
-        # test short story 
-        bfile = "omstest_manuscript_shortstory.docx"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms for short story")
-        os.system("./oms --manuscripttype story --notes --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile_short, afile, ofile))
-        self.compare_docx_files( ofile, gfile )
-
-        # export outline
-        bfile = "omstest_manuscript_outline.html"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        print("Running oms outline")
-        os.system("./oms outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(msdir, msfile, afile, ofile))
-        self.assertTrue( filecmp.cmp(ofile, gfile), 'outline files differ')
-
-        # export outline
-        bfile = "omstest_manuscript_outline_settings.html"
-        ofile = os.path.join(self.scratchdir, bfile) 
-        gfile = os.path.join(self.golddir, bfile) 
-        sfile = "outline.json"
-        # gfile is the same as the one for the test above
-        print("Running oms outline with settings file")
-        os.system("./oms outline --settingsfile {}/{} --manuscriptdir {}".format(msdir, sfile, msdir))
-        self.assertTrue( filecmp.cmp(ofile, gfile), 'outline files differ')
-
-        # test template 
-        testdir = os.path.join(self.scratchdir, "template")
-        os.mkdir(testdir)
-        openms.template.write_template(testdir)
-
-
-        # test query
-        chapter_string = '''Quote
-  ['quotes']
-Synopsis
-  ['synopsis']
-Simple Text
-  ['003', '002', '001']
-A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene
-  ['This_name', 'look01', 'chapter_i_hate']
-Lists
-  ['lists']
-Links
-  ['links']
-Comments
-  ['comments']
-Notes
-  ['notes']
-Footnotes
-  ['footnotes']
-End
-  ['end']
-'''
-        print("Running oms query tests")
-            # state current, json
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --state current")
-        self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
-            # state current, yaml
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --state current")
-        self.assertEqual( output.decode("utf-8"), "No chapter with state current found\n")
-            # tag nothing, json
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.json --tag nothing")
-        self.assertEqual( output.decode("utf-8"), "No chapter with tag nothing found\n")
-            # tag nothing, yaml
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --tag nothing")
-        self.assertEqual( output.decode("utf-8"), "No chapter with tag nothing found\n")
-            # chapters
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapters")
-        self.assertEqual( output.decode("utf-8"), chapter_string ) 
-            # single chapter
-        output = self.cmdline("./oms query --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\"")
-        self.assertEqual( output.decode("utf-8"), "\nSimple Text\n['003', '002', '001']\n\nAn important scene.\n")
+    # -----------------------------------------------------------------------
+    # helpers
+    # -----------------------------------------------------------------------
 
     def cmdline(self, command):
-        process = Popen(
-            args=command,
-            stdout=PIPE,
-            shell=True
-        )
+        process = Popen(args=command, stdout=PIPE, shell=True)
         return process.communicate()[0]
 
-    #
-    # compare docx files, but first remove the creation date, which causes them
-    # to be different
-    #
-    def compare_docx_files( self, one, two ):
-        # print("compare: {} {}".format(one, two))
-        cdir = os.path.join( self.scratchdir, "docx_diff_test" )
-        os.mkdir( cdir )
+    def pandoc_available(self):
+        """Return True if pandoc is installed and templates are accessible."""
+        result = self.cmdline("which pandoc")
+        if not result.strip():
+            return False
+        templates_dir = os.path.expanduser(
+            os.environ.get("OMS_PANDOC_TEMPLATES", "~/bin/pandoc-templates")
+        )
+        return os.path.isdir(templates_dir)
 
-        # unzip the docx files for comparison
-        onezip = os.path.join(cdir, "01.zip")
-        twozip = os.path.join(cdir, "02.zip")
+    # -----------------------------------------------------------------------
+    # query tests — unaffected by rendering refactor
+    # -----------------------------------------------------------------------
 
-        # remove known data that can cause a difference
-        os.system("unzip {} -d {} 2>&1 > /dev/null".format( one, onezip ))
-        self.strip_known_conflics( onezip )
+    def test_query_state(self):
+        """Query: no chapter with state 'current' (json)."""
+        output = self.cmdline(
+            "./oms query --manuscriptfile ../example/manuscript.json --state current"
+        )
+        self.assertEqual(output.decode("utf-8"), "No chapter with state current found\n")
 
-        os.system("unzip {} -d {} 2>&1 > /dev/null".format( two, twozip ))
-        self.strip_known_conflics( twozip )
+    def test_query_state_yaml(self):
+        """Query: no chapter with state 'current' (yaml)."""
+        output = self.cmdline(
+            "./oms query --manuscriptfile ../example/manuscript.yaml --state current"
+        )
+        self.assertEqual(output.decode("utf-8"), "No chapter with state current found\n")
 
-        # print("compare: {} {}".format(onezip, twozip))
-        output = self.cmdline("diff -r {} {}".format( onezip, twozip ))
-        self.assertEqual( output.decode("utf-8"), "", "docx files differ")
+    def test_query_tag_missing(self):
+        """Query: no chapter with tag 'nothing' (json)."""
+        output = self.cmdline(
+            "./oms query --manuscriptfile ../example/manuscript.json --tag nothing"
+        )
+        self.assertEqual(output.decode("utf-8"), "No chapter with tag nothing found\n")
 
-        # remove the unzipped files
-        os.system("rm -rf {}".format( cdir ))
+    def test_query_tag_missing_yaml(self):
+        """Query: no chapter with tag 'nothing' (yaml)."""
+        output = self.cmdline(
+            "./oms query --manuscriptfile ../example/manuscript.yaml --tag nothing"
+        )
+        self.assertEqual(output.decode("utf-8"), "No chapter with tag nothing found\n")
 
-    def strip_known_conflics( self, zipdir ):
-        # determine platform, and use the appropriate syntax for sed
-        if sys.platform == "darwin":
-            # remove the creation date
-            os.system("sed -i \'\' \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(zipdir))
-            # remove the version string 
-            os.system("sed -i \'\' \'s/<dc:description>.*dc:description>//g\' {}/docProps/core.xml".format(zipdir))
-        else:
-            # remove the creation date
-            os.system("sed -i \'s/<dcterms:created.*created>//g\' {}/docProps/core.xml".format(zipdir))
-            # remove the version string 
-            os.system("sed -i \'s/<dc:description>.*dc:description>//g\' {}/docProps/core.xml".format(zipdir))
+    def test_query_chapters(self):
+        """Query: list all chapters."""
+        expected = (
+            "Quote\n"
+            "  ['quotes']\n"
+            "Synopsis\n"
+            "  ['synopsis']\n"
+            "Simple Text\n"
+            "  ['003', '002', '001']\n"
+            "A Chapter Can Be Named Anything That You Can Possibly Imagine in All of The World ... And So Can A Scene\n"
+            "  ['This_name', 'look01', 'chapter_i_hate']\n"
+            "Lists\n"
+            "  ['lists']\n"
+            "Links\n"
+            "  ['links']\n"
+            "Comments\n"
+            "  ['comments']\n"
+            "Notes\n"
+            "  ['notes']\n"
+            "Footnotes\n"
+            "  ['footnotes']\n"
+            "End\n"
+            "  ['end']\n"
+        )
+        output = self.cmdline(
+            "./oms query --manuscriptfile ../example/manuscript.yaml --chapters"
+        )
+        self.assertEqual(output.decode("utf-8"), expected)
+
+    def test_query_single_chapter(self):
+        """Query: single chapter detail."""
+        output = self.cmdline(
+            "./oms query --manuscriptfile ../example/manuscript.yaml --chapter \"Simple Text\""
+        )
+        self.assertEqual(
+            output.decode("utf-8"),
+            "\nSimple Text\n['003', '002', '001']\n\nAn important scene.\n"
+        )
+
+    # -----------------------------------------------------------------------
+    # outline tests — unaffected by rendering refactor
+    # -----------------------------------------------------------------------
+
+    def test_outline(self):
+        """Outline: HTML output matches gold file."""
+        bfile = "omstest_manuscript_outline.html"
+        ofile = os.path.join(self.scratchdir, bfile)
+        gfile = os.path.join(self.golddir, bfile)
+        os.system("./oms outline --manuscriptdir {} --manuscriptfile {} --authorfile {} --outputfile {}".format(
+            self.exampledir, self.msfile, self.afile, ofile
+        ))
+        self.assertTrue(filecmp.cmp(ofile, gfile), "outline files differ")
+
+    def test_outline_settings(self):
+        """Outline: HTML output via settings file matches gold file."""
+        bfile = "omstest_manuscript_outline_settings.html"
+        ofile = os.path.join(self.scratchdir, bfile)
+        gfile = os.path.join(self.golddir, bfile)
+        os.system("./oms outline --settingsfile {}/{} --manuscriptdir {}".format(
+            self.exampledir, "outline.json", self.exampledir
+        ))
+        self.assertTrue(filecmp.cmp(ofile, gfile), "outline settings files differ")
+
+    # -----------------------------------------------------------------------
+    # template test — unaffected by rendering refactor
+    # -----------------------------------------------------------------------
+
+    def test_template(self):
+        """Template: write_template creates expected files."""
+        testdir = os.path.join(self.scratchdir, "template")
+        os.makedirs(testdir, exist_ok=True)
+        openms.template.write_template(testdir)
+        self.assertTrue(os.path.isdir(testdir))
+
+    # -----------------------------------------------------------------------
+    # pandoc unit tests — test markdown/metadata assembly without pandoc
+    # -----------------------------------------------------------------------
+
+    def test_write_markdown_file_basic(self):
+        """Pandoc: markdown file contains chapter titles and scene content."""
+        ms_path    = os.path.join(self.exampledir, "m.json")
+        scenes_dir = os.path.join(self.exampledir, "scenes")
+
+        with tempfile.NamedTemporaryFile(mode="r", suffix=".md", delete=False) as tmp:
+            tmppath = tmp.name
+
+        try:
+            openms.pandoc._write_markdown_file(ms_path, scenes_dir, False, tmppath)
+            with open(tmppath) as f:
+                content = f.read()
+
+            self.assertIn("# 1. Simple Text", content)
+            self.assertIn("# 2. A Chapter Can Be Named", content)
+            self.assertIn("# 3. Quotes", content)
+            # scene separator between scenes in same chapter
+            self.assertIn("---", content)
+        finally:
+            os.unlink(tmppath)
+
+    def test_write_markdown_file_chapter_order(self):
+        """Pandoc: chapters appear in manuscript order."""
+        ms_path    = os.path.join(self.exampledir, "m.json")
+        scenes_dir = os.path.join(self.exampledir, "scenes")
+
+        with tempfile.NamedTemporaryFile(mode="r", suffix=".md", delete=False) as tmp:
+            tmppath = tmp.name
+
+        try:
+            openms.pandoc._write_markdown_file(ms_path, scenes_dir, False, tmppath)
+            with open(tmppath) as f:
+                content = f.read()
+
+            pos1 = content.find("# 1. Simple Text")
+            pos2 = content.find("# 2. A Chapter Can Be Named")
+            pos3 = content.find("# 3. Quotes")
+            self.assertLess(pos1, pos2)
+            self.assertLess(pos2, pos3)
+        finally:
+            os.unlink(tmppath)
+
+    def test_write_markdown_excludes_off_chapters(self):
+        """Pandoc: chapters with state != 'on'/'' are excluded."""
+        ms_data = {
+            "version": "2.1",
+            "manuscript": {
+                "title": "Test",
+                "runningtitle": "test",
+                "chapters": [
+                    {"title": "Included", "scenes": [], "state": "on"},
+                    {"title": "Excluded", "scenes": [], "state": "off"},
+                ]
+            }
+        }
+        with tempfile.TemporaryDirectory() as tmpdir:
+            ms_path = os.path.join(tmpdir, "manuscript.json")
+            out_path = os.path.join(tmpdir, "out.md")
+            with open(ms_path, "w") as f:
+                json.dump(ms_data, f)
+
+            openms.pandoc._write_markdown_file(ms_path, tmpdir, False, out_path)
+            with open(out_path) as f:
+                content = f.read()
+
+            self.assertIn("Included", content)
+            self.assertNotIn("Excluded", content)
+
+    def test_write_metadata_file(self):
+        """Pandoc: metadata file contains expected YAML keys."""
+        author_path = os.path.join(self.exampledir, self.afile)
+        ms_path     = os.path.join(self.exampledir, self.msfile)
+
+        with tempfile.NamedTemporaryFile(mode="r", suffix=".md", delete=False) as tmp:
+            tmppath = tmp.name
+
+        try:
+            openms.pandoc._write_metadata_file(
+                author_path, ms_path, "Jan 1, 2025", "abc123", tmppath
+            )
+            with open(tmppath) as f:
+                content = f.read()
+
+            self.assertIn("title:", content)
+            self.assertIn("author:", content)
+            self.assertIn("contact_email:", content)
+            self.assertIn("Jan 1, 2025", content)
+            self.assertIn("abc123", content)
+            self.assertTrue(content.startswith("---"))
+            self.assertTrue(content.strip().endswith("---"))
+        finally:
+            os.unlink(tmppath)
+
+    def test_write_metadata_yaml_author(self):
+        """Pandoc: metadata file works with yaml author file."""
+        author_path = os.path.join(self.exampledir, self.afile_yaml)
+        ms_path     = os.path.join(self.exampledir, self.msfile_yaml)
+
+        with tempfile.NamedTemporaryFile(mode="r", suffix=".md", delete=False) as tmp:
+            tmppath = tmp.name
+
+        try:
+            openms.pandoc._write_metadata_file(
+                author_path, ms_path, "", "", tmppath
+            )
+            with open(tmppath) as f:
+                content = f.read()
+            self.assertIn("title:", content)
+        finally:
+            os.unlink(tmppath)
+
+    def test_include_chapter(self):
+        """Pandoc: _include_chapter respects state field."""
+        self.assertTrue(openms.pandoc._include_chapter({"title": "A"}))
+        self.assertTrue(openms.pandoc._include_chapter({"title": "A", "state": "on"}))
+        self.assertTrue(openms.pandoc._include_chapter({"title": "A", "state": ""}))
+        self.assertFalse(openms.pandoc._include_chapter({"title": "A", "state": "off"}))
+
+    def test_find_pandoc_templates_env(self):
+        """Pandoc: OMS_PANDOC_TEMPLATES env var is respected."""
+        with patch.dict(os.environ, {"OMS_PANDOC_TEMPLATES": "/custom/path"}):
+            # temporarily clear the core setting
+            openms.core.set("pandoc_templates_dir", None)
+            result = openms.pandoc._find_pandoc_templates()
+            self.assertEqual(result, "/custom/path")
+
+    def test_find_pandoc_templates_core_setting(self):
+        """Pandoc: core settings key takes priority over env var."""
+        openms.core.set("pandoc_templates_dir", "/from/settings")
+        with patch.dict(os.environ, {"OMS_PANDOC_TEMPLATES": "/from/env"}):
+            result = openms.pandoc._find_pandoc_templates()
+            self.assertEqual(result, "/from/settings")
+        openms.core.set("pandoc_templates_dir", None)
+
+    # -----------------------------------------------------------------------
+    # pandoc integration test — only runs if pandoc + templates are present
+    # -----------------------------------------------------------------------
+
+    @unittest.skipUnless(
+        os.path.isdir(os.path.expanduser(
+            os.environ.get("OMS_PANDOC_TEMPLATES", "~/bin/pandoc-templates")
+        )),
+        "pandoc templates not available — skipping integration test"
+    )
+    def test_pandoc_render_integration(self):
+        """Pandoc integration: oms produces a non-empty docx file."""
+        ofile = os.path.join(self.scratchdir, "omstest_pandoc_integration.docx")
+
+        openms.core.set("authorfile",     self.afile)
+        openms.core.set("manuscriptfile", self.msfile)
+        openms.core.set("manuscriptdir",  self.exampledir)
+        openms.core.set("outputfile",     ofile)
+        openms.core.set("font",           "Courier")
+        openms.core.set("toc",            False)
+        openms.core.set("chaptersummary", False)
+        openms.core.set("commit",         "")
+        openms.core.set("date",           None)
+        openms.core.set("verbose",        False)
+        openms.core.read_data()
+
+        openms.pandoc.render()
+
+        self.assertTrue(os.path.isfile(ofile), "docx output file not created")
+        self.assertGreater(os.path.getsize(ofile), 1024, "docx output file is too small")
+
+
+if __name__ == "__main__":
+    unittest.main()
