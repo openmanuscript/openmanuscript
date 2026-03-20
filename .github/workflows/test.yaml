@@ -2,9 +2,9 @@ name: tests
 
 on:
   push:
-    branches: [ master, main, claude ]
+    branches: [ master, main ]
   pull_request:
-    branches: [ master, main, claude ]
+    branches: [ master, main ]
 
 jobs:
   test:
@@ -19,19 +19,19 @@ jobs:
 
     steps:
       - name: Checkout repository (including submodules)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           submodules: true
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r src/requirements.txt
+          pip install pyyaml markdown
 
       - name: Install pandoc (Ubuntu)
         if: runner.os == 'Linux'
@@ -47,3 +47,4 @@ jobs:
         working-directory: src
         run: |
           python -m unittest discover testing -v
+
