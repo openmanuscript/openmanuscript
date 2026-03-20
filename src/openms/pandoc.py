@@ -2,12 +2,15 @@
 openms/pandoc.py
 
 Renders an OpenManuscript project to a Word (docx) file using pandoc
-and a pandoc-templates installation.
+and the prosegrinder/pandoc-templates scripts.
+
+See: https://github.com/prosegrinder/pandoc-templates
 
 Pandoc templates are located via (in order of priority):
-  1. settings file JSON key "pandoc_templates_dir"
+  1. core settings key 'pandoc_templates_dir'
   2. The environment variable OMS_PANDOC_TEMPLATES
-  3. The default path ~/bin/pandoc-templates
+  3. A 'pandoc-templates' directory at the root of the openmanuscript repo
+     (installed as a git submodule)
 """
 
 import os
@@ -24,7 +27,10 @@ from . import core
 # defaults
 # ---------------------------------------------------------------------------
 
-DEFAULT_PANDOC_TEMPLATES = os.path.join(os.environ["HOME"], "bin", "pandoc-templates")
+# path relative to this file: src/openms/pandoc.py -> ../../pandoc-templates
+_REPO_TEMPLATES = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "pandoc-templates")
+)
 
 
 # ---------------------------------------------------------------------------
@@ -55,14 +61,14 @@ def _find_pandoc_templates():
     Locate the pandoc-templates directory using (in order):
       1. core settings key 'pandoc_templates_dir'
       2. OMS_PANDOC_TEMPLATES environment variable
-      3. ~/bin/pandoc-templates
+      3. pandoc-templates/ submodule at the repo root
     """
     path = (
         core.get_setting("pandoc_templates_dir")
         or os.environ.get("OMS_PANDOC_TEMPLATES")
-        or DEFAULT_PANDOC_TEMPLATES
+        or _REPO_TEMPLATES
     )
-    return os.path.expanduser(path)
+    return os.path.expanduser(str(path))
 
 
 # ---------------------------------------------------------------------------
@@ -151,14 +157,13 @@ def _write_markdown_file(manuscript_path, scenes_dir, chaptersummary, output_pat
 
 def render():
     """
-    Render the current manuscript to docx using pandoc.
+    Render the current manuscript to docx using pandoc + prosegrinder templates.
     Reads all options from openms.core.settings.
     """
 
     author_file     = core.get_authorfile()
     manuscript_file = core.get_manuscriptfile()
     output_file     = core.get_setting("outputfile")
-    font            = core.get_setting("font") or "Courier"
     toc             = core.get_setting("toc") or False
     chaptersummary  = core.get_setting("chaptersummary") or False
     commit          = core.get_setting("commit") or ""
@@ -181,8 +186,12 @@ def render():
 
     if not os.path.isdir(pandoc_dir):
         print("ERROR: pandoc-templates directory not found: {}".format(pandoc_dir))
-        print("Set 'pandoc_templates_dir' in your settings file, or set the")
-        print("OMS_PANDOC_TEMPLATES environment variable.")
+        print("")
+        print("Install the pandoc-templates submodule:")
+        print("  git submodule update --init")
+        print("")
+        print("Or set 'pandoc_templates_dir' in your settings file, or set")
+        print("the OMS_PANDOC_TEMPLATES environment variable.")
         sys.exit(1)
 
     if not os.path.isfile(pandoc_exec):
@@ -201,14 +210,12 @@ def render():
         _write_markdown_file(manuscript_file, scenes_dir, chaptersummary, tmp_md)
         _write_metadata_file(author_file, manuscript_file, date, commit, tmp_metadata)
 
-        toc_flag        = "--toc" if toc else ""
-        modern_flag     = "--modern" if font.lower() == "times" else ""
+        toc_flag         = "--toc" if toc else ""
         verbose_redirect = "" if verbose else " > /dev/null"
 
-        command = "{} {} {} --output {} --overwrite --from=markdown {} {} {}".format(
+        command = "{} {} --output {} --overwrite --from=markdown {} {} {}".format(
             pandoc_exec,
             toc_flag,
-            modern_flag,
             output_file,
             tmp_metadata,
             tmp_md,

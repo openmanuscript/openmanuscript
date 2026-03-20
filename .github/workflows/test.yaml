@@ -18,8 +18,10 @@ jobs:
         python-version: [ "3.9", "3.10", "3.11", "3.12" ]
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (including submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -41,14 +43,7 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install pandoc
 
-      - name: Install pandoc-templates
-        run: |
-          mkdir -p ~/bin
-          git clone https://github.com/openmanuscript/pandoc-templates.git ~/bin/pandoc-templates
-
       - name: Run tests
         working-directory: src
-        env:
-          OMS_PANDOC_TEMPLATES: ${{ github.workspace }}/../bin/pandoc-templates
         run: |
           python -m unittest discover testing -v
