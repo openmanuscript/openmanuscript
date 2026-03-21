@@ -29,8 +29,6 @@ def execute(args):
         openms.core.set("filescenesep", args.filescenesep)
     if args.font != None:
         openms.core.set("font", args.font)
-    if args.fontsize != None:
-        openms.core.set("fontsize", args.fontsize)
     if args.includesections != None:
         openms.core.set("includesections", args.includesections)
     if args.includetags != None:

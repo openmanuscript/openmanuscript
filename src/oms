@@ -99,8 +99,6 @@ parser.add_argument( "--filescenesep", action="store_true", default=None,
     help="print file name as scene separator, instead of ###")
 parser.add_argument( "--font", default=None, choices=["Arial", "Courier", "Times"],
     help="Use this font for the manuscript")
-parser.add_argument( "--fontsize", default=None, 
-    help="Use this font size for the manuscript")
 parser.add_argument( "--listscenes", action="store_true", default=None, 
     help="list the scenes and exit")
 parser.add_argument( "--manuscriptdir", default=None, 

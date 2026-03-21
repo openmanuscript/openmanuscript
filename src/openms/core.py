@@ -22,7 +22,6 @@ settings = {
     "excludetags"     : None, 
     "filescenesep"    : False,
     "font"            : "Courier",
-    "fontsize"        : "12",
     "includesections" : None, 
     "includetags"     : None, 
     "manuscriptdir"   : ".",
