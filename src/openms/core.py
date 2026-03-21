@@ -25,12 +25,9 @@ settings = {
     "includetags"     : None, 
     "manuscriptdir"   : ".",
     "manuscriptfile"  : "manuscript.json",
-    "manuscripttype"  : "novel",
     "notes"           : False,
-    "numwords"        : None,
     "outputfile"      : "manuscript.docx",
     "outputdir"       : ".",
-    "slug"            : None,
     "todo"            : None,
     "toc"             : False,
     "verbose"         : False

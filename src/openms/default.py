@@ -35,16 +35,10 @@ def execute(args):
         openms.core.set("manuscriptdir", args.manuscriptdir)
     if args.manuscriptfile != None:
         openms.core.set("manuscriptfile", args.manuscriptfile)
-    if args.manuscripttype != None:
-        openms.core.set("manuscripttype", args.manuscripttype)
     if args.notes != None:
         openms.core.set("notes", args.notes)
-    if args.numwords != None:
-        openms.core.set("numwords", args.numwords)
     if args.outputfile != None:
         openms.core.set("outputfile", args.outputfile)
-    if args.slug != None:
-        openms.core.set("slug", args.slug)
     if args.toc != None:
         openms.core.set("toc", args.toc)
     if args.verbose != None:

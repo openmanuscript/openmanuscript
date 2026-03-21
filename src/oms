@@ -103,20 +103,14 @@ parser.add_argument( "--manuscriptdir", default=None,
     help="directory that contains the manuscript data")
 parser.add_argument( "--manuscriptfile", default=None, 
     help="read manuscript definition from this file. Must be located in MANUSCRIPTDIR")
-parser.add_argument( "--manuscripttype", default=None, 
-    help="type of manuscript to create. one of [novel, story]. Default is [{}]".format(openms.core.settings["manuscripttype"]))
 parser.add_argument( "--newmanuscript", default=None,
     help="create a new manuscript template in this directory")
 parser.add_argument( "--notes", action="store_true", default=None, 
     help="if there are notes, print them")
-parser.add_argument( "--numwords", type=int, default=None,
-    help="use this value as the number of words shown on the manuscript")
 parser.add_argument( "--outputfile", default=None,
     help="write output to this file")
 parser.add_argument( "--settingsfile", default=None,
     help="use settings from this file as command line args")
-parser.add_argument( "--slug", default=None,
-    help="use this value as a slug for the current operation")
 parser.add_argument( "--specversion", action="store_true", default=None,
     help="report the version of OpenManuscript specification this tool supports")
 parser.add_argument( "--toc", action="store_true", default=None, 

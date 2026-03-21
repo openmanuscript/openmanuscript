@@ -54,12 +54,10 @@ this is not the case, an explicit path must set on the command line.
 	- ``--includetags`` define a list of tags that are 'on', and are included in any operation. Default is empty list, and all tags are included. 
 	- ``--manuscriptdir`` the name of the directory containing the open manuscript data. Defaults to ``.``
 	- ``--manuscriptfile`` the name of the manuscript file in the ``manuscriptdir``. Defaults to ``manuscript.json``
-	- ``--manuscripttype`` type of manuscript to create. One of [novel, story]. Default: ``novel``
 	- ``--words`` use this value as the number of words on the manuscript first page.
 	- ``--outputfile`` write output to this file, in the ``manuscriptdir``. Defaults to ``manuscript.docx``
     - ``--settingsfile`` define a json file that defines values for command line arguments. This settings file is applied first, if present, and then 
       command line arguments can overwrite values.
-    - ``--slug`` define a slug string that can be used by the current operation 
 - Switches
 	- ``--chapterdesc`` print a chapter description, if there is one, instead of the chapter.
 	- ``--chaptersummary`` print a chapter summary, if there is one, instead of the chapter.
@@ -67,7 +65,6 @@ this is not the case, an explicit path must set on the command line.
                             whose tags are listed in this arg. Note that sections must either by included or excluded, to prevent errors.
 	- ``--includesections`` if there are sections in scenes surrounded by arbitrary html tags, include those 
                             whose tags are listed in this arg. Note that sections must either by included or excluded, to prevent errors.
-	- ``--filescenesep`` print the scene filename, instead of the normal ``###`` between scenes.
 	- ``--notes`` include **notes** content in each scene, if present.
 	- ``--toc`` include a table of contents in the manuscript. 
 - Formatting
