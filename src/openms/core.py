@@ -20,7 +20,6 @@ settings = {
     "date"            : None,
     "excludesections" : None, 
     "excludetags"     : None, 
-    "filescenesep"    : False,
     "font"            : "Courier",
     "includesections" : None, 
     "includetags"     : None, 

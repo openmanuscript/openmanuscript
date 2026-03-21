@@ -95,8 +95,6 @@ parser.add_argument( "--excludetags", nargs='+', type=str, default=None,
     help="add chapter tags that are considered 'off'")
 parser.add_argument( "--includetags", nargs='+', type=str, default=None,
     help="add chapter tags that are considered 'on'")
-parser.add_argument( "--filescenesep", action="store_true", default=None, 
-    help="print file name as scene separator, instead of ###")
 parser.add_argument( "--font", default=None, choices=["Arial", "Courier", "Times"],
     help="Use this font for the manuscript")
 parser.add_argument( "--listscenes", action="store_true", default=None, 

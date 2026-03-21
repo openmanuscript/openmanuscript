@@ -25,8 +25,6 @@ def execute(args):
         openms.core.set("excludesections", args.excludesections)
     if args.excludetags != None:
         openms.core.set("excludetags", args.excludetags)
-    if args.filescenesep != None:
-        openms.core.set("filescenesep", args.filescenesep)
     if args.font != None:
         openms.core.set("font", args.font)
     if args.includesections != None:
