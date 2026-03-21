@@ -32,7 +32,6 @@ settings = {
     "outputdir"       : ".",
     "slug"            : None,
     "todo"            : None,
-    "notitlepage"     : False,
     "toc"             : False,
     "verbose"         : False
 }
