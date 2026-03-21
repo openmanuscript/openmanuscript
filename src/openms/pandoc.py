@@ -212,10 +212,12 @@ def render():
 
         toc_flag         = "--toc" if toc else ""
         verbose_redirect = "" if verbose else " > /dev/null"
+        modern_flag      = "--modern" if (core.get_setting("font") or "").lower() == "times" else ""
 
         command = "{} {} --output {} --overwrite --from=markdown {} {} {}".format(
             pandoc_exec,
             toc_flag,
+            modern_flag,
             output_file,
             tmp_metadata,
             tmp_md,
