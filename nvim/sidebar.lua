@@ -55,9 +55,9 @@ local function build_lines(yaml_path)
     local targets = {}
 
     table.insert(lines, " " .. manuscript.title)
-    table.insert(targets, nil)
+    table.insert(targets, false)
     table.insert(lines, string.rep("─", state.width - 2))
-    table.insert(targets, nil)
+    table.insert(targets, false)
 
     local chapter_num = 0
     for _, chapter in ipairs(manuscript.chapters) do
@@ -90,15 +90,15 @@ local function build_lines(yaml_path)
                 local exists = vim.fn.filereadable(path) == 1
                 local marker = exists and "  ○ " or "  ✗ "
                 table.insert(lines, marker .. scene_name)
-                table.insert(targets, exists and path or nil)
+                table.insert(targets, exists and path or false)
             end
         end
     end
 
     table.insert(lines, "")
-    table.insert(targets, nil)
+    table.insert(targets, false)
     table.insert(lines, " [q] close  [r] refresh")
-    table.insert(targets, nil)
+    table.insert(targets, false)
 
     return lines, targets
 end
@@ -156,14 +156,15 @@ end
 -- open a file in the previous (main) window
 -- ---------------------------------------------------------------------------
 local function open_target()
-    local row    = vim.api.nvim_win_get_cursor(state.win)[1]
-    local target = state.targets[row]
+    local sidebar_win = vim.api.nvim_get_current_win()
+    local row         = vim.api.nvim_win_get_cursor(sidebar_win)[1]
+    local target      = state.targets[row]
     if not target then return end
 
     local wins     = vim.api.nvim_list_wins()
     local main_win = nil
     for _, w in ipairs(wins) do
-        if w ~= state.win then
+        if w ~= sidebar_win then
             main_win = w
             break
         end
@@ -188,7 +189,7 @@ local function set_keymaps(buf)
     vim.keymap.set("n", "r",     function()
         if state.yaml_path then render(state.yaml_path) end
     end, opts)
-    vim.keymap.set("n", "<C-m>", function() M.toggle() end, opts)
+    -- vim.keymap.set("n", "<C-m>", function() M.toggle() end, opts)
 end
 
 -- ---------------------------------------------------------------------------
