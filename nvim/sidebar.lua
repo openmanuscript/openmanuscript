@@ -44,6 +44,9 @@ end
 
 -- ---------------------------------------------------------------------------
 -- build the display lines from manuscript data
+--
+-- see comments in code for Lua-specific fix addressing the use of false
+-- instead of nil for target list inserts 
 -- ---------------------------------------------------------------------------
 local function build_lines(yaml_path)
     local manuscript, err = ms.parse_yaml(yaml_path)
@@ -55,6 +58,9 @@ local function build_lines(yaml_path)
     local targets = {}
 
     table.insert(lines, " " .. manuscript.title)
+    -- Note: table.insert(t, nil) is a no-op in Lua, so we use false
+    -- as a sentinel for "no target" to keep targets aligned with lines.
+    -- this is used throughout this function
     table.insert(targets, false)
     table.insert(lines, string.rep("─", state.width - 2))
     table.insert(targets, false)
