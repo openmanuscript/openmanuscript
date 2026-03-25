@@ -13,11 +13,25 @@ vim.opt.scrolloff      = 8
 vim.opt.signcolumn     = "no"
 vim.opt.updatetime     = 300
 vim.opt.termguicolors  = true
+vim.opt.textwidth      = 80
+vim.opt.signcolumn     = "yes"
 
 -- use spaces, not tabs
 vim.opt.expandtab  = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop    = 4
+
+-- spelling
+vim.opt.spell     = true
+vim.opt.spelllang = "en_us"
+vim.opt.spellfile = "./spell/vim." .. vim.o.encoding .. ".add"
+vim.cmd("syntax spell toplevel")
+vim.api.nvim_set_hl(0, "SpellBad", { underline = true, cterm = { underline = true } })
+vim.api.nvim_set_hl(0, "SpellCap", {})
+
+-- remap 
+local options = {}
+vim.keymap.set('i', 'kj', "<Esc>", options)
 
 -- leader key
 vim.g.mapleader = " "
